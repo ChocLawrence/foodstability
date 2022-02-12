@@ -18,9 +18,9 @@ import {
 import { DxDataGridComponent } from "devextreme-angular";
 
 @Component({
-  selector: 'app-Tags',
-  templateUrl: './Tags.component.html',
-  styleUrls: ['./Tags.component.css']
+  selector: 'app-tags',
+  templateUrl: './tags.component.html',
+  styleUrls: ['./tags.component.css']
 })
 export class TagsComponent implements OnInit {
 
