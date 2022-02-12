@@ -1,0 +1,85 @@
+<ng-template #tagModal let-c="close" let-d="dismiss">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="row no-gutters">
+                <div class="col">
+                    <h3 class="text-3 font-weight-400 m-2">
+                        {{ modalTitle | translate }}
+                        <button type="button" class="close font-weight-400" data-dismiss="modal" aria-label="Close"
+                            (click)="d('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h3>
+                    <hr />
+                    <div class="px-3" *ngIf="tag && action == 'view'">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                {{ "Name" | translate }}
+                                <span class="float-right text-3">{{ tag.name }}</span>
+                            </li>
+                        </ul>
+                        <hr class="mb-2" />
+                    </div>
+                    <div class="px-3">
+                        <form class="form" id="TagForm" [formGroup]="tagForm" (ngSubmit)="onSubmitTag()">
+                            <div>
+                                <div class="vertical-input-group mb-2" *ngIf="
+                      action == 'updateTag' ||
+                      action == 'addTag'
+                    ">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="name" formControlName="name"
+                                            required placeholder="Name" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button #TagSubmitBtn type="submit" class="hidden"></button>
+                        </form>
+                    </div>
+                    <div class="px-3" *ngIf="tag && action == 'deleteTag'">
+                        <p class="text-3 text-center text-muted">{{ modalText }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div>
+                <button class="btn btn-default btn-sm" (click)="restoreTagForm()" *ngIf="
+              action == 'updateTag'
+            ">
+                    {{ "Restore" | translate }}
+                </button>
+                &nbsp;
+                <button class="btn btn-success btn-sm" [disabled]="loading || !tagFormIsValid()" *ngIf="
+              action == 'updateTag' ||
+              action == 'addTag'
+            " (click)="TagSubmitBtn.click()">
+                    <span *ngIf="action == 'updateTag'">{{
+                        "Update" | translate
+                        }}</span>
+                    <span *ngIf="action == 'addTag'">{{ "Add" | translate }}</span>
+                    &nbsp;
+                    <div class="spinner-border float-right" role="status" *ngIf="loading">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </button>
+            </div>
+            <div *ngIf="action == 'deleteTag'">
+                <button class="btn btn-secondary btn-sm" data-dismiss="modal" aria-label="Close"
+                    (click)="d('Cross click')">
+                    {{ "Cancel" | translate }}
+                </button>
+                &nbsp;
+                <button class="btn btn-danger btn-sm" [disabled]="loading" (click)="deleteTag()">
+                    {{ "Confirm" | translate }} &nbsp;
+                    <div class="spinner-border float-right" role="status" *ngIf="loading">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ngx-loading [show]="loadingData" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>

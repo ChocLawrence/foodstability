@@ -1,0 +1,104 @@
+<div class="row p-3">
+    <div class="col-12 mx-auto">
+        <div class="bg-white shadow-sm rounded p-3 pt-sm-4 pb-sm-5 px-sm-4 mb-4">
+            <h3 class="text-3 font-weight-400 mb-2 mb-sm-2">
+                {{ "Settings" | translate }}
+            </h3>
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <div class="col-md-6 img">
+                        <span *ngIf="user.image == 'default.png'">
+                            <img src="/assets/images/{{user.image}}" alt="" class="img-rounded img-responsive" />
+                        </span>
+                        <span *ngIf="user.image != 'default.png'">
+                            <img src="http://localhost:8000/storage/profile/{{user.image}}" alt=""
+                                class="img-rounded img-responsive" />
+                        </span>
+
+                    </div>
+                    <div class="col-md-6 details">
+                        <blockquote>
+                            <h5>{{user.firstname}} {{user.lastname}}</h5>
+                            <small><cite title="Source Title">{{user.address ? user.address : '-'}} <i
+                                        class="icon-map-marker"></i></cite></small>
+                        </blockquote>
+                        
+                        {{'Gender'| translate}} | {{user.gender ? user.gender : '-'}}<br>
+                        {{'Email'| translate}} |  {{user.email ? user.email : '-'}}<br>
+                        {{'Phone'| translate}} | {{user.phone ? user.phone : '-'}}<br>
+                        {{'Member Since'| translate}} | {{user.created_at ? getDate(user.created_at) : '-'}}
+                    
+                        <br>
+                        <br>
+                        <span><a class="btn btn-primary btn-sm addButton btn-large"
+                                (click)="openUserModal('updateUser', user)">
+                                <i class="fa fa-edit"></i> &nbsp; {{'Update details'| translate}} </a></span>
+                    </div>
+                </div>
+            </div>
+
+
+            <!-- <form>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputEmail4">Email</label>
+                        <input type="email" class="form-control" id="inputEmail4" placeholder="Email">
+                    </div>
+                    <div class="form-group col-md-6">
+                        <label for="inputPassword4">Password</label>
+                        <input type="password" class="form-control" id="inputPassword4" placeholder="Password">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress">Address</label>
+                    <input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+                </div>
+                <div class="form-group">
+                    <label for="inputAddress2">Address 2</label>
+                    <input type="text" class="form-control" id="inputAddress2"
+                        placeholder="Apartment, studio, or floor">
+                </div>
+                <div class="form-row">
+                    <div class="form-group col-md-6">
+                        <label for="inputCity">City</label>
+                        <input type="text" class="form-control" id="inputCity">
+                    </div>
+                    <div class="form-group col-md-4">
+                        <label for="inputState">State</label>
+                        <select id="inputState" class="form-control">
+                            <option selected>Choose...</option>
+                            <option>...</option>
+                        </select>
+                    </div>
+                    <div class="form-group col-md-2">
+                        <label for="inputZip">Zip</label>
+                        <input type="text" class="form-control" id="inputZip">
+                    </div>
+                </div>
+                <div class="form-group">
+                    <div class="form-check">
+                        <input class="form-check-input" type="checkbox" id="gridCheck">
+                        <label class="form-check-label" for="gridCheck">
+                            Check me out
+                        </label>
+                    </div>
+                </div>
+                <button type="submit" class="btn btn-primary">Sign in</button>
+            </form> -->
+
+
+        </div>
+    </div>
+</div>
+
+<app-modal-user #userModals [user]="theUser" [origin]="origin" [action]="userModalAction"
+    (userModalClosed)="onUserModalClosed()">
+</app-modal-user>
+
+<ngx-loading [show]="loadingData" [config]="{
+    backdropBorderRadius: '3px',
+    fullScreenBackdrop: true,
+    animationType: animationType
+  }"></ngx-loading>

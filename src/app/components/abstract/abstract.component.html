@@ -1,0 +1,110 @@
+<div class="super_container">
+
+    <!-- Header -->
+
+    <app-header></app-header>
+
+
+    <div class="container">
+
+        <hr>
+        <h4>Abstract</h4>
+
+        <div class="card pad">
+
+            <div class="container">
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <img class="img-responsive pull-left" src="/assets/logos/publisher.png" width="150" height="70"
+                            alt="The Journal of Food Stability's logo">
+                    </div>
+                    <div class="col">
+                        <img class="img-responsive pull-right" src="/assets/logos/oa.png" width="150"
+                            alt="The Journal of Food Stability is open access">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <span>
+                        <h5 class="original">Original Research</h5>
+                    </span>&nbsp;&nbsp;&nbsp;
+
+                </div>
+
+                <div class="row" *ngIf="post">
+                    <br>
+
+                    <div class="col">
+
+                        <div class="row default">
+                            <header class="entry-header">
+                                <a href="http://localhost:8000/storage/post/{{post.pdf}}" target="_blank">
+                                    <h4><strong>{{ post.title }}</strong></h4>
+                                </a>
+                            </header>
+                        </div>
+
+                        <div class="row default">
+                            <strong id="category">Authors&nbsp;: &nbsp;</strong><span id="date"><strong>{{
+                                    post.author}}</strong></span>
+
+                        </div>
+
+
+                        <div class="row default">
+                            <strong id="category">Published&nbsp;: &nbsp;</strong><span id="date"><strong>{{ post.date
+                                    }}</strong></span>
+
+                        </div>
+
+                        <br>
+                        <div class="row default">
+                            <h5 class="blue"><strong>Abstract</strong></h5>
+                            <br>
+                            <p>{{ post.abstract }} </p>
+
+                        </div>
+                        <div class="row default">
+                            <h5 class="blue"><strong>Practical Applications</strong>&nbsp;: &nbsp;</h5>
+                            <p>{{post.practical}} </p>
+
+                        </div>
+
+                        <div class="row default">
+                            <h5 class="blue"><strong>Keywords</strong>&nbsp;: &nbsp;</h5>
+                            <p>{{ post.keywords}} </p>
+
+                        </div>
+
+                        <div class="row default">
+
+                            <span>
+                                <a href="http://localhost:8000/storage/post/{{ post.pdf}}" target="_blank"><strong
+                                        id="pdf">Full PDF&nbsp;<i class="fa fa-file-pdf-o red"></i></strong></a>
+                                <strong> | <span id="views">{{ post.view_count }} </span> <i
+                                        class="fa fa-eye"></i></strong>
+                            </span>
+
+                        </div>
+
+
+                        <hr>
+                        <br>
+                    </div>
+
+                    <br>
+
+
+                </div><!-- .row -->
+
+            </div>
+        </div>
+
+    </div>
+
+
+    <app-footer></app-footer>
+
+</div>

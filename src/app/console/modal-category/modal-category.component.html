@@ -1,0 +1,101 @@
+<ng-template #categoryModal let-c="close" let-d="dismiss">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="row no-gutters">
+                <div class="col">
+                    <h3 class="text-3 font-weight-400 m-2">
+                        {{ modalTitle | translate }}
+                        <button type="button" class="close font-weight-400" data-dismiss="modal" aria-label="Close"
+                            (click)="d('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h3>
+                    <hr />
+                    <div class="px-3" *ngIf="category && action == 'view'">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                {{ "Name" | translate }}
+                                <span class="float-right text-3">{{ category.name }}</span>
+                            </li>
+                            <li class="mb-2">
+                                {{ "Image" | translate }}
+                                <img class="photo" src="{{ preview ? preview : default }}" alt="" />
+                            </li>
+                        </ul>
+                        <hr class="mb-2" />
+                    </div>
+                    <div class="px-3">
+                        <form class="form" id="categoryForm" [formGroup]="categoryForm" (ngSubmit)="onSubmitCategory()">
+                            <div>
+                                <div class="vertical-input-group mb-2" *ngIf="
+                      action == 'updateCategory' ||
+                      action == 'addCategory'
+                    ">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="name" formControlName="name"
+                                            required placeholder="Name" />
+                                    </div>
+                                </div>
+                                <div class="vertical-input-group mb-2" *ngIf="
+                    action == 'updateCategory' ||
+                    action == 'addCategory'
+                  ">
+                                    <div class="input-group">
+                                        <input accept="image/png,image/jpg,image/jpeg" type="file"
+                                            formControlName="image" (change)="fileChanged($event)" />
+                                        <p class="mt-4">
+                                            <img class="photo" src="{{ preview ? preview : default }}" alt="" />
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button #categorySubmitBtn type="submit" class="hidden"></button>
+                        </form>
+                    </div>
+                    <div class="px-3" *ngIf="category && action == 'deleteCategory'">
+                        <p class="text-3 text-center text-muted">{{ modalText }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div>
+                <button class="btn btn-default btn-sm" (click)="restoreCategoryForm()" *ngIf="
+              action == 'updateCategory'
+            ">
+                    {{ "Restore" | translate }}
+                </button>
+                &nbsp;
+                <button class="btn btn-success btn-sm" [disabled]="loading || !categoryFormIsValid()" *ngIf="
+              action == 'updateCategory' ||
+              action == 'addCategory'
+            " (click)="categorySubmitBtn.click()">
+                    <span *ngIf="action == 'updateCategory'">{{
+                        "Update" | translate
+                        }}</span>
+                    <span *ngIf="action == 'addCategory'">{{ "Add" | translate }}</span>
+                    &nbsp;
+                    <div class="spinner-border float-right" role="status" *ngIf="loading">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </button>
+            </div>
+            <div *ngIf="action == 'deleteCategory'">
+                <button class="btn btn-secondary btn-sm" data-dismiss="modal" aria-label="Close"
+                    (click)="d('Cross click')">
+                    {{ "Cancel" | translate }}
+                </button>
+                &nbsp;
+                <button class="btn btn-danger btn-sm" [disabled]="loading" (click)="deleteCategory()">
+                    {{ "Confirm" | translate }} &nbsp;
+                    <div class="spinner-border float-right" role="status" *ngIf="loading">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ngx-loading [show]="loadingData" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>

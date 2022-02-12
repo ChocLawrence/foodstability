@@ -1,0 +1,156 @@
+<ng-template #userModal let-c="close" let-d="dismiss">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row no-gutters">
+          <div class="col">
+            <h3 class="text-3 font-weight-400 m-2">
+              {{ modalTitle | translate }}
+              <button type="button" class="close font-weight-400" data-dismiss="modal" aria-label="Close"
+                (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </h3>
+            <hr />
+            <div class="px-3" *ngIf="user && action == 'view'">
+              <ul class="list-unstyled">
+                <li class="mb-2">
+                  {{ "First name" | translate
+                  }}<span class="float-right text-3">{{ user.firstname }}</span>
+                </li>
+                <li class="mb-2">
+                  {{ "Last name " | translate }}
+                  <span class="float-right text-3">{{ user.lastname }}</span>
+                </li>
+                <li class="mb-2">
+                  {{ "Email" | translate }}
+                  <span class="float-right text-3">{{ user.email }}</span>
+                </li>
+              </ul>
+              <hr class="mb-2" />
+              <p class="d-flex align-items-center font-weight-500 mb-4">
+                {{ "Gender" | translate
+                }}<span class="text-3 ml-auto">{{
+                  user.gender ? user.gender : "-"
+                  }}</span>
+              </p>
+              <ul class="list-unstyled">
+                <li class="font-weight-500">{{ "Member Since" | translate }}</li>
+                <li class="text-muted">
+                  {{ user.created_at ? getDate(user.created_at) : "-" }}
+                </li>
+              </ul>
+              <ul class="list-unstyled">
+                <li class="font-weight-500">{{ "Role" | translate }}</li>
+                <li class="text-muted">
+                  {{ user.role_id ? getRole(user.role_id) :'-'
+                  }}<span class="text-success text-3 ml-1"><i class="fas fa-check-circle"></i></span>
+                </li>
+              </ul>
+            </div>
+            <div class="px-3">
+              <form class="form" id="userForm" [formGroup]="userForm" (ngSubmit)="onSubmitUser()">
+                <div *ngIf="action == 'updateUser'">
+                  <div class="vertical-input-group mb-2">
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="firstname" formControlName="firstname" required
+                        placeholder="First name" />
+                    </div>
+                  </div>
+  
+                  <div class="vertical-input-group mb-2">
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="lastname" formControlName="lastname" required
+                        placeholder="Last name" />
+                    </div>
+                  </div>
+  
+                  <div class="vertical-input-group mb-2">
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="email" formControlName="email" required
+                        placeholder="Email" />
+                    </div>
+                  </div>
+  
+                  <div class="vertical-input-group mb-2">
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="phone" formControlName="phone" required
+                        placeholder="Phone" />
+                    </div>
+                  </div>
+  
+                  <div class="vertical-input-group mb-2">
+                    <div class="input-group">
+                      <input type="text" class="form-control" id="phone" formControlName="address" required
+                        placeholder="Address" />
+                    </div>
+                  </div>
+                  <div class="vertical-input-group mb-2">
+                    <p>{{'Profile Image'| translate}}</p>
+                    <hr>
+                    <div class="input-group">
+                      <input accept="image/png,image/jpg,image/jpeg" type="file" formControlName="image"
+                        (change)="fileChanged($event)" />
+                      <p class="mt-4">
+                        <img class="photo" src="{{ preview ? preview : default }}" alt="" />
+                      </p>
+                    </div>
+                  </div>
+  
+                  <div class="vertical-input-group mb-2">
+                    <div class="input-group">
+                      <select class="wrap-input100 form-control select" formControlName="gender"
+                        aria-label="Default select example">
+                        <option selected>{{'Select gender'| translate}}</option>
+                        <option value="male">{{'Male'| translate}}</option>
+                        <option value="female">{{'Female'| translate}}</option>
+                      </select>
+                    </div>
+                  </div>
+  
+                </div>
+  
+                <button #updateUserSubmitBtn type="submit" class="hidden"></button>
+              </form>
+            </div>
+            <div class="px-3" *ngIf="user && action == 'deleteUser' || action == 'banUser'">
+              <p class="text-3 text-center text-muted">{{ modalText }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div *ngIf="action == 'updateUser'">
+          <button class="btn btn-primary btn-sm" (click)="restoreUserForm()">
+            {{ "Restore" | translate }}
+          </button>
+          &nbsp;
+          <button class="btn btn-primary btn-sm" [disabled]="loading" (click)="updateUserSubmitBtn.click()">
+            {{ "Update" | translate }} &nbsp;
+            <div class="spinner-border float-right" role="status" *ngIf="loading">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+        </div>
+        <div>
+          <button class="btn btn-secondary btn-sm" data-dismiss="modal" aria-label="Close" (click)="d('Cross click')">
+            {{ "Cancel" | translate }}
+          </button>
+          &nbsp;
+          <button *ngIf="action == 'deleteUser'" class="btn btn-primary btn-sm" [disabled]="loading"
+            (click)="deleteUser()">
+            {{ "Confirm" | translate }} &nbsp;
+            <div class="spinner-border float-right" role="status" *ngIf="loading">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+  
+          <button *ngIf="action == 'banUser'" class="btn btn-primary btn-sm" [disabled]="loading" (click)="banUser()">
+            {{ "Confirm" | translate }} &nbsp;
+            <div class="spinner-border float-right" role="status" *ngIf="loading">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>

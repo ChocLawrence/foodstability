@@ -1,0 +1,115 @@
+<div class="row p-3">
+    <div class="col-12 mx-auto">
+        <div class="bg-white shadow-sm rounded p-3 pt-sm-4 pb-sm-5 px-sm-4 mb-4">
+            <h3 class="text-3 font-weight-400 mb-2 mb-sm-2">
+                {{ "Submission" | translate }}
+            </h3>
+            <br>
+
+            <div class="container">
+                <div class="row">
+                    <br>
+                    <form class="group form" id="userForm" [formGroup]="submissionForm" (ngSubmit)="onSubmit()">
+                        <div class="form-group">
+                            <label for="fullname">Author's Full Name &nbsp; <i class="fa fa-asterisk red"></i></label>
+                            <input type="text" class="form-control" id="fullname" name="full_name"
+                                formControlName="full_name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Email address &nbsp; <i class="fa fa-asterisk red"></i></label>
+                            <input type="email" class="form-control" id="email" name="email" formControlName="email"
+                                required>
+                        </div>
+                        <div class="form-group">
+                            <label for="designation">Designation &nbsp; <i class="fa fa-asterisk red"></i></label>
+                            <select class="selectpicker input-medium" name="designation" formControlName="designation"
+                                required>
+                                <option>Doctor</option>
+                                <option>Professor</option>
+                                <option>Associate Professor</option>
+                                <option>Mr.</option>
+                                <option>Mrs.</option>
+                                <option>Miss.</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="contact">Contact Number</label>
+                            <input type="number" class="form-control" id="contact" name="contact"
+                                formControlName="contact">
+                        </div>
+                        <div class="form-group">
+                            <label for="specialization">Specialization&nbsp; <i class="fa fa-asterisk red"></i></label>
+                            <input type="text" class="form-control" id="specialization" name="specialization"
+                                formControlName="specialization" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="university">University/ Organization&nbsp; <i
+                                    class="fa fa-asterisk red"></i></label>
+                            <input type="text" class="form-control" id="university" name="uni_org"
+                                formControlName="uni_org" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="designation">Article Type &nbsp; <i class="fa fa-asterisk red"></i></label>
+                            <select class="selectpicker input-medium" name="article_type" formControlName="article_type"
+                                required>
+                                <option>Research Article</option>
+                                <option>Short Research Reports</option>
+                                <option>Review Article</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="title">Article Title&nbsp; <i class="fa fa-asterisk red"></i></label>
+                            <input type="text" class="form-control" id="title" name="article_title"
+                                formControlName="article_title" required>
+                        </div>
+
+
+                        <div class="form-group">
+                            <label for="fileselect">Cover Letter&nbsp; <i class="fa fa-asterisk red"></i></label>
+                            <input type="File" class="form-control" name="cover" id="cover"
+                                accept="application/pdf,application/msword" (change)="coverFileChanged($event)"
+                                formControlName="cover" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fileselect">Manuscript&nbsp; <i class="fa fa-asterisk red"></i></label><br />
+                            <input type="File" class="form-control" name="manuscript" id="manuscript"
+                                accept="application/pdf,application/msword" (change)="manuscriptFileChanged($event)"
+                                formControlName="manuscript" required />
+                        </div>
+
+                        <div class="form-group">
+                            <label for="fileselect">Supplementary material</label><br />
+                            <input type="File" class="form-control" name="supplementary" formControlName="supplementary"
+                                (change)="supplementaryFileChanged($event)" id="supplementary" />
+                        </div>
+
+                        <br>
+                        <p><strong><input type="checkbox" id="confirm" name="confirm" formControlName="confirm"
+                                    value="true"> &nbsp;
+                                <label for="confirm">I hereby confirm that the attached manuscript has not been
+                                    published earlier/is not under
+                                    consideration for publication elsewhere.</label>
+                            </strong></p>
+
+                        <div class="d-flex justify-content-center">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                        <br>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<ngx-loading [show]="loadingData" [config]="{
+    backdropBorderRadius: '3px',
+    fullScreenBackdrop: true,
+    animationType: animationType
+  }"></ngx-loading>

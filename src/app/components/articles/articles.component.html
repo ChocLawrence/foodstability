@@ -1,0 +1,152 @@
+<div class="super_container">
+
+  <!-- Header -->
+
+  <app-header></app-header>
+
+
+  <div class="container">
+
+    <hr>
+    <h4>Articles</h4>
+
+
+    <br>
+    <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+      <div class="row">
+        <div class="col-lg-3" title="{{'Start date'| translate}}">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text secondary">
+                <i class="fa fa-hourglass-start"></i>
+              </span>
+            </div>
+            <input style="pointer-events: none" (ngModelChange)="onSearch()" class="form-control"
+              [placeholder]="'From' | translate" name="dp" formControlName="startd" [minDate]="minDate"
+              [maxDate]="maxDate" ngbDatepicker #j="ngbDatepicker" />
+            <div class="input-group-append">
+              <button class="btn btn-primary btn-sm" id="startdd" (click)="j.toggle()" type="button">
+                <i class="bi bi-calendar-check" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-3" title="{{'End date'| translate}}">
+          <div class="input-group input-group-sm">
+            <div class="input-group-prepend">
+              <span class="input-group-text secondary">
+                <i class="fa fa-hourglass-end"></i>
+              </span>
+            </div>
+            <input (ngModelChange)="onSearch()" style="pointer-events: none"
+              class="form-control input-sm inline-form-control" [placeholder]="'End Date' | translate" name="dp"
+              formControlName="enddate" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #k="ngbDatepicker" />
+            <div class="input-group-append">
+              <button class="btn btn-primary btn-sm" (click)="k.toggle()" type="button">
+                <i class="bi bi-calendar-check" aria-hidden="true"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-2">
+          &nbsp;
+          <span>
+            <i (click)="refreshDataSource()" class="fa fa-undo pointer fa-sm" aria-hidden="true"
+              title="{{ 'Reset Filter' | translate }}"></i>
+          </span>
+        </div>
+        <div class="pull-right col-lg-3">
+          <!-- <div class="input-group mb-3 input-group-sm">
+                        <div class="input-group-prepend">
+                            <label class="input-group-text" for="inputGroupSelect01">{{
+                                "Status" | translate
+                                }}</label>
+                        </div>
+                        <select id="inputGroupSelect01" formControlName="status" (ngModelChange)="onSearch()">
+                            <option disabled selected value>
+                                {{ "Choose ..." | translate }}
+                            </option>
+                            <option value="pending">{{ "Pending" | translate }}</option>
+                            <option value="success">{{ "Success" | translate }}</option>
+                            <option value="error">{{ "Error" | translate }}</option>
+                            <option value="all">{{ "All" | translate }}</option>
+                        </select>
+                    </div> -->
+        </div>
+      </div>
+    </form>
+
+    <hr>
+    <div *ngFor="let post of posts">
+      <div class="row">
+        <div class="col-sm-3">
+          <figure id="figure">
+            <span *ngIf="post.image=='default.png'">
+              <img src="/assets/images/post_default.jpg" alt="Project Default Image" />
+            </span>
+            <span *ngIf="post.image!='default.png'">
+              <img id="article_image" class="img-rounded img-responsive zoom_home"
+                src="http://localhost:8000/storage/post/{{post.image}}" alt="{{ post.title}}">
+            </span>
+          </figure>
+        </div>
+        <div class="col-sm-9">
+          <div>
+            <header class="entry-header">
+              <a routerLink="/abstract/{{ post.slug }}" target="_blank" (click)="updatePostCount(post.id)">
+                <h5 id="author"><span class="blue"><strong>{{ post.title }}</strong></span></h5>
+              </a>
+            </header>
+
+            <p id="author">{{ post.author }}</p>
+
+            <div>
+              <span>Volume:&nbsp;{{ post.volume }}</span>,
+              <span>Issue:&nbsp;{{ post.issue }}</span>
+            </div>
+            <div><strong id="category">Published&nbsp;: &nbsp;</strong><span id="date"><strong>{{ post.date }}
+                </strong></span></div>
+
+            <div><a routerLink="/abstract/{{ post.slug }}" target="_blank" (click)="updatePostCount(post.id)">
+                <strong id="abstract">Abstract
+                  |
+                  <a href="http://localhost:8000/storage/post/{{post.pdf}}" target="_blank"><span id="pdf">PDF&nbsp;<i
+                        class="fa fa-file-pdf-o red"></i></span></a>
+                </strong></a>
+              <strong> | <span id="views-{{post.id}}">{{ post.view_count }}</span>&nbsp;<i class="fa fa-eye"></i></strong>
+              <strong> | <span id="downloads-{{post.id}}">{{ post.view_count }}</span>&nbsp;<i class="fa fa-download"></i></strong>
+            </div>
+          </div>
+          <hr class="style-two" />
+        </div>
+
+
+        <!--End Row Item-->
+
+      </div>
+    </div>
+
+    <div class="container row">
+      <div class="col pull-left">
+        <span>
+          <p>{{'Showing posts'| translate}} : {{genericPosts.from ? genericPosts.from : '0' }} {{'to'| translate}}
+            {{genericPosts.to ? genericPosts.to : '0'}} {{'of'|
+            translate}} {{genericPosts.total? genericPosts.total : '0'}}</p>
+          <p>{{'Page' | translate}}&nbsp;{{genericPosts.current_page ? genericPosts.current_page : '0'}} {{'of'|
+            translate}}
+            {{genericPosts.last_page ? genericPosts.last_page : '0'}}
+          </p>
+          <button class="btn btn-primary btn-sm" (click)="prevPage()" [disabled]="!genericPosts.prev_page_url">{{'Prev'|
+            translate}} << </button> &nbsp;
+              <button class="btn btn-primary btn-sm" (click)="nextPage()"
+                [disabled]="!genericPosts.next_page_url">{{'Next'| translate}} >> </button>
+        </span>
+      </div>
+    </div>
+
+  </div>
+
+
+  <app-footer></app-footer>
+
+</div>

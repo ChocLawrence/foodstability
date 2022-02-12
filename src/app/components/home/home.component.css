@@ -1,0 +1,14 @@
+.pagination>li>a, .pagination>li>span { border-radius: 50% !important;margin: 0 5px;}
+.readmore {
+    position:relative;
+}
+.readmore_text {
+    position:absolute;
+    bottom:0;
+    right:0;
+}
+
+.readmore_btn{
+    background-color: rgb(97, 160, 97);
+    border: none;
+}

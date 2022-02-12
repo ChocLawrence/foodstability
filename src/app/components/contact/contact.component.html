@@ -1,0 +1,80 @@
+<link rel="stylesheet" type="text/css" href="/assets/styles/contact_styles.css">
+<link rel="stylesheet" type="text/css" href="/assets/styles/contact_responsive.css">
+<div class="super_container">
+
+    <!-- Header -->
+
+    <app-header></app-header>
+
+    <div class="container">
+
+        <hr>
+
+        <!-- Contact Us -->
+
+        <div class="row">
+
+            <div class="col-lg-6 contact_col">
+                <div class="contact_contents">
+                    <h3>Contact Us</h3>
+                    <p>There are many ways to contact us. You may drop us a line, give us a call or send an email,
+                        choose what suits you the most.</p>
+                    <div>
+                        <p>+237657380654</p>
+                        <p>j.food.stability@gmail.com </p>
+
+                    </div>
+                    <div>
+                        <p>Buea, Cameroon</p>
+                    </div>
+                </div>
+
+                <!-- Follow Us -->
+
+                <div class="follow_us_contents">
+                    <h3>Follow Us</h3>
+                    <ul class="social d-flex flex-row">
+                        <li><a href="#" style="background-color: #3a61c9"><i class="fa fa-facebook"
+                                    aria-hidden="true"></i></a></li>
+                        <li><a href="#" style="background-color: #41a1f6"><i class="fa fa-twitter"
+                                    aria-hidden="true"></i></a></li>
+                        <li><a href="#" style="background-color: #fb4343"><i class="fa fa-google-plus"
+                                    aria-hidden="true"></i></a></li>
+                        <li><a href="#" style="background-color: #8f6247"><i class="fa fa-instagram"
+                                    aria-hidden="true"></i></a></li>
+                    </ul>
+                </div>
+
+            </div>
+
+            <div class="col-lg-6 get_in_touch_col">
+                <div class="get_in_touch_contents">
+                    <h3>Get In Touch With Us!</h3>
+                    <p>Fill out the form below to get to us now.</p>
+                    <form method="POST" action="contact.store" class="group">
+
+                        <div>
+                            <input id="input_name" class="form_input input_name input_ph" type="text" name="name"
+                                placeholder="Name" required="required" data-error="Name is required.">
+                            <input id="input_email" class="form_input input_email input_ph" type="email" name="email"
+                                placeholder="Email" required="required" data-error="Valid email is required.">
+                            <textarea id="input_message" class="input_ph input_message" name="message"
+                                placeholder="Message" rows="3" required
+                                data-error="Please, write us a message."></textarea>
+                        </div>
+                        <div>
+                            <button id="review_submit" type="submit" class="red_button message_submit_btn trans_300"
+                                value="Submit">send message</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <app-footer></app-footer>
+
+</div>

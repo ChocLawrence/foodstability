@@ -1,0 +1,74 @@
+<div class="row p-3">
+    <div class="col-12 mx-auto">
+        <div class="bg-white shadow-sm rounded p-3 pt-sm-4 pb-sm-5 px-sm-4 mb-4">
+            <h3 class="text-3 font-weight-400 mb-2 mb-sm-2">
+                {{ "Categories" | translate }}
+            </h3>
+            <span><a class="btn btn-success btn-sm addButton" (click)="openCategoryModal('addCategory', null)">
+                    <i class="fa fa-plus"></i> </a></span>
+
+            <dx-data-grid #categoriesContainer id="categoriesContainer" [dataSource]="categories"
+                [columnAutoWidth]="true" [showBorders]="true" [showRowLines]="true" [showColumnLines]="false"
+                [allowColumnReordering]="true" [allowCollapsing]="false" [wordWrapEnabled]="true"
+                [hoverStateEnabled]="true" (onFileSaving)="_core.onFileSaving($event, 'categories')">
+                <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20, 30]" [showInfo]="true">
+                </dxo-pager>
+                <dxo-search-panel [visible]="true" [width]="240" [placeholder]="'Search...' | translate">
+                </dxo-search-panel>
+
+                <!-- Columns -->
+                <dxi-column dataField="name" width="350" [caption]="'Name' | translate">
+                </dxi-column>
+                <dxi-column dataField="image" width="300" [caption]="'Image' | translate" cellTemplate="imageTemplate">
+                </dxi-column>
+                <dxi-column width="200" dataField="createdat" cellTemplate="createdAtTemplate"
+                    [caption]="'Creation date' | translate">
+                </dxi-column>
+                <dxi-column cellTemplate="actionsTemplate" [caption]="" alignment="right">
+                </dxi-column>
+
+                <div *dxTemplate="let cell of 'imageTemplate'">
+                    <img src="http://localhost:8000/storage/category/{{cell.data.image}}" alt="" width="100"
+                        height="100">
+                </div>
+
+                <div *dxTemplate="let cell of 'createdAtTemplate'">
+                    <span>
+                        {{ cell.data.created_at ? getDate(cell.data.created_at) : "-" }}
+                    </span>
+                </div>
+
+                <div *dxTemplate="let cell of 'actionsTemplate'">
+                    <div class="mainActions">
+                        <ul>
+                            <li>
+                                <i class="fa fa-sm fa-edit theme" [title]="'Edit Category' | translate"
+                                    (click)="openCategoryModal('updateCategory', cell.data)"></i>
+                            </li>
+                            <li>
+                                <i class="fa fa-sm fa-trash red" [title]="'Delete Category' | translate"
+                                    (click)="openCategoryModal('deleteCategory', cell.data)"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <dxo-export [enabled]="true" fileName="categories" [allowExportSelectedData]="false"
+                    [customizeExcelCell]="customizeExcelCell"></dxo-export>
+                <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+            </dx-data-grid>
+        </div>
+    </div>
+</div>
+
+<app-modal-category #categoryModals [category]="theCategory" [origin]="origin" [action]="categoryModalAction"
+    (categoryModalClosed)="onCategoryModalClosed()">
+</app-modal-category>
+
+<ngx-loading [show]="loadingData" [config]="{
+    backdropBorderRadius: '3px',
+    fullScreenBackdrop: true,
+    animationType: animationType
+  }"></ngx-loading>

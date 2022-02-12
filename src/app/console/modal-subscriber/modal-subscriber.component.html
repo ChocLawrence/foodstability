@@ -1,0 +1,94 @@
+<ng-template #subscriberModal let-c="close" let-d="dismiss">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="row no-gutters">
+          <div class="col">
+            <h3 class="text-3 font-weight-400 m-2">
+              {{ modalTitle | translate }}
+              <button
+                type="button"
+                class="close font-weight-400"
+                data-dismiss="modal"
+                aria-label="Close"
+                (click)="d('Cross click')"
+              >
+                <span aria-hidden="true">&times;</span>
+              </button>
+            </h3>
+            <hr />
+            <div class="px-3">
+              <form
+                class="form"
+                id="subscriberForm"
+                [formGroup]="subscriberForm"
+                (ngSubmit)="onSubmitSubscriber()"
+              >
+                <div *ngIf="action == 'updateSubscriber' || action == 'addSubscriber'">
+                  <div class="vertical-input-group mb-2">
+                    <div class="input-group">
+                      <input
+                        type="email"
+                        class="form-control"
+                        id="email"
+                        formControlName="email"
+                        required
+                        placeholder="Subscriber email"
+                      />
+                    </div>
+                  </div>
+                </div>
+  
+                <button #subscriberSubmitBtn type="submit" class="hidden"></button>
+              </form>
+            </div>
+            <div class="px-3" *ngIf="subscriber && action == 'deleteSubscriber'">
+              <p class="text-3 text-center text-muted">{{ modalText }}</p>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <div>
+          <button
+            class="btn btn-success btn-sm"
+            [disabled]="loading"
+            *ngIf="action == 'updateSubscriber' || action == 'addSubscriber'"
+            (click)="subscriberSubmitBtn.click()"
+          >
+            {{ action == "updateSubscriber" ? "Update" : "Add" }} &nbsp;
+            <div class="spinner-border float-right" role="status" *ngIf="loading">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+        </div>
+        <div *ngIf="action == 'deleteSubscriber'">
+          <button
+            class="btn btn-secondary btn-sm"
+            data-dismiss="modal"
+            aria-label="Close"
+            (click)="d('Cross click')"
+          >
+            {{ "Cancel" | translate }}
+          </button>
+          &nbsp;
+          <button
+            class="btn btn-primary btn-sm"
+            [disabled]="loading"
+            (click)="deleteSubscriber()"
+          >
+            {{ "Confirm" | translate }} &nbsp;
+            <div class="spinner-border float-right" role="status" *ngIf="loading">
+              <span class="sr-only">Loading...</span>
+            </div>
+          </button>
+        </div>
+      </div>
+    </div>
+  </ng-template>
+  
+  
+  <ngx-loading
+    [show]="loadingData"
+    [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"
+  ></ngx-loading>
+  

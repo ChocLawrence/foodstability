@@ -1,0 +1,206 @@
+<ng-template #postModal let-c="close" let-d="dismiss">
+    <div class="modal-content">
+        <div class="modal-body">
+            <div class="row no-gutters">
+                <div class="col">
+                    <h3 class="text-3 font-weight-400 m-2">
+                        {{ modalTitle | translate }}
+                        <button type="button" class="close font-weight-400" data-dismiss="modal" aria-label="Close"
+                            (click)="d('Cross click')">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </h3>
+                    <hr />
+                    <div class="px-3" *ngIf="post && action == 'view'">
+                        <ul class="list-unstyled">
+                            <li class="mb-2">
+                                {{ "Title" | translate }}
+                                <p>{{ post.title }}</p>
+                            </li>
+                            <hr>
+                            <li class="mb-2">
+                                {{ "Category" | translate }}
+                                <p>{{ post.category_id  ?  getCategoryName(post.category_id)  : '-'}}</p>
+                            </li>
+                            <hr>
+                            <li class="mb-2">
+                                {{ "Doi" | translate }}
+                                <p>{{ post.doi }}</p>
+                            </li>
+                            <hr>
+                            <li class="mb-2">
+                                {{ "Abstract" | translate }}
+                                <p>{{ post.abstract }}</p>
+                            </li>
+                            <hr>
+                            <li class="mb-2">
+                                {{ "Keywords" | translate }}
+                                <p>{{ post.keywords }}</p>
+                            </li>
+                            <hr>
+                            <li class="mb-2">
+                                {{ "Practical" | translate }}
+                                <p>{{ post.practical }}</p>
+                            </li>
+                            <hr>
+                            <li class="mb-2">
+                                {{ "Volume" | translate }}
+                                <p>{{ post.volume }}</p>
+                            </li>
+                            <hr>
+                            <li class="mb-2">
+                                {{ "Issue" | translate }}
+                                <p>{{ post.issue }}</p>
+                            </li>
+                            <hr>
+                            <li class="mb-2">
+                                {{ "Image" | translate }}
+                                <img class="photo" [src]="sanitizedImageUrl" alt="" />
+                            </li>
+                            <hr>
+                            <li class="mb-2">
+                                {{ "PDF" | translate }} &nbsp;
+                                <a [href]="sanitizedPdfUrl" target="_blank">{{'View PDF'| translate}}</a>
+                            </li>
+                        </ul>
+                        <hr class="mb-2" />
+                    </div>
+                    <div class="px-3">
+                        <form class="form" id="PostForm" [formGroup]="postForm" (ngSubmit)="onSubmitPost()">
+                            <div *ngIf="
+                            action == 'updatePost' ||
+                            action == 'addPost'
+                          ">
+                                <div class="vertical-input-group mb-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="name" formControlName="title"
+                                            required placeholder="Title" />
+                                    </div>
+                                </div>
+                                <div class="vertical-input-group mb-2">
+                                    <ng-multiselect-dropdown [placeholder]="'Category' | translate"
+                                        [settings]="dropdownSettings" [data]="categories"
+                                        [formControl]="$any(postForm).controls['category_id']"
+                                        (onSelect)="onCategorySelect($event)" (onDeSelect)="onCategoryDeSelect($event)">
+                                    </ng-multiselect-dropdown>
+                                </div>
+                                <div class="vertical-input-group mb-2" *ngIf="
+                                action == 'addPost'
+                              ">
+                                    <ng-multiselect-dropdown [placeholder]="'Tag' | translate"
+                                        [settings]="dropdownSettings" [data]="tags"
+                                        [formControl]="$any(postForm).controls['tag']" (onSelect)="onTagSelect($event)"
+                                        (onDeSelect)="onTagDeSelect($event)">
+                                    </ng-multiselect-dropdown>
+                                </div>
+                                <div class="vertical-input-group mb-2">
+                                    <div class="input-group">
+                                        <input type="text" class="form-control" id="name" formControlName="doi" required
+                                            placeholder="Doi" />
+                                    </div>
+                                </div>
+                                <div class="vertical-input-group mb-2">
+                                    <div class="input-group">
+                                        <textarea type="text" class="form-control" rows="5" id="name"
+                                            formControlName="authors" required placeholder="Authors"></textarea>
+                                    </div>
+                                </div>
+                                <div class="vertical-input-group mb-2">
+                                    <div class="input-group">
+                                        <textarea type="text" class="form-control" rows="5" id="name"
+                                            formControlName="abstract" required placeholder="Abstract"></textarea>
+                                    </div>
+                                </div>
+                                <div class="vertical-input-group mb-2">
+                                    <div class="input-group">
+                                        <textarea type="text" class="form-control" rows="5" id="name"
+                                            formControlName="practical" required placeholder="Practical"></textarea>
+                                    </div>
+                                </div>
+                                <div class="vertical-input-group mb-2">
+                                    <div class="input-group">
+                                        <textarea type="text" class="form-control" rows="5" id="name"
+                                            formControlName="keywords" required placeholder="Keywords"></textarea>
+                                    </div>
+                                </div>
+                                <div class="vertical-input-group mb-2">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="volume" formControlName="volume"
+                                            required placeholder="Volume" min="1" />
+                                    </div>
+                                </div>
+                                <div class="vertical-input-group mb-2">
+                                    <div class="input-group">
+                                        <input type="number" class="form-control" id="issue" formControlName="issue"
+                                            required placeholder="Issue" min="1" />
+                                    </div>
+                                </div>
+                                <div class="vertical-input-group mb-2">
+                                    <label for="image">{{'Image'| translate}}</label>
+                                    <div class="input-group">
+                                        <input accept="image/png,image/jpg,image/jpeg" type="file"
+                                            formControlName="image" (change)="imageFileChanged($event)" />
+                                        <p class="mt-4">
+                                            <img class="photo" [src]="sanitizedImageUrl" alt="" />
+                                        </p>
+                                    </div>
+                                </div>
+                                <hr>
+                                <div class="vertical-input-group mb-2">
+                                    <label for="pdf">{{'PDF'| translate}} : <a *ngIf="action=='updatePost'" [href]="sanitizedPdfUrl" target="_blank">{{'View current PDF'| translate}}</a> </label>
+                                    <div class="input-group">
+                                        <input accept="application/pdf" type="file" formControlName="pdf"
+                                            (change)="pdfFileChanged($event)" />
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button #postSubmitBtn type="submit" class="hidden"></button>
+                        </form>
+                    </div>
+                    <div class="px-3" *ngIf="post && action == 'deletePost'">
+                        <p class="text-3 text-center text-muted">{{ modalText }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <div>
+                <button class="btn btn-default btn-sm" (click)="restorePostForm()" *ngIf="
+              action == 'updatePost'
+            ">
+                    {{ "Restore" | translate }}
+                </button>
+                &nbsp;
+                <button class="btn btn-success btn-sm" [disabled]="loading" *ngIf="
+              action == 'updatePost' ||
+              action == 'addPost'
+            " (click)="postSubmitBtn.click()">
+                    <span *ngIf="action == 'updatePost'">{{
+                        "Update" | translate
+                        }}</span>
+                    <span *ngIf="action == 'addPost'">{{ "Add" | translate }}</span>
+                    &nbsp;
+                    <div class="spinner-border " role="status" *ngIf="loading">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </button>
+            </div>
+            <div *ngIf="action == 'deletePost'">
+                <button class="btn btn-secondary btn-sm" data-dismiss="modal" aria-label="Close"
+                    (click)="d('Cross click')">
+                    {{ "Cancel" | translate }}
+                </button>
+                &nbsp;
+                <button class="btn btn-danger btn-sm" [disabled]="loading" (click)="deletePost()">
+                    {{ "Confirm" | translate }} &nbsp;
+                    <div class="spinner-border " role="status" *ngIf="loading">
+                        <span class="sr-only">Loading...</span>
+                    </div>
+                </button>
+            </div>
+        </div>
+    </div>
+</ng-template>
+
+<ngx-loading [show]="loadingData" [config]="{ backdropBorderRadius: '3px', fullScreenBackdrop: true }"></ngx-loading>

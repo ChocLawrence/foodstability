@@ -1,0 +1,56 @@
+<div class="super_container">
+
+
+    <div class="container">
+
+        <!-- Document Wrapper
+============================================= -->
+        <div id="main-wrapper">
+            <!-- Content
+    ============================================= -->
+            <div id="account">
+                <!-- Who we are
+      ============================================= -->
+                <div class="container text-center" *ngIf="verification">
+                    <h2 class="text-25 mb-0">
+                        <img src="assets/images/emailverified.gif" alt="" width="" height="250" />
+                    </h2>
+                    <h3 class="text-6 mb-3">
+                        {{ "Email verified successfully" | translate }}
+                    </h3>
+                    <p class="text-3 text-muted">
+                        {{ "Continue using the Journal Of Food Stability." | translate }}
+                    </p>
+                    <a routerLink="/login" class="btn btn-primary shadow-none px-5 m-2">{{
+                        "Continue" | translate
+                        }}</a>
+                </div>
+                <div class="container text-center" *ngIf="!verification">
+                    <h2 class="text-25 mb-0">
+                        <img src="assets/images/500.gif" alt="" width="" height="250" />
+                    </h2>
+                    <h3 class="text-6 mb-3">
+                        {{ "An error occured." | translate }}
+                    </h3>
+                    <p class="text-3 text-muted" *ngIf="display">
+                        You will be redirected to homepage in {{ display }}
+                    </p>
+                    <a routerLink="/" class="btn btn-primary shadow-none px-5 m-2">{{
+                        "Home" | translate
+                        }}</a>
+                </div>
+                <!-- Who we are end -->
+            </div>
+            <!-- Content end -->
+
+        </div>
+        <!-- Document Wrapper end -->
+
+
+    </div>
+    <!-- cover page info end-->
+
+    <app-footer></app-footer>
+
+
+</div>

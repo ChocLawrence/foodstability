@@ -1,0 +1,68 @@
+<div class="row p-3">
+    <div class="col-12 mx-auto">
+        <div class="bg-white shadow-sm rounded p-3 pt-sm-4 pb-sm-5 px-sm-4 mb-4">
+            <h3 class="text-3 font-weight-400 mb-2 mb-sm-2">
+                {{ "Subscribers" | translate }}
+            </h3>
+            <span><a class="btn btn-success btn-sm addButton" (click)="openSubscriberModal('addSubscriber', null)">
+                    <i class="fa fa-plus"></i> </a></span>
+
+            <dx-data-grid #SubscribersContainer id="SubscribersContainer" [dataSource]="subscribers" [columnAutoWidth]="true"
+                [showBorders]="true" [showRowLines]="true" [showColumnLines]="false" [allowColumnReordering]="true"
+                [allowCollapsing]="false" [wordWrapEnabled]="true" [hoverStateEnabled]="true"
+                (onFileSaving)="_core.onFileSaving($event, 'Subscribers')">
+                <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
+                <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20, 30]" [showInfo]="true">
+                </dxo-pager>
+                <dxo-search-panel [visible]="true" [width]="240" [placeholder]="'Search...' | translate">
+                </dxo-search-panel>
+
+                <!-- Columns -->
+                <dxi-column dataField="email" [caption]="'Email' | translate">
+                </dxi-column>
+                <dxi-column width="auto" dataField="createdat" cellTemplate="createdAtTemplate"
+                    [caption]="'Creation date' | translate">
+                </dxi-column>
+                <dxi-column cellTemplate="actionsTemplate" [caption]="" alignment="right">
+                </dxi-column>
+
+
+                <div *dxTemplate="let cell of 'createdAtTemplate'">
+                    <span>
+                        {{ cell.data.created_at ? getDate(cell.data.created_at) : "-" }}
+                    </span>
+                </div>
+
+                <div *dxTemplate="let cell of 'actionsTemplate'">
+                    <div class="mainActions">
+                        <ul>
+                            <li>
+                                <i class="fa fa-sm fa-edit theme" [title]="'Edit Subscriber' | translate"
+                                    (click)="openSubscriberModal('updateSubscriber', cell.data)"></i>
+                            </li>
+                            <li>
+                                <i class="fa fa-sm fa-trash red" [title]="'Delete Subscriber' | translate"
+                                    (click)="openSubscriberModal('deleteSubscriber', cell.data)"></i>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+
+                <dxo-export [enabled]="true" fileName="Subscribers" [allowExportSelectedData]="false"
+                    [customizeExcelCell]="customizeExcelCell"></dxo-export>
+                <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
+            </dx-data-grid>
+        </div>
+    </div>
+</div>
+
+<app-modal-subscriber #subscriberModals [subscriber]="theSubscriber" [origin]="origin" [action]="subscriberModalAction"
+    (subscriberModalClosed)="onSubscriberModalClosed()">
+</app-modal-subscriber>
+
+<ngx-loading [show]="loadingData" [config]="{
+    backdropBorderRadius: '3px',
+    fullScreenBackdrop: true,
+    animationType: animationType
+  }"></ngx-loading>
