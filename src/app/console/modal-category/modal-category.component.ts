@@ -192,7 +192,7 @@ export class ModalCategoryComponent implements OnInit {
   populateCategoryForm() {
 
     if(this.category.image){
-      this.preview = 'http://localhost:8000/storage/category/' + this.category.image;
+      this.preview = 'https://foodstability-api-cby54.ondigitalocean.app/storage/category/' + this.category.image;
     }
 
     this.categoryForm.patchValue({

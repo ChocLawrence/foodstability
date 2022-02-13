@@ -216,10 +216,10 @@ export class ModalPostComponent implements OnInit {
 
   setUrls() {
     this.sanitizedImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      'http://localhost:8000/storage/post/' + this.post.image
+      'https://foodstability-api-cby54.ondigitalocean.app/storage/post/' + this.post.image
     );
     this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      'http://localhost:8000/storage/post/' + this.post.pdf
+      'https://foodstability-api-cby54.ondigitalocean.app/storage/post/' + this.post.pdf
     );
   }
 

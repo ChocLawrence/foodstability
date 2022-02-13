@@ -147,7 +147,7 @@ export class ModalUserComponent implements OnInit {
   populateUserForm() {
 
     if(this.user.image){
-      this.preview = 'http://localhost:8000/storage/profile/' + this.user.image;
+      this.preview = 'https://foodstability-api-cby54.ondigitalocean.app/storage/profile/' + this.user.image;
     }
 
     this.userForm.patchValue({
