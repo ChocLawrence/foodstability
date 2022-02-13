@@ -71,12 +71,12 @@
 
                             <li class="account" *ngIf="user">
 
-                                <a routerLink="/author/dashboard" *ngIf="user.role_id=='1'">
+                                <a routerLink="/author/dashboard" *ngIf="user.role_id=='2'">
                                     {{'Dashboard'| translate}}
                                     <i class="fa fa-user"></i> &nbsp;&nbsp;
                                 </a>
 
-                                <a routerLink="/console/dashboard" *ngIf="user.role_id=='2'">
+                                <a routerLink="/console/dashboard" *ngIf="user.role_id=='1'">
                                     {{'Dashboard'| translate}}
                                     <i class="fa fa-user"></i> &nbsp;&nbsp;
                                 </a>
