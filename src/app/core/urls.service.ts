@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class UrlsService {
   public get apiUrl() {
-    return 'http://localhost:8000/api/';   //
+    return 'https://foodstability-api-cby54.ondigitalocean.app/api/';   // https://foodstability.com/api
   }
   constructor() { }
 }
