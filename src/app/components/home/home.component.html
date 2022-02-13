@@ -192,12 +192,13 @@
           <span class="new">NEW</span>
           <p></p>
           <!-- put new label green-->
-          <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
+          <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" title="{{'Search articles by date'| translate}}" class="pointer">
             <div class="row">
-              <div class="col-lg-3" title="{{'Start date'| translate}}">
+              <div class="col-lg-5" title="{{'Start date'| translate}}">
                 <div class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text secondary">
+                      {{'Start date'| translate}} &nbsp;
                       <i class="fa fa-hourglass-start"></i>
                     </span>
                   </div>
@@ -211,10 +212,11 @@
                   </div>
                 </div>
               </div>
-              <div class="col-lg-3" title="{{'End date'| translate}}">
+              <div class="col-lg-5" title="{{'End date'| translate}}">
                 <div class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text secondary">
+                      {{'End date'| translate}} &nbsp;
                       <i class="fa fa-hourglass-end"></i>
                     </span>
                   </div>
@@ -268,7 +270,8 @@
                   </span>
                   <span *ngIf="post.image!='default.png'">
                     <img id="article_image" class="img-rounded img-responsive zoom_home"
-                      src="https://foodstability-api-cby54.ondigitalocean.app/storage/post/{{post.image}}" alt="{{ post.title}}">
+                      src="https://foodstability-api-cby54.ondigitalocean.app/storage/post/{{post.image}}"
+                      alt="{{ post.title}}">
                   </span>
                 </figure>
               </div>
@@ -292,10 +295,11 @@
                   <div><a routerLink="/abstract/{{ post.slug }}" target="_blank" (click)="updatePostCount(post.id)">
                       <strong id="abstract">Abstract
                         |
-                        <a href="https://foodstability-api-cby54.ondigitalocean.app/storage/post/{{post.pdf}}" target="_blank"><span
-                            id="pdf">PDF&nbsp;<i class="fa fa-file-pdf-o red"></i></span></a>
+                        <a href="https://foodstability-api-cby54.ondigitalocean.app/storage/post/{{post.pdf}}"
+                          target="_blank"><span id="pdf">PDF&nbsp;<i class="fa fa-file-pdf-o red"></i></span></a>
                       </strong></a>
-                    <strong> | <span id="view-{{post.id}}">{{ post.view_count }}</span>&nbsp;<i class="fa fa-eye"></i></strong>
+                    <strong> | <span id="view-{{post.id}}">{{ post.view_count }}</span>&nbsp;<i
+                        class="fa fa-eye"></i></strong>
                     <strong> | <span id="downloads-{{post.id}}">{{ post.view_count }}</span>&nbsp;<i
                         class="fa fa-download"></i></strong>
                   </div>
@@ -310,7 +314,7 @@
           </div>
 
           <div class="container row">
-            <div class="col pull-left">
+            <div class="col-md-8 pull-left">
               <span>
                 <p>{{'Showing posts'| translate}} : {{genericPosts.from ? genericPosts.from : '0' }} {{'to'| translate}}
                   {{genericPosts.to ? genericPosts.to : '0'}} {{'of'|

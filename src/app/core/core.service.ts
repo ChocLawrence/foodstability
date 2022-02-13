@@ -23,7 +23,7 @@ export class CoreService {
   public httpTimeout = 30 * 1000;
   public httpLongTimeout = 90000;
   public maxRemoteEntries = 500;
-  public defaultDateDuration = 7;
+  public defaultDateDuration = 365;
   public locale = 'en-CA'; // Canadian locale
   public maximumFractionDigits = 0;
   public style = 'decimal'; // or 'currency', then currency must be given:
