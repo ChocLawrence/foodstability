@@ -170,9 +170,7 @@ export class CoreService {
   handleError(error: any) {
     let messageString = '';
 
-    console.log(error);
-
-    if (error && error.error.status == 0) {
+    if (error && error.error && error.error.status && error.error.status== 0) {
       this.showError('Oops', 'Could not reach server.Retry');
     } else if (error.error.message && error.error.status == 'error') {
       if (
