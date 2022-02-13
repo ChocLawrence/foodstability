@@ -5,7 +5,7 @@ import { Injectable } from '@angular/core';
 })
 export class UrlsService {
   public get apiUrl() {
-    return 'https://foodstability-api-cby54.ondigitalocean.app/api/';   // https://foodstability.com/api
+    return 'https://foodstability-api-cby54.ondigitalocean.app/api/';   // https://foodstability-api-cby54.ondigitalocean.app/api/
   }
   constructor() { }
 }

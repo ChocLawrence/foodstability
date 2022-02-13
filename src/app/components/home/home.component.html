@@ -268,7 +268,7 @@
                   </span>
                   <span *ngIf="post.image!='default.png'">
                     <img id="article_image" class="img-rounded img-responsive zoom_home"
-                      src="http://localhost:8000/storage/post/{{post.image}}" alt="{{ post.title}}">
+                      src="https://foodstability-api-cby54.ondigitalocean.app/storage/post/{{post.image}}" alt="{{ post.title}}">
                   </span>
                 </figure>
               </div>
@@ -292,7 +292,7 @@
                   <div><a routerLink="/abstract/{{ post.slug }}" target="_blank" (click)="updatePostCount(post.id)">
                       <strong id="abstract">Abstract
                         |
-                        <a href="http://localhost:8000/storage/post/{{post.pdf}}" target="_blank"><span
+                        <a href="https://foodstability-api-cby54.ondigitalocean.app/storage/post/{{post.pdf}}" target="_blank"><span
                             id="pdf">PDF&nbsp;<i class="fa fa-file-pdf-o red"></i></span></a>
                       </strong></a>
                     <strong> | <span id="view-{{post.id}}">{{ post.view_count }}</span>&nbsp;<i class="fa fa-eye"></i></strong>
