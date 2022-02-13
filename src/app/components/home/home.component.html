@@ -189,10 +189,11 @@
         </div>
         <div class="bottom">
 
-          <span class="new">NEW</span>
+          <span class="new">{{'NEW'| translate}}</span>
           <p></p>
           <!-- put new label green-->
-          <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" title="{{'Search articles by date'| translate}}" class="pointer">
+          <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" title="{{'Search articles by date'| translate}}"
+            class="pointer">
             <div class="row">
               <div class="col-lg-5" title="{{'Start date'| translate}}">
                 <div class="input-group input-group-sm">
