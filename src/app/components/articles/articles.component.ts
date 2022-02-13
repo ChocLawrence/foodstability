@@ -194,6 +194,27 @@ export class ArticlesComponent implements OnInit {
     });
   }
 
+  checkSearchStore(){
+    let searchData = JSON.parse(
+      localStorage.getItem('posts_search_data') as '{}'
+    );
+    let data: any = {};
+    if (this._core.isEmptyOrNull(searchData)) {
+      data = {
+        start: this.defaultStartDate,
+        end: this.defaultEndDate,
+      };
+    } else {
+      data = {
+        start: searchData.start,
+        end: this.defaultEndDate,
+        //status: searchData.status
+      };
+    }
+
+    return data;
+  }
+
   onSubmit() {
     const search = this.searchForm.controls;
     let startDate = '';
@@ -259,8 +280,9 @@ export class ArticlesComponent implements OnInit {
   }
 
   prevPage() {
+    let data = this.checkSearchStore();
     this.postsService
-      .getPostsAtUrl(this.genericPosts.prev_page_url)
+      .getPostsAtUrl(this.genericPosts.prev_page_url,data)
       .then((posts) => {
         this.genericPosts = posts.data;
         this.posts = posts.data.data;
@@ -268,8 +290,9 @@ export class ArticlesComponent implements OnInit {
   }
 
   nextPage() {
+    let data = this.checkSearchStore();
     this.postsService
-      .getPostsAtUrl(this.genericPosts.next_page_url)
+      .getPostsAtUrl(this.genericPosts.next_page_url,data)
       .then((posts) => {
         this.genericPosts = posts.data;
         this.posts = posts.data.data;

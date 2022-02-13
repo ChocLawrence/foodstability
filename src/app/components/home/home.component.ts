@@ -157,6 +157,21 @@ export class HomeComponent implements OnInit {
 
     this.initForm();
 
+    //
+    let data = this.checkSearchStore();
+    this.loadForm(data);
+    this.getPosts(data);
+  }
+
+  loadForm(formData: any) {
+    this.searchForm.patchValue({
+      start: this.getStringDate(formData.start),
+      end: formData.end,
+    });
+  }
+
+
+  checkSearchStore(){
     let searchData = JSON.parse(
       localStorage.getItem('posts_search_data') as '{}'
     );
@@ -174,15 +189,7 @@ export class HomeComponent implements OnInit {
       };
     }
 
-    this.loadForm(data);
-    this.getPosts(data);
-  }
-
-  loadForm(formData: any) {
-    this.searchForm.patchValue({
-      start: this.getStringDate(formData.start),
-      end: formData.end,
-    });
+    return data;
   }
 
   onSubmit() {
@@ -272,8 +279,9 @@ export class HomeComponent implements OnInit {
   }
 
   prevPage() {
+    let data = this.checkSearchStore();
     this.postsService
-      .getPostsAtUrl(this.genericPosts.prev_page_url)
+      .getPostsAtUrl(this.genericPosts.prev_page_url,data)
       .then((posts) => {
         this.genericPosts = posts.data;
         this.posts = posts.data.data;
@@ -281,8 +289,9 @@ export class HomeComponent implements OnInit {
   }
 
   nextPage() {
+    let data = this.checkSearchStore();
     this.postsService
-      .getPostsAtUrl(this.genericPosts.next_page_url)
+      .getPostsAtUrl(this.genericPosts.next_page_url,data)
       .then((posts) => {
         this.genericPosts = posts.data;
         this.posts = posts.data.data;

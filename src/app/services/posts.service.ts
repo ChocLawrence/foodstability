@@ -75,7 +75,17 @@ export class PostsService {
     return this.core.makeRemoteRequest(url, 'get', null, httpOptions);
   }
 
-  getPostsAtUrl(url: any): Promise<any> {
+  getPostsAtUrl(urlString: any, dataObject: any): Promise<any> {
+    let url = urlString;
+
+    if (!this.core.isEmptyOrNull(dataObject.start)) {
+      url += `&start_date=${encodeURIComponent(dataObject.start)}`;
+    }
+
+    if (!this.core.isEmptyOrNull(dataObject.end)) {
+      url += `&end_date=${encodeURIComponent(dataObject.end)}`;
+    }
+
     return this.core.makeRemoteRequest(url, 'get', null, httpOptions);
   }
 
@@ -209,19 +219,17 @@ export class PostsService {
 
   /** PUT: update a currenciess basic data  */
   updatePostCount(dataObject: any, id: any): Promise<any> {
-      let url = this.apiUrl + 'view/' + id;
-  
-      let params = {};
-  
-      // These parameters are always passed
-      if (!this.core.isEmptyOrNull(dataObject.view_count)) {
-        params = dataObject;
-      }
-  
-      return this.core.makeRemoteRequest(url, "put", params, null);
-  }
-  
+    let url = this.apiUrl + 'view/' + id;
 
+    let params = {};
+
+    // These parameters are always passed
+    if (!this.core.isEmptyOrNull(dataObject.view_count)) {
+      params = dataObject;
+    }
+
+    return this.core.makeRemoteRequest(url, 'put', params, null);
+  }
 
   /** DELETE: delete a currencies  */
   deletePost(id: any): Promise<any> {
