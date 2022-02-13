@@ -15,7 +15,7 @@ export class AdminAuthGuard implements CanActivate {
   constructor(private router: Router, private _core: CoreService) { }
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
-    if (this._core.decryptFromLocalStorage("menu") == 2) {
+    if (this._core.decryptFromLocalStorage("menu") == 1) {
       // logged in so return true
       return true;
     }

@@ -40,9 +40,9 @@ export class LoginComponent implements OnInit {
         this.core.encryptToLocalStorage('menu', JSON.stringify(r.data.user.role_id));
         let menu = this.core.decryptFromLocalStorage('menu');
 
-        if (menu == 2) {
+        if (menu == 1) {
           this.destination = "/console";
-        } else if (menu == 1) {
+        } else if (menu == 2) {
           this.destination = "/author";
         }
 
