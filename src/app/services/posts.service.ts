@@ -31,7 +31,7 @@ export class PostsService {
     let url = this.apiUrl + '?';
 
     if (!this.core.isEmptyOrNull(dataObject.start)) {
-      url += `&start_date=${encodeURIComponent(dataObject.start)}`;
+      url += `start_date=${encodeURIComponent(dataObject.start)}`;
     }
 
     if (!this.core.isEmptyOrNull(dataObject.end)) {
