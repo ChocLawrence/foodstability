@@ -23,11 +23,12 @@ export class CoreService {
   public httpTimeout = 30 * 1000;
   public httpLongTimeout = 90000;
   public maxRemoteEntries = 500;
-  public defaultDateDuration = 730;
   public locale = 'en-CA'; // Canadian locale
   public maximumFractionDigits = 0;
   public style = 'decimal'; // or 'currency', then currency must be given:
-
+  public past1Year = new Date().getFullYear() - 1;
+  public past2Years = new Date().getFullYear() - 2;
+  public defaultDateDuration = this.daysInYear(this.past1Year) + this.daysInYear(this.past2Years);
   public loadingIndicator = false;
   public reorderable = true;
   public sortable = true;
@@ -126,7 +127,6 @@ export class CoreService {
     private urlService: UrlsService
   ) {
     this.apiUrl = urlService.apiUrl;
-
     if (!this.isEmptyOrNull(this.decryptFromLocalStorage('menu'))) {
       this.pageMenu = this.decryptFromLocalStorage('menu');
     }
@@ -137,6 +137,11 @@ export class CoreService {
   }
 
   ngOnInit() {}
+
+  daysInYear(year: any) {
+    year = parseInt(year);
+    return (year % 4 === 0 && year % 100 > 0) || year % 400 == 0 ? 366 : 365;
+  }
 
   checkIfOnline() {
     if (!this.isOnline) {
@@ -170,7 +175,7 @@ export class CoreService {
   handleError(error: any) {
     let messageString = '';
 
-    if (error && error.error && error.error.status && error.error.status== 0) {
+    if (error && error.error && error.error.status && error.error.status == 0) {
       this.showError('Oops', 'Could not reach server.Retry');
     } else if (error.error.message && error.error.status == 'error') {
       if (
@@ -297,9 +302,9 @@ export class CoreService {
     return obj;
   }
 
-  normalizeKeys(input:any) {
-    if (input && typeof input == "object") {
-      if (input.hasOwnProperty("length")) {
+  normalizeKeys(input: any) {
+    if (input && typeof input == 'object') {
+      if (input.hasOwnProperty('length')) {
         // input is an array
         if (input.length > 0) {
           for (let i = 0; i < input.length; i++) {
@@ -399,7 +404,7 @@ export class CoreService {
     if (this.modalService.hasOpenModals()) {
       this.modalService.dismissAll();
     }
-    window.location.href= "/";
+    window.location.href = '/';
   }
 
   makeRemoteRequest(url: string, method: string, params: any, options: any) {
