@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Injectable,
+  AfterViewInit,
+  ElementRef,
+} from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { CoreService } from '../../core/core.service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -10,7 +17,7 @@ import { ArchivesService } from '../../services/archives.service';
   templateUrl: './archives.component.html',
   styleUrls: ['./archives.component.css'],
 })
-export class ArchivesComponent implements OnInit {
+export class ArchivesComponent implements OnInit, AfterViewInit {
   public title = 'Archives | Journal of Food Stability';
   public animationType = 'wanderingCubes';
   public loadingData = false;
@@ -33,6 +40,11 @@ export class ArchivesComponent implements OnInit {
     private archivesService: ArchivesService
   ) {}
 
+
+  ngAfterViewInit() {
+  }
+
+
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
     this.metaTagService.updateTag({
@@ -46,21 +58,21 @@ export class ArchivesComponent implements OnInit {
   }
 
 
-  updatePostCount(id: any) {
+  async updatePostCount(id: any) {
     this.loadingData = true;
     let obj = {
-      view_count : 1,
-    }
+      view_count: 1,
+    };
 
-    this.postsService
+    await this.postsService
       .updatePostCount(obj,id)
       .then((r) => {
         this.loadingData = false;
-        this.viewCount = document.getElementById('views-'+ id);
-        this.viewCount.innerHTML =  Number(obj.view_count) + Number(this.viewCount.innerHTML);
+        this.viewCount = document.getElementById('views'+ id);
+        if(this.viewCount.innerHTML) this.viewCount.innerText =  Number(obj.view_count) + Number(this.viewCount.innerHTML);
 
-        this.downloadsCount = document.getElementById('downloads-'+ id);
-        this.downloadsCount.innerHTML =  Number(obj.view_count) + Number(this.downloadsCount.innerHTML);
+        this.downloadsCount = document.getElementById('downloads'+ id);
+        if(this.downloadsCount.innerHTML) this.downloadsCount.innerHTML =  Number(obj.view_count) + Number(this.downloadsCount.innerHTML);
       })
       .catch((e) => {
         this.loadingData = false;

@@ -1,5 +1,11 @@
-import { Component, OnInit, ViewChild, Injectable } from '@angular/core';
-import { Title, Meta } from '@angular/platform-browser';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Injectable,
+  AfterViewInit,
+  ElementRef,
+} from '@angular/core';import { Title, Meta } from '@angular/platform-browser';
 import { CoreService } from '../../core/core.service';
 import { CategoriesService } from '../../services/categories.service';
 import { DatePipe } from '@angular/common';
@@ -52,7 +58,7 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
   styleUrls: ['./articles.component.css'],
   animations: [routerTransition()],
 })
-export class ArticlesComponent implements OnInit {
+export class ArticlesComponent implements OnInit, AfterViewInit {
   public animationType = 'wanderingCubes';
   public loadingData = false;
   public title = 'Articles | Journal of Food Stability';
@@ -100,6 +106,10 @@ export class ArticlesComponent implements OnInit {
     });
   }
 
+
+  ngAfterViewInit() {
+  }
+
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
     this.metaTagService.updateTag({
@@ -128,28 +138,28 @@ export class ArticlesComponent implements OnInit {
     }
   }
 
-  updatePostCount(id: any) {
+  async updatePostCount(id: any) {
     this.loadingData = true;
     let obj = {
-      view_count : 1,
-    }
+      view_count: 1,
+    };
 
-    this.postsService
+    await this.postsService
       .updatePostCount(obj,id)
       .then((r) => {
         this.loadingData = false;
-        this.viewCount = document.getElementById('views-'+ id);
-        this.viewCount.innerHTML =  Number(obj.view_count) + Number(this.viewCount.innerHTML);
+        this.viewCount = document.getElementById('views'+ id);
+        if(this.viewCount.innerHTML) this.viewCount.innerText =  Number(obj.view_count) + Number(this.viewCount.innerHTML);
 
-        this.downloadsCount = document.getElementById('downloads-'+ id);
-        this.downloadsCount.innerHTML =  Number(obj.view_count) + Number(this.downloadsCount.innerHTML);
+        this.downloadsCount = document.getElementById('downloads'+ id);
+        if(this.downloadsCount.innerHTML) this.downloadsCount.innerHTML =  Number(obj.view_count) + Number(this.downloadsCount.innerHTML);
       })
       .catch((e) => {
         this.loadingData = false;
         this._core.handleError(e);
       });
   }
-
+  
   initForm() {
     this.searchForm = this._formBuilder.group({
       startd: [this.stdate],

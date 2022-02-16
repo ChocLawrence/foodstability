@@ -177,7 +177,7 @@ export class CoreService {
 
     if (error && error.error && error.error.status && error.error.status == 0) {
       this.showError('Oops', 'Could not reach server.Retry');
-    } else if (error.error.message && error.error.status == 'error') {
+    } else if (error.error && error.error.message && error.error.status == 'error') {
       if (
         typeof error.error.message === 'object' &&
         error.error.message !== null

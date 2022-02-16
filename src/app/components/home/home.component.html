@@ -293,15 +293,15 @@
                   <div><strong id="category">Published&nbsp;: &nbsp;</strong><span id="date"><strong>{{ post.date }}
                       </strong></span></div>
 
-                  <div><a routerLink="/abstract/{{ post.slug }}" target="_blank" (click)="updatePostCount(post.id)">
+                  <div #counts><a routerLink="/abstract/{{ post.slug }}" target="_blank" (click)="updatePostCount(post.id)">
                       <strong id="abstract">Abstract
                         |
                         <a href="https://foodstability-api-cby54.ondigitalocean.app/storage/post/{{post.pdf}}"
                           target="_blank"><span id="pdf">PDF&nbsp;<i class="fa fa-file-pdf-o red"></i></span></a>
                       </strong></a>
-                    <strong> | <span id="view-{{post.id}}">{{ post.view_count }}</span>&nbsp;<i
+                    <strong> | <span id="views{{post.id}}">{{ post.view_count }}</span>&nbsp;<i
                         class="fa fa-eye"></i></strong>
-                    <strong> | <span id="downloads-{{post.id}}">{{ post.view_count }}</span>&nbsp;<i
+                    <strong> | <span id="downloads{{post.id}}">{{ post.view_count }}</span>&nbsp;<i
                         class="fa fa-download"></i></strong>
                   </div>
                 </div>

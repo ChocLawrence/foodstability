@@ -1,4 +1,11 @@
-import { Component, OnInit, ViewChild, Injectable } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Injectable,
+  AfterViewInit,
+  ElementRef,
+} from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { CoreService } from '../../core/core.service';
 import { CategoriesService } from '../../services/categories.service';
@@ -52,14 +59,14 @@ export class CustomDateParserFormatter extends NgbDateParserFormatter {
   styleUrls: ['./home.component.css'],
   animations: [routerTransition()],
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, AfterViewInit {
   public animationType = 'wanderingCubes';
   public loadingData = false;
   public title = 'Home | Journal of Food Stability';
   public date = new Date();
-  public postsCount:any = 0;
-  public viewCount:any;
-  public downloadsCount:any;
+  public postsCount: any = 0;
+  public viewCount: any;
+  public downloadsCount: any;
   public categoriesCount: any = 0;
   public posts: any = [];
   public genericPosts: any = [];
@@ -101,6 +108,9 @@ export class HomeComponent implements OnInit {
     });
   }
 
+  ngAfterViewInit() {
+  }
+
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
     this.metaTagService.addTags([
@@ -137,7 +147,7 @@ export class HomeComponent implements OnInit {
     this.endate.year = endDate.getFullYear();
     this.endate.month = endDate.getMonth() + 1;
     this.endate.day = endDate.getDate();
-    if(this._core.checkIfOnline()){
+    if (this._core.checkIfOnline()) {
       this.getCategories();
       this.refresh();
     }
@@ -151,7 +161,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-  refresh() {
+  async refresh() {
     this.defaultEndDate = `${this.endate.year}-${this.endate.month}-${this.endate.day}`;
     this.defaultStartDate = `${this.stdate.year}-${this.stdate.month}-${this.stdate.day}`;
 
@@ -160,7 +170,7 @@ export class HomeComponent implements OnInit {
     //
     let data = this.checkSearchStore();
     this.loadForm(data);
-    this.getPosts(data);
+    await this.getPosts(data);
   }
 
   loadForm(formData: any) {
@@ -170,8 +180,7 @@ export class HomeComponent implements OnInit {
     });
   }
 
-
-  checkSearchStore(){
+  checkSearchStore() {
     let searchData = JSON.parse(
       localStorage.getItem('posts_search_data') as '{}'
     );
@@ -208,21 +217,21 @@ export class HomeComponent implements OnInit {
     this.getPosts(data);
   }
 
-  updatePostCount(id: any) {
+  async updatePostCount(id: any) {
     this.loadingData = true;
     let obj = {
-      view_count : 1,
-    }
+      view_count: 1,
+    };
 
-    this.postsService
+    await this.postsService
       .updatePostCount(obj,id)
       .then((r) => {
         this.loadingData = false;
-        this.viewCount = document.getElementById('views-'+ id);
-        this.viewCount.innerHTML =  Number(obj.view_count) + Number(this.viewCount.innerHTML);
+        this.viewCount = document.getElementById('views'+ id);
+        if(this.viewCount.innerHTML) this.viewCount.innerText =  Number(obj.view_count) + Number(this.viewCount.innerHTML);
 
-        this.downloadsCount = document.getElementById('downloads-'+ id);
-        this.downloadsCount.innerHTML =  Number(obj.view_count) + Number(this.downloadsCount.innerHTML);
+        this.downloadsCount = document.getElementById('downloads'+ id);
+        if(this.downloadsCount.innerHTML) this.downloadsCount.innerHTML =  Number(obj.view_count) + Number(this.downloadsCount.innerHTML);
       })
       .catch((e) => {
         this.loadingData = false;
@@ -281,7 +290,7 @@ export class HomeComponent implements OnInit {
   prevPage() {
     let data = this.checkSearchStore();
     this.postsService
-      .getPostsAtUrl(this.genericPosts.prev_page_url,data)
+      .getPostsAtUrl(this.genericPosts.prev_page_url, data)
       .then((posts) => {
         this.genericPosts = posts.data;
         this.posts = posts.data.data;
@@ -291,14 +300,14 @@ export class HomeComponent implements OnInit {
   nextPage() {
     let data = this.checkSearchStore();
     this.postsService
-      .getPostsAtUrl(this.genericPosts.next_page_url,data)
+      .getPostsAtUrl(this.genericPosts.next_page_url, data)
       .then((posts) => {
         this.genericPosts = posts.data;
         this.posts = posts.data.data;
       });
   }
 
-  getPosts(data: any) {
+  async getPosts(data: any) {
     this.loadingData = true;
 
     let searchDate = {
