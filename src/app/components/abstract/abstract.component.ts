@@ -1,4 +1,11 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  ViewChild,
+  Injectable,
+  AfterViewInit,
+  ElementRef,
+} from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { CoreService } from '../../core/core.service';
 import { DatePipe } from '@angular/common';
@@ -10,7 +17,7 @@ import { PostsService } from '../../services/posts.service';
   templateUrl: './abstract.component.html',
   styleUrls: ['./abstract.component.css'],
 })
-export class AbstractComponent implements OnInit {
+export class AbstractComponent implements OnInit, AfterViewInit  {
   public title = 'Abstract | Journal of Food Stability';
   public categories: any[] = [];
   public post: any = [];
@@ -26,6 +33,11 @@ export class AbstractComponent implements OnInit {
     public router: Router,
     private metaTagService: Meta
   ) {}
+
+
+  ngAfterViewInit() {
+  }
+
 
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
@@ -49,6 +61,10 @@ export class AbstractComponent implements OnInit {
       { charset: 'UTF-8' },
     ]);
     this.processReset();
+  }
+
+  stripString(text:string){
+    return text.replace(/(<([^>]+)>)/gi, "")
   }
 
   async processReset() {

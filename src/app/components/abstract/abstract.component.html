@@ -63,7 +63,7 @@
                         <div class="row default">
                             <h5 class="blue"><strong>Abstract</strong></h5>
                             <br>
-                            <p>{{ post.abstract }} </p>
+                            <p>{{ post.abstract ? stripString(post.abstract) : '-' }} </p>
 
                         </div>
                         <div class="row default">
