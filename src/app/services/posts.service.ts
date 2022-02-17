@@ -217,18 +217,17 @@ export class PostsService {
     return this.core.makeRemoteRequest(url, 'post', params, this.httpOptions);
   }
 
-  /** PUT: update a currenciess basic data  */
   updatePostCount(dataObject: any, id: any): Promise<any> {
     let url = this.apiUrl + 'view/' + id;
 
-    let params = {};
+    let params = new FormData();
 
     // These parameters are always passed
     if (!this.core.isEmptyOrNull(dataObject.view_count)) {
-      params = dataObject;
+      params.append('view_count', dataObject.view_count);
     }
 
-    return this.core.makeRemoteRequest(url, 'put', params, null);
+    return this.core.makeRemoteRequest(url, 'post', params, this.httpOptions);
   }
 
   /** DELETE: delete a currencies  */
