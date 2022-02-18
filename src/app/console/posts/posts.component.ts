@@ -289,7 +289,7 @@ export class PostsComponent implements OnInit {
   onPostModalClosed() {
     this.postModalAction = '';
     this.thePost = null;
-    this.getPosts(this.data);
+    this.refresh();
   }
 
   onPostUpdated(id: any) {
