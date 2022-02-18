@@ -12,14 +12,10 @@ export class UrlsService {
     if (url.includes("localhost")) {
       returnUrl = "http://localhost:8000/api/";
     } else if (url.includes("foodstability.com")) {
-      returnUrl = "https://corporate.dev.pethersolutions.com";
-    } else if (url.includes("corporate.testing.pethersolutions.com")) {
       returnUrl = "https://foodstability-api-cby54.ondigitalocean.app/api/";
     } else {
       returnUrl = "http://localhost:8000/api/";
     }
-
-    console.log('>>apiUrl',returnUrl);
 
     return returnUrl;
   }
