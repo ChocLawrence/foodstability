@@ -2,6 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { CoreService } from '../../core/core.service';
 import { CategoriesService } from '../../services/categories.service';
 import { TagsService } from '../../services/tags.service';
+import { UrlsService } from '../../core/urls.service';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import {
@@ -44,6 +45,7 @@ export class CategoriesComponent implements OnInit {
   constructor(public _core: CoreService,
     private datePipe: DatePipe,
     private tagsService: TagsService,
+    public _urls: UrlsService,
     private categoriesService: CategoriesService) { }
 
   ngOnInit(): void {

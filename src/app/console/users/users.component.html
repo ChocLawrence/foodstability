@@ -37,7 +37,7 @@
 
                 <div *dxTemplate="let cell of 'imageTemplate'">
                     <span *ngIf="cell.data.image != 'default.png'">
-                        <img src="https://foodstability-api-cby54.ondigitalocean.app/storage/profile/{{cell.data.image}}" alt="" width="100"
+                        <img [src]=" _urls.apiStorageUrl() + '/profile/' + cell.data.image" alt="" width="100"
                         height="100">
                     </span>
                     <span *ngIf="cell.data.image == 'default.png'">

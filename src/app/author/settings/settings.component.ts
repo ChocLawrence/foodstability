@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CoreService } from '../../core/core.service';
 import { UsersService } from '../../services/users.service';
+import { UrlsService } from '../../core/urls.service';
 import { TagsService } from '../../services/tags.service';
 import { routerTransition } from '../../router.animations';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -44,6 +45,7 @@ export class SettingsComponent implements OnInit {
 
   constructor(public _core: CoreService,
     private datePipe: DatePipe,
+    public _urls: UrlsService,
     private usersService: UsersService) { }
 
   ngOnInit(): void {

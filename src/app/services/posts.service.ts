@@ -23,7 +23,7 @@ export class PostsService {
     private urlService: UrlsService,
     public core: CoreService
   ) {
-    this.apiUrl = `${this.urlService.apiUrl}` + 'posts/';
+    this.apiUrl = `${this.urlService.apiUrl()}` + 'posts/';
     this.httpOptions = this.core.httpOptions;
   }
 

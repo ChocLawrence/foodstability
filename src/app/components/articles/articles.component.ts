@@ -7,6 +7,7 @@ import {
   ElementRef,
 } from '@angular/core';import { Title, Meta } from '@angular/platform-browser';
 import { CoreService } from '../../core/core.service';
+import { UrlsService } from '../../core/urls.service';
 import { CategoriesService } from '../../services/categories.service';
 import { DatePipe } from '@angular/common';
 import { routerTransition } from '../../router.animations';
@@ -93,6 +94,7 @@ export class ArticlesComponent implements OnInit, AfterViewInit {
   constructor(
     private titleService: Title,
     public _core: CoreService,
+    public _urls: UrlsService,
     private metaTagService: Meta,
     private _formBuilder: FormBuilder,
     private datePipe: DatePipe,

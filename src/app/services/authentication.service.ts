@@ -24,7 +24,7 @@ export class AuthenticationService {
     public core: CoreService
   ) {
 
-    this.apiUrl = `${this.urlService.apiUrl}`;
+    this.apiUrl = `${this.urlService.apiUrl()}`;
     this.httpOptions = this.core.httpOptions;
   }
 

@@ -27,7 +27,7 @@ export class TagsService {
     public core: CoreService
   ) {
 
-    this.apiUrl = `${this.urlService.apiUrl}` + 'tags/';
+    this.apiUrl = `${this.urlService.apiUrl()}` + 'tags/';
     this.httpOptions = this.core.httpOptions;
   }
 

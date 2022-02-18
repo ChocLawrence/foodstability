@@ -23,7 +23,7 @@ export class ArchivesService {
     private urlService: UrlsService,
     public core: CoreService
   ) {
-    this.apiUrl = `${this.urlService.apiUrl}` + 'archives/';
+    this.apiUrl = `${this.urlService.apiUrl()}` + 'archives/';
     this.httpOptions = this.core.httpOptions;
   }
 

@@ -28,7 +28,7 @@ export class UsersService {
     public core: CoreService
   ) {
 
-    this.apiUrl = `${this.urlService.apiUrl}` + 'users/';
+    this.apiUrl = `${this.urlService.apiUrl()}` + 'users/';
     this.httpOptions = this.core.httpOptions;
   }
 

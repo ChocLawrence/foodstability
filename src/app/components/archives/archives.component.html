@@ -69,7 +69,7 @@
                   </span>
                   <span *ngIf="post.image!='default.png'">
                     <img id="article_image" class="img-rounded img-responsive zoom_home"
-                      src="https://foodstability-api-cby54.ondigitalocean.app/storage/post/{{post.image}}" alt="{{ post.title}}">
+                      [src]="_urls.apiStorageUrl() + 'post/' + post.image" alt="{{ post.title}}">
                   </span>
                 </figure>
               </div>
@@ -93,7 +93,7 @@
                   <div><a routerLink="/abstract/{{ post.slug }}" target="_blank" (click)="updatePostCount(post.id)">
                       <strong id="abstract">Abstract
                         |
-                        <a href="https://foodstability-api-cby54.ondigitalocean.app/storage/post/{{post.pdf}}" target="_blank"><span
+                        <a [href]="_urls.apiStorageUrl() + 'post/' + post.pdf" target="_blank"><span
                             id="pdf">PDF&nbsp;<i class="fa fa-file-pdf-o red"></i></span></a>
                       </strong></a>
                     <strong> | <span id="views{{post.id}}">{{ post.view_count }}</span>&nbsp;<i class="fa fa-eye"></i></strong>

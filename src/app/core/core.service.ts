@@ -126,7 +126,7 @@ export class CoreService {
     //private authenticationService: AuthenticationService,
     private urlService: UrlsService
   ) {
-    this.apiUrl = urlService.apiUrl;
+    this.apiUrl = urlService.apiUrl();
     if (!this.isEmptyOrNull(this.decryptFromLocalStorage('menu'))) {
       this.pageMenu = this.decryptFromLocalStorage('menu');
     }

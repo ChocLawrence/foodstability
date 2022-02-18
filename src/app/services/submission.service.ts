@@ -23,7 +23,7 @@ export class SubmissionService {
     private urlService: UrlsService,
     public core: CoreService
   ) {
-    this.apiUrl = `${this.urlService.apiUrl}` + 'submissions/';
+    this.apiUrl = `${this.urlService.apiUrl()}` + 'submissions/';
     this.httpOptions = this.core.httpOptions;
   }
 

@@ -8,7 +8,6 @@ import { FormsModule, ReactiveFormsModule } from "@angular/forms";
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { EmployeesComponent } from './components/employees/employees.component';
 import { AdminAuthGuard } from './core/admin-auth.guard';
 import { AuthGuard } from './core/auth.guard';
 import { ErrorInterceptor } from './core/error.interceptor';
@@ -51,7 +50,6 @@ import { environment } from '../environments/environment';
 @NgModule({
   declarations: [
     AppComponent,
-    EmployeesComponent,
     LoginComponent,
     SignupComponent,
     HomeComponent,

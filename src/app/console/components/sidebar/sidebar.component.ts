@@ -1,6 +1,7 @@
 import { Component, OnInit, Input } from '@angular/core';
 import { CoreService } from '../../../core/core.service';
 import { TranslateService } from '@ngx-translate/core';
+import { UrlsService } from '../../../core/urls.service';
 import { UsersService } from '../../../services/users.service';
 import { AuthenticationService } from '../../../services/authentication.service';
 import { Router, NavigationEnd } from '@angular/router';
@@ -24,6 +25,7 @@ export class SidebarComponent implements OnInit {
   constructor(
     private translate: TranslateService,
     public _core: CoreService,
+    public _urls: UrlsService,
     public router: Router,
     public usersService: UsersService,
     public authenticationService: AuthenticationService

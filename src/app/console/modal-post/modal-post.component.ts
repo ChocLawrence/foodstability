@@ -7,6 +7,7 @@ import {
   ViewChild,
 } from '@angular/core';
 import { CoreService } from '../../core/core.service';
+import { UrlsService } from '../../core/urls.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 import { PostsService } from '../../services/posts.service';
@@ -56,6 +57,7 @@ export class ModalPostComponent implements OnInit {
     public core: CoreService,
     public sanitizer: DomSanitizer,
     private fb: FormBuilder,
+    public _urls: UrlsService,
     private postsService: PostsService,
     private modalService: NgbModal
   ) {}
@@ -216,10 +218,10 @@ export class ModalPostComponent implements OnInit {
 
   setUrls() {
     this.sanitizedImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://foodstability-api-cby54.ondigitalocean.app/storage/post/' + this.post.image
+      this._urls.apiStorageUrl() + 'post/' + this.post.image
     );
     this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      'https://foodstability-api-cby54.ondigitalocean.app/storage/post/' + this.post.pdf
+      this._urls.apiStorageUrl() + 'post/' + this.post.pdf
     );
   }
 

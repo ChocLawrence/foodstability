@@ -26,7 +26,7 @@ export class EmailsService {
     public core: CoreService
   ) {
 
-    this.apiUrl = `${this.urlService.apiUrl}` + 'emails/';
+    this.apiUrl = `${this.urlService.apiUrl()}` + 'emails/';
     this.httpOptions = this.core.httpOptions;
   }
 

@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { CoreService } from '../../core/core.service';
+import { UrlsService } from '../../core/urls.service';
 import { DatePipe } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { PostsService } from '../../services/posts.service';
@@ -29,6 +30,7 @@ export class AbstractComponent implements OnInit, AfterViewInit  {
   constructor(
     private titleService: Title,
     public _core: CoreService,
+    public _urls: UrlsService,
     private postsService: PostsService,
     public router: Router,
     private metaTagService: Meta

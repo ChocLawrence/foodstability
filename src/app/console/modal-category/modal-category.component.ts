@@ -3,6 +3,7 @@ import { CoreService } from '../../core/core.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 import { CategoriesService } from '../../services/categories.service';
+import { UrlsService } from '../../core/urls.service';
 
 @Component({
   selector: 'app-modal-category',
@@ -37,6 +38,7 @@ export class ModalCategoryComponent implements OnInit {
   constructor(
     public core: CoreService,
     private fb: FormBuilder,
+    public _urls: UrlsService,
     private categoriesService: CategoriesService,
     private modalService: NgbModal) {
 
@@ -192,7 +194,7 @@ export class ModalCategoryComponent implements OnInit {
   populateCategoryForm() {
 
     if(this.category.image){
-      this.preview = 'https://foodstability-api-cby54.ondigitalocean.app/storage/category/' + this.category.image;
+      this.preview = this._urls.apiStorageUrl() + 'category/' + this.category.image;
     }
 
     this.categoryForm.patchValue({

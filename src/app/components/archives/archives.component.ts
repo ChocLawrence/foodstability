@@ -8,6 +8,7 @@ import {
 } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { CoreService } from '../../core/core.service';
+import { UrlsService } from '../../core/urls.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { PostsService } from '../../services/posts.service';
 import { ArchivesService } from '../../services/archives.service';
@@ -35,6 +36,7 @@ export class ArchivesComponent implements OnInit, AfterViewInit {
     private titleService: Title,
     private metaTagService: Meta,
     public _core: CoreService,
+    public _urls: UrlsService,
     public router: Router,
     private postsService: PostsService,
     private archivesService: ArchivesService

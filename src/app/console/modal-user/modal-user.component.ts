@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
 import { CoreService } from '../../core/core.service';
+import { UrlsService } from '../../core/urls.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
 import { UsersService } from '../../services/users.service';
@@ -37,6 +38,7 @@ export class ModalUserComponent implements OnInit {
   constructor(
     public core: CoreService,
     private fb: FormBuilder,
+    public _urls: UrlsService,
     private usersService: UsersService,
     private modalService: NgbModal) {
 
@@ -147,7 +149,7 @@ export class ModalUserComponent implements OnInit {
   populateUserForm() {
 
     if(this.user.image){
-      this.preview = 'https://foodstability-api-cby54.ondigitalocean.app/storage/profile/' + this.user.image;
+      this.preview = this._urls.apiStorageUrl() + 'profile/' + this.user.image;
     }
 
     this.userForm.patchValue({

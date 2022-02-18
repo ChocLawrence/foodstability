@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild, Injectable } from '@angular/core';
 import { CoreService } from '../../core/core.service';
+import { UrlsService } from '../../core/urls.service';
 import { PostsService } from '../../services/posts.service';
 import { TagsService } from '../../services/tags.service';
 import { CategoriesService } from '../../services/categories.service';
@@ -94,6 +95,7 @@ export class PostsComponent implements OnInit {
 
   constructor(
     public _core: CoreService,
+    public _urls: UrlsService,
     private datePipe: DatePipe,
     private _formBuilder: FormBuilder,
     private tagsService: TagsService,

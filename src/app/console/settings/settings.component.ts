@@ -1,5 +1,6 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CoreService } from '../../core/core.service';
+import { UrlsService } from '../../core/urls.service';
 import { UsersService } from '../../services/users.service';
 import { TagsService } from '../../services/tags.service';
 import { routerTransition } from '../../router.animations';
@@ -44,6 +45,7 @@ export class SettingsComponent implements OnInit {
 
   constructor(public _core: CoreService,
     private datePipe: DatePipe,
+    public _urls: UrlsService,
     private usersService: UsersService) { }
 
   ngOnInit(): void {

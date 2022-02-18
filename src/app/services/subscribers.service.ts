@@ -26,7 +26,7 @@ export class SubscribersService {
     public core: CoreService
   ) {
 
-    this.apiUrl = `${this.urlService.apiUrl}` + 'subscribers/';
+    this.apiUrl = `${this.urlService.apiUrl()}` + 'subscribers/';
     this.httpOptions = this.core.httpOptions;
   }
 

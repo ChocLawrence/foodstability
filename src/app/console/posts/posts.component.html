@@ -105,7 +105,7 @@
                 </dxi-column>
 
                 <div *dxTemplate="let cell of 'imageTemplate'">
-                    <img src="https://foodstability-api-cby54.ondigitalocean.app/storage/post/{{cell.data.image}}" alt="" width="100" height="100">
+                    <img [src]="_urls.apiStorageUrl() +'post/' + cell.data.image" alt="" width="100" height="100">
                 </div>
 
                 <div *dxTemplate="let cell of 'createdAtTemplate'">
