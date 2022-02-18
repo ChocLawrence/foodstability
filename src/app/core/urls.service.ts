@@ -32,10 +32,7 @@ export class UrlsService {
     } else {
       returnUrl = "http://localhost:8000/storage/";
     }
-
-    console.log('>>apiStorageUrl',returnUrl);
-
-
+    
     return returnUrl;
   }
 
