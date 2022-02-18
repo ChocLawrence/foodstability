@@ -142,19 +142,15 @@ export class ArticlesComponent implements OnInit, AfterViewInit {
 
   async updatePostCount(id: any) {
     this.loadingData = true;
-    let obj = {
-      view_count: 1,
-    };
-
     await this.postsService
-      .updatePostCount(obj,id)
+      .updatePostCount(id)
       .then((r) => {
         this.loadingData = false;
         this.viewCount = document.getElementById('views'+ id);
-        if(this.viewCount.innerHTML) this.viewCount.innerText =  Number(obj.view_count) + Number(this.viewCount.innerHTML);
+        if(this.viewCount.innerHTML) this.viewCount.innerText =  Number(1) + Number(this.viewCount.innerHTML);
 
         this.downloadsCount = document.getElementById('downloads'+ id);
-        if(this.downloadsCount.innerHTML) this.downloadsCount.innerHTML =  Number(obj.view_count) + Number(this.downloadsCount.innerHTML);
+        if(this.downloadsCount.innerHTML) this.downloadsCount.innerHTML =  Number(1) + Number(this.downloadsCount.innerHTML);
       })
       .catch((e) => {
         this.loadingData = false;
