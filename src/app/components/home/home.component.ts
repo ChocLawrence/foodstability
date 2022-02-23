@@ -249,7 +249,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   refreshDataSource() {
     this.initForm();
-    this.getPosts(this.data);
+    let data = this.checkSearchStore();
+    this.getPosts(data);
   }
 
   setDates() {
