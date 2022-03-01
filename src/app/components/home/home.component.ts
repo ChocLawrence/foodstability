@@ -168,8 +168,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.defaultStartDate = `${this.stdate.year}-${this.stdate.month}-${this.stdate.day}`;
 
     this.initForm();
-
-    //
     let data = this.checkSearchStore();
     this.loadForm(data);
     await this.getPosts(data);
@@ -183,22 +181,11 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   checkSearchStore() {
-    let searchData = JSON.parse(
-      localStorage.getItem('posts_search_data') as '{}'
-    );
-    let data: any = {};
-    if (this._core.isEmptyOrNull(searchData)) {
-      data = {
-        start: this.defaultStartDate,
-        end: this.defaultEndDate,
-      };
-    } else {
-      data = {
-        start: searchData.start,
-        end: this.defaultEndDate,
-        //status: searchData.status
-      };
-    }
+
+    let data = {
+      start: this.defaultStartDate,
+      end: this.defaultEndDate,
+    };
 
     return data;
   }
@@ -308,13 +295,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   async getPosts(data: any) {
     this.loadingData = true;
-
-    let searchDate = {
-      start: data.start,
-      end: data.end,
-    };
-
-    localStorage.setItem('posts_search_data', JSON.stringify(searchDate));
 
     this.postsService
       .getPosts(data)

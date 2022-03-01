@@ -166,33 +166,14 @@ export class ArticlesComponent implements OnInit, AfterViewInit {
     });
   }
 
-  refresh() {
+  async refresh() {
     this.defaultEndDate = `${this.endate.year}-${this.endate.month}-${this.endate.day}`;
     this.defaultStartDate = `${this.stdate.year}-${this.stdate.month}-${this.stdate.day}`;
 
     this.initForm();
-
-    let searchData = JSON.parse(
-      localStorage.getItem('posts_search_data') as '{}'
-    );
-    let data: any = {};
-    if (this._core.isEmptyOrNull(searchData)) {
-      data = {
-        start: this.defaultStartDate,
-        end: this.defaultEndDate,
-      };
-    } else {
-      data = {
-        start: searchData.start,
-        end: this.defaultEndDate,
-
-        //status: searchData.status
-      };
-    }
-
-    data.page_size = 20;
+    let data = this.checkSearchStore();
     this.loadForm(data);
-    this.getPosts(data);
+    await this.getPosts(data);
   }
 
   loadForm(formData: any) {
@@ -203,22 +184,10 @@ export class ArticlesComponent implements OnInit, AfterViewInit {
   }
 
   checkSearchStore(){
-    let searchData = JSON.parse(
-      localStorage.getItem('posts_search_data') as '{}'
-    );
-    let data: any = {};
-    if (this._core.isEmptyOrNull(searchData)) {
-      data = {
-        start: this.defaultStartDate,
-        end: this.defaultEndDate,
-      };
-    } else {
-      data = {
-        start: searchData.start,
-        end: this.defaultEndDate,
-        //status: searchData.status
-      };
-    }
+    let data = {
+      start: this.defaultStartDate,
+      end: this.defaultEndDate,
+    };
 
     return data;
   }
@@ -309,14 +278,6 @@ export class ArticlesComponent implements OnInit, AfterViewInit {
 
   getPosts(data: any) {
     this.loadingData = true;
-
-    let searchDate = {
-      start: data.start,
-      end: data.end,
-      page_size: 20,
-    };
-
-    localStorage.setItem('posts_search_data', JSON.stringify(searchDate));
 
     this.postsService
       .getPosts(data)
