@@ -1,0 +1,42 @@
+<div class="super_container">
+
+    <!-- Header -->
+
+    <app-header></app-header>
+
+
+    <div class="container">
+        <hr>
+        <h5>{{post.title}}</h5>
+        <button (click)="downloadPdf()" title="Download PDF" class="btn btn-secondary btn-sm">Download PDF &nbsp;<i class="fa fa-download"></i> </button>
+
+        <div class="card pad">
+
+            <div class="container">
+                <br>
+
+                <div class="row">
+                    <div class="col">
+                        <img class="img-responsive pull-left" src="/assets/logos/publisher.png" width="150" height="70"
+                            alt="The Journal of Food Stability's logo">
+                    </div>
+                    <div class="col">
+                        <img class="img-responsive pull-right" src="/assets/logos/oa.png" width="150"
+                            alt="The Journal of Food Stability is open access">
+                    </div>
+                </div>
+                <br>
+                <div class="row">
+                    <pdf-viewer [src]="sanitizedPdfUrl" [render-text]="true" [original-size]="false"
+                        style="width: 1200px; height: 700px" [external-link-target]="'blank'" [render-text]="true"
+                        [show-borders]="true"></pdf-viewer>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+
+    <app-footer></app-footer>
+
+</div>

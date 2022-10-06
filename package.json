@@ -34,6 +34,7 @@
     "devextreme-angular": "19.2.3",
     "devextreme-schematics": "^1.1.13",
     "font-awesome": "4.7.0",
+    "ng2-pdf-viewer": "^9.0.0",
     "jquery": "^3.6.0",
     "libphonenumber-js": "^1.9.16",
     "lodash": "^4.17.21",

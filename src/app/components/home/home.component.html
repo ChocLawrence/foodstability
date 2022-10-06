@@ -272,12 +272,12 @@
             <div class="row">
               <div class="col-sm-3">
                 <figure id="figure">
-                  <span *ngIf="post.image=='default.png'">
-                    <img src="/assets/images/post_default.jpg" alt="Project Default Image" />
+                  <span *ngIf="!post.image">
+                    <img src="/assets/images/jfs.png" alt="Project Default Image" width="100%"/>
                   </span>
-                  <span *ngIf="post.image!='default.png'">
+                  <span *ngIf="post.image">
                     <img id="article_image" class="img-rounded img-responsive zoom_home"
-                      [src]="_urls.apiStorageUrl() + 'post/' + post.image"
+                      [src]="'data:image/png;base64,' + post.image"
                       alt="{{ post.title}}">
                   </span>
                 </figure>
@@ -302,7 +302,7 @@
                   <div #counts><a routerLink="/abstract/{{ post.slug }}" target="_blank" (click)="updatePostCount(post.id)">
                       <strong id="abstract">Abstract
                         |
-                        <a [href]="_urls.apiStorageUrl() + 'post/' + post.pdf"
+                        <a routerLink="/pdf/{{ post.slug }}"
                           target="_blank"><span id="pdf">PDF&nbsp;<i class="fa fa-file-pdf-o red"></i></span></a>
                       </strong></a>
                     <strong> | <span id="views{{post.id}}">{{ post.view_count }}</span>&nbsp;<i

@@ -12,6 +12,7 @@ import { AdminAuthGuard } from './core/admin-auth.guard';
 import { AuthGuard } from './core/auth.guard';
 import { ErrorInterceptor } from './core/error.interceptor';
 import { JwtInterceptor } from './core/jwt.interceptor';
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import {
   NgbDropdownModule,
@@ -46,6 +47,7 @@ import { FooterComponent } from './components/footer/footer.component';
 import { AuthorsGuideComponent } from './components/authors-guide/authors-guide.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
 import { environment } from '../environments/environment';
+import { PdfComponent } from './components/pdf/pdf.component';
 
 @NgModule({
   declarations: [
@@ -69,12 +71,14 @@ import { environment } from '../environments/environment';
     HeaderComponent,
     FooterComponent,
     AuthorsGuideComponent,
+    PdfComponent,
   ],
   imports: [
     BrowserModule,
     LanguageTranslationModule,
     BrowserAnimationsModule,
-    FormsModule, 
+    FormsModule,
+    PdfViewerModule, 
     NgbDropdownModule,
     NgbTabsetModule,
     NgbButtonsModule,

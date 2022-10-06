@@ -61,6 +61,10 @@ export class SidebarComponent implements OnInit {
     }
   }
 
+  redirectToHome(){
+    window.location.href = '/';
+  }
+
   logout() {
     this.loadingData = false;
     this._core.showSuccess('Success', 'Logging off..');

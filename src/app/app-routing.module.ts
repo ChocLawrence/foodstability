@@ -21,117 +21,108 @@ import { ArchivesComponent } from './components/archives/archives.component';
 import { ApcComponent } from './components/apc/apc.component';
 import { OpenaccessComponent } from './components/openaccess/openaccess.component';
 import { AuthorsGuideComponent } from './components/authors-guide/authors-guide.component';
+import { PdfComponent } from './components/pdf/pdf.component';
 
 const routes: Routes = [
-  { path: 'author', loadChildren: () => { return AuthorModule; }, canActivate: [AuthGuard] },
-  { path: 'console', loadChildren: () => { return ConsoleModule; }, canActivate: [AdminAuthGuard] },
   {
-    "path": "",
-    children: [
-      { path: '', component: HomeComponent },
-    ]
+    path: 'author',
+    loadChildren: () => {
+      return AuthorModule;
+    },
+    canActivate: [AuthGuard],
   },
   {
-    "path": "editorial",
-    children: [
-      { path: '', component: EditorialComponent },
-    ]
+    path: 'console',
+    loadChildren: () => {
+      return ConsoleModule;
+    },
+    canActivate: [AdminAuthGuard],
   },
   {
-    "path": "articles",
-    children: [
-      { path: '', component: ArticlesComponent },
-    ]
+    path: '',
+    children: [{ path: '', component: HomeComponent }],
   },
   {
-    "path": "review",
-    children: [
-      { path: '', component: ReviewComponent },
-    ]
+    path: 'editorial',
+    children: [{ path: '', component: EditorialComponent }],
   },
   {
-    "path": "ethics",
-    children: [
-      { path: '', component: EthicsComponent },
-    ]
+    path: 'articles',
+    children: [{ path: '', component: ArticlesComponent }],
   },
   {
-    "path": "abstract",
-    children: [
-      { path: ':slug', component: AbstractComponent },
-    ]
+    path: 'review',
+    children: [{ path: '', component: ReviewComponent }],
   },
   {
-    "path": "archives",
+    path: 'ethics',
+    children: [{ path: '', component: EthicsComponent }],
+  },
+  {
+    path: 'abstract',
+    children: [{ path: ':slug', component: AbstractComponent }],
+  },
+  {
+    path: 'pdf',
+    children: [{ path: ':slug', component: PdfComponent }],
+  },
+  {
+    path: 'archives',
     children: [
       { path: '', component: ArchivesComponent },
       { path: ':volume', component: ArchivesComponent },
       { path: ':volume/:issue', component: ArchivesComponent },
-    ]
+    ],
   },
   {
-    "path": "apc",
-    children: [
-      { path: '', component: ApcComponent },
-    ]
+    path: 'apc',
+    children: [{ path: '', component: ApcComponent }],
   },
   {
-    "path": "authors-guide",
-    children: [
-      { path: '', component: AuthorsGuideComponent },
-    ]
+    path: 'authors-guide',
+    children: [{ path: '', component: AuthorsGuideComponent }],
   },
   {
-    "path": "openaccess",
-    children: [
-      { path: '', component: OpenaccessComponent },
-    ]
+    path: 'openaccess',
+    children: [{ path: '', component: OpenaccessComponent }],
   },
   {
-    "path": "contact",
-    children: [
-      { path: '', component: ContactComponent },
-    ]
+    path: 'contact',
+    children: [{ path: '', component: ContactComponent }],
   },
   {
     path: 'login',
-    children: [
-      { path: '', component: LoginComponent },
-    ]
+    children: [{ path: '', component: LoginComponent }],
   },
   {
     path: 'signup',
-    children: [
-      { path: '', component: SignupComponent },
-    ]
+    children: [{ path: '', component: SignupComponent }],
   },
   {
-    path: "password-reset",
+    path: 'password-reset',
     children: [
-      { path: "", component: PasswordResetComponent },
-      { path: "change/:id", component: PasswordResetComponent },
+      { path: '', component: PasswordResetComponent },
+      { path: 'change/:id', component: PasswordResetComponent },
     ],
   },
   {
-    path: "verification",
-    children: [
-      { path: ":id", component: AccountVerificationComponent },
-    ],
+    path: 'verification',
+    children: [{ path: ':id', component: AccountVerificationComponent }],
   },
   {
-    path: "verify-email",
-    children: [
-      { path: "", component: VerifyEmailComponent },
-    ],
+    path: 'verify-email',
+    children: [{ path: '', component: VerifyEmailComponent }],
   },
-  { path: "404", component: PageNotFoundComponent },
-  { path: '**', redirectTo: '404' }
+  { path: '404', component: PageNotFoundComponent },
+  { path: '**', redirectTo: '404' },
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes, {
-    initialNavigation: 'enabled'
-  })],
-  exports: [RouterModule]
+  imports: [
+    RouterModule.forRoot(routes, {
+      initialNavigation: 'enabled',
+    }),
+  ],
+  exports: [RouterModule],
 })
-export class AppRoutingModule { }
+export class AppRoutingModule {}

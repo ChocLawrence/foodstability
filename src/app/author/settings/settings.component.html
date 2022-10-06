@@ -9,14 +9,13 @@
             <div class="container">
                 <div class="row">
                     <div class="col-md-6 img">
-                        <span *ngIf="user.image == 'default.png'">
-                            <img src="/assets/images/{{user.image}}" alt="" class="img-rounded img-responsive" />
+                        <span *ngIf="user.image">
+                            <img [src]="'data:image/png;base64,' +  user.image" alt="" class="img-rounded img-responsive"
+                                class="photo">
                         </span>
-                        <span *ngIf="user.image != 'default.png'">
-                            <img [src]="_urls.apiStorageUrl() + 'profile/' + user.image" alt=""
-                                class="img-rounded img-responsive" />
+                        <span *ngIf="!user.image">
+                            <img src="assets/images/avatar.jpeg" alt="" class="img-rounded img-responsive"  class="photo">
                         </span>
-
                     </div>
                     <div class="col-md-6 details">
                         <blockquote>

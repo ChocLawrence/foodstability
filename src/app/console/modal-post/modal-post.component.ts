@@ -33,9 +33,9 @@ export class ModalPostComponent implements OnInit {
   };
 
   public imageFile: any;
-  public sanitizedImageUrl: any;
-  public sanitizedPdfUrl: any;
-  public pdfFile: any;
+  public sanitizedImageUrl: any = null;
+  public sanitizedPdfUrl: any = null;
+  public pdfFile: any = null;
   public default = 'assets/images/gallery/chair.jpg';
   public modalTitle = '';
   public modalText = '';
@@ -217,12 +217,25 @@ export class ModalPostComponent implements OnInit {
   }
 
   setUrls() {
-    this.sanitizedImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      this._urls.apiStorageUrl() + 'post/' + this.post.image
-    );
-    this.sanitizedPdfUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-      this._urls.apiStorageUrl() + 'post/' + this.post.pdf
-    );
+    if (this.post.image) {
+      this.sanitizedImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
+        'data:image/png;base64,' + this.post.image
+      );
+    }
+
+    if (this.post.pdf) {
+      this.sanitizedPdfUrl = this._base64ToArrayBuffer(this.post.pdf);
+    }
+  }
+
+  _base64ToArrayBuffer(base64: any) {
+    const binary_string = window.atob(base64);
+    const len = binary_string.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
   }
 
   onSubmitPost() {

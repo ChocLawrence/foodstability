@@ -14,15 +14,16 @@ import { Router, NavigationEnd } from '@angular/router';
 import { PostsService } from '../../services/posts.service';
 
 @Component({
-  selector: 'app-abstract',
-  templateUrl: './abstract.component.html',
-  styleUrls: ['./abstract.component.css'],
+  selector: 'app-pdf',
+  templateUrl: './pdf.component.html',
+  styleUrls: ['./pdf.component.css'],
 })
-export class AbstractComponent implements OnInit, AfterViewInit  {
-  public title = 'Abstract | Journal of Food Stability';
+export class PdfComponent implements OnInit, AfterViewInit {
+  public title = 'PDF | Journal of Food Stability';
   public categories: any[] = [];
   public post: any = [];
   public animationType = 'wanderingCubes';
+  public sanitizedPdfUrl: any = null;
   public loadingData = false;
   public date = new Date();
   public slug: any;
@@ -36,10 +37,7 @@ export class AbstractComponent implements OnInit, AfterViewInit  {
     private metaTagService: Meta
   ) {}
 
-
-  ngAfterViewInit() {
-  }
-
+  ngAfterViewInit() {}
 
   ngOnInit(): void {
     this.titleService.setTitle(this.title);
@@ -62,24 +60,14 @@ export class AbstractComponent implements OnInit, AfterViewInit  {
       { name: 'date', content: this.date.toString(), scheme: 'YYYY-MM-DD' },
       { charset: 'UTF-8' },
     ]);
-    this.processReset();
+    this.process();
   }
 
-
-  downloadPdf() {
-    const linkSource = `data:application/pdf;base64,${this.post.pdf}`;
-    const downloadLink = document.createElement('a');
-    const fileName = this.post.slug + '.pdf';
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-    downloadLink.click();
+  stripString(text: string) {
+    return text.replace(/(<([^>]+)>)/gi, '');
   }
 
-  stripString(text:string){
-    return text.replace(/(<([^>]+)>)/gi, "")
-  }
-
-  async processReset() {
+  async process() {
     //check current url
     let splitUrl = this.router.url.split('/');
     this.slug = splitUrl[2];
@@ -96,12 +84,34 @@ export class AbstractComponent implements OnInit, AfterViewInit  {
       .getSinglePostBySlug(slug)
       .then((post) => {
         this.post = this._core.normalizeKeys(post.data);
-        console.log('post',this.post);
+
+        if (this.post.pdf) {
+          this.sanitizedPdfUrl = this._base64ToArrayBuffer(this.post.pdf);
+        }
         this.loadingData = false;
       })
       .catch((e) => {
         this.loadingData = false;
         this._core.handleError(e);
       });
+  }
+
+  downloadPdf() {
+    const linkSource = `data:application/pdf;base64,${this.post.pdf}`;
+    const downloadLink = document.createElement('a');
+    const fileName = this.post.slug + '.pdf';
+    downloadLink.href = linkSource;
+    downloadLink.download = fileName;
+    downloadLink.click();
+  }
+
+  _base64ToArrayBuffer(base64: any) {
+    const binary_string = window.atob(base64);
+    const len = binary_string.length;
+    const bytes = new Uint8Array(len);
+    for (let i = 0; i < len; i++) {
+      bytes[i] = binary_string.charCodeAt(i);
+    }
+    return bytes.buffer;
   }
 }

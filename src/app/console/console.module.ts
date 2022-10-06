@@ -7,6 +7,7 @@ import {
 import { TranslateModule } from "@ngx-translate/core";
 import { DxDataGridModule, DxTooltipModule, DxTemplateModule } from "devextreme-angular";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {
   NgbDropdownModule,
   NgbTabsetModule,
@@ -52,6 +53,7 @@ registerLocaleData(localeGb);
     ConsoleRoutingModule,
     TranslateModule,
     DxDataGridModule,
+    PdfViewerModule,
     DxTooltipModule,
     DxTemplateModule,
     NgMultiSelectDropDownModule.forRoot(),

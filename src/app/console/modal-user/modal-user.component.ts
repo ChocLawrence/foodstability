@@ -149,7 +149,7 @@ export class ModalUserComponent implements OnInit {
   populateUserForm() {
 
     if(this.user.image){
-      this.preview = this._urls.apiStorageUrl() + 'profile/' + this.user.image;
+      this.preview = "data:image/png;base64," + this.user.image;
     }
 
     this.userForm.patchValue({

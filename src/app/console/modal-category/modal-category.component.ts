@@ -193,8 +193,8 @@ export class ModalCategoryComponent implements OnInit {
 
   populateCategoryForm() {
 
-    if(this.category.image){
-      this.preview = this._urls.apiStorageUrl() + 'category/' + this.category.image;
+    if (this.category.image) {
+      this.preview = "data:image/png;base64," + this.category.image;
     }
 
     this.categoryForm.patchValue({

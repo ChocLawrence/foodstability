@@ -20,7 +20,7 @@
                             <hr>
                             <li class="mb-2">
                                 {{ "Category" | translate }}
-                                <p>{{ post.category_id  ?  getCategoryName(post.category_id)  : '-'}}</p>
+                                <p>{{ post.category_id ? getCategoryName(post.category_id) : '-'}}</p>
                             </li>
                             <hr>
                             <li class="mb-2">
@@ -58,9 +58,11 @@
                                 <img class="photo" [src]="sanitizedImageUrl" alt="" />
                             </li>
                             <hr>
-                            <li class="mb-2">
-                                {{ "PDF" | translate }} &nbsp;
-                                <a [href]="sanitizedPdfUrl" target="_blank">{{'View PDF'| translate}}</a>
+                            <li class="mb-2" *ngIf="sanitizedPdfUrl">
+                                <strong>{{ "PDF" | translate }}</strong> &nbsp;
+                                <pdf-viewer [src]="sanitizedPdfUrl" [render-text]="true" [original-size]="false"
+                                    style="width: 500px; height: 600px" [external-link-target]="'blank'"
+                                    [render-text]="true" [show-borders]="true"></pdf-viewer>
                             </li>
                         </ul>
                         <hr class="mb-2" />
@@ -147,7 +149,13 @@
                                 </div>
                                 <hr>
                                 <div class="vertical-input-group mb-2">
-                                    <label for="pdf">{{'PDF'| translate}} : <a *ngIf="action=='updatePost'" [href]="sanitizedPdfUrl" target="_blank">{{'View current PDF'| translate}}</a> </label>
+                                    <li class="mb-2" *ngIf="sanitizedPdfUrl">
+                                        <strong>{{ "CURRENT PDF" | translate }}</strong> &nbsp;
+                                        <pdf-viewer [src]="sanitizedPdfUrl" [render-text]="true" [original-size]="false"
+                                            style="width: 500px; height: 600px" [external-link-target]="'blank'"
+                                            [render-text]="true" [show-borders]="true"></pdf-viewer>
+                                    </li>
+                                    <hr>
                                     <div class="input-group">
                                         <input accept="application/pdf" type="file" formControlName="pdf"
                                             (change)="pdfFileChanged($event)" />

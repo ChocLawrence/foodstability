@@ -8,15 +8,14 @@
         </button>
         <!-- Brand -->
         <a class="navbar-brand py-lg-2 mb-lg-5 px-lg-6 me-0" (click)="redirectToHome()">
-            <span *ngIf="user.image == 'default.png'">
-                <img src="/assets/images/{{user.image}}" alt="" class="img-rounded img-responsive rounded-circle"
-                    width="auto" />
+            <span *ngIf="user.image">
+                <img [src]="'data:image/png;base64,' +  user.image" alt=""
+                    class="img-rounded img-responsive rounded-circle" width="auto">
             </span>
-            <span *ngIf="user.image != 'default.png'">
-                <img [src]="_urls.apiStorageUrl() + 'profile/' + user.image" alt=""
-                    class="img-rounded img-responsive rounded-circle" width="auto" />
+            <span *ngIf="!user.image">
+                <img src="assets/images/avatar.jpeg" alt="" class="img-rounded img-responsive rounded-circle"
+                    width="auto">
             </span>
-
         </a>
         <!-- User menu (mobile) -->
         <div class="navbar-user d-lg-none">
