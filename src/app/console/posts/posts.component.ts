@@ -173,23 +173,8 @@ export class PostsComponent implements OnInit {
 
     this.initForm();
 
-    let searchData = JSON.parse(
-      localStorage.getItem('posts_search_data') as '{}'
-    );
-    let data: any = {};
-    if (this._core.isEmptyOrNull(searchData)) {
-      data = {
-        start: this.defaultStartDate,
-        end: this.defaultEndDate,
-      };
-    } else {
-      data = {
-        start: searchData.start,
-        end: this.defaultEndDate,
-        //status: searchData.status
-      };
-    }
-
+    let data = this.checkSearchStore();
+    
     this.loadForm(data);
     this.getPosts(data);
   }
@@ -266,8 +251,6 @@ export class PostsComponent implements OnInit {
           this.posts = this._core.normalizeKeys(posts.data);
         }
 
-        console.log(posts);
-
         this.genericPosts = posts.data;
         this.loadingData = false;
       })
@@ -315,11 +298,25 @@ export class PostsComponent implements OnInit {
   }
 
   checkSearchStore() {
-    let data = {
-      start: this.defaultStartDate,
-      end: this.defaultEndDate,
-    };
 
+    let searchData = JSON.parse(
+      localStorage.getItem('posts_search_data') as '{}'
+    );
+    let data: any = {};
+
+    if (this._core.isEmptyOrNull(searchData)) {
+      data = {
+        start: this.defaultStartDate,
+        end: this.defaultEndDate,
+      };
+    } else {
+      data = {
+        start: searchData.start,
+        end: this.defaultEndDate,
+        //status: searchData.status
+      };
+    }
+   
     return data;
   }
 
