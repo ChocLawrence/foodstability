@@ -40,7 +40,8 @@
               "devextreme",
               "rxjs-compat",
               "crypto-js",
-              "lodash"
+              "lodash",
+              "ng2-pdf-viewer"
             ],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
