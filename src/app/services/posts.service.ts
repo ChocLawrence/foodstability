@@ -68,6 +68,8 @@ export class PostsService {
 
     if (!this.core.isEmptyOrNull(dataObject.page)) {
       url += `&page=${encodeURIComponent(dataObject.page)}`;
+    } else {
+      url += `&page=1`;
     }
 
     return this.core.makeRemoteRequest(url, 'get', null, httpOptions);
