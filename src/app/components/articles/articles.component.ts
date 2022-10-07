@@ -22,8 +22,7 @@ import {
   NgbModal,
   ModalDismissReasons,
   NgbDateParserFormatter,
-  NgbDateStruct,
-  NgbTabset,
+  NgbDateStruct
 } from '@ng-bootstrap/ng-bootstrap';
 
 @Injectable()

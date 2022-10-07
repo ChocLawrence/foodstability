@@ -9,7 +9,6 @@ import { DxDataGridModule, DxTooltipModule, DxTemplateModule } from "devextreme-
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import {
   NgbDropdownModule,
-  NgbTabsetModule,
   NgbButtonsModule,
   NgbAlertModule,
   NgbDatepickerModule,
@@ -57,7 +56,6 @@ registerLocaleData(localeGb);
       fullScreenBackdrop: true
     }),
     NgbDropdownModule,
-    NgbTabsetModule,
     NgbButtonsModule,
     NgbAlertModule,
     NgbDatepickerModule,

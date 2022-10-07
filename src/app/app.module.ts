@@ -16,7 +16,6 @@ import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import {
   NgbDropdownModule,
-  NgbTabsetModule,
   NgbButtonsModule,
   NgbAlertModule,
   NgbDatepickerModule,
@@ -80,7 +79,6 @@ import { PdfComponent } from './components/pdf/pdf.component';
     FormsModule,
     PdfViewerModule, 
     NgbDropdownModule,
-    NgbTabsetModule,
     NgbButtonsModule,
     NgbAlertModule,
     NgbDatepickerModule,

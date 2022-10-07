@@ -10,7 +10,6 @@ import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {
   NgbDropdownModule,
-  NgbTabsetModule,
   NgbButtonsModule,
   NgbAlertModule,
   NgbDatepickerModule,
@@ -67,7 +66,6 @@ registerLocaleData(localeGb);
       fullScreenBackdrop: true
     }),
     NgbDropdownModule,
-    NgbTabsetModule,
     NgbButtonsModule,
     NgbAlertModule,
     NgbDatepickerModule,
