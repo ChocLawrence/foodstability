@@ -17,7 +17,7 @@ import {
   NgbModal,
   ModalDismissReasons,
   NgbDateParserFormatter,
-  NgbDateStruct
+  NgbDateStruct,
 } from '@ng-bootstrap/ng-bootstrap';
 import { DxDataGridComponent } from 'devextreme-angular';
 
@@ -88,6 +88,7 @@ export class PostsComponent implements OnInit {
     end: this.defaultEndDate,
   };
 
+  public genericPosts: any = [];
   public thePost: any;
   public origin = 'posts';
   public postModalAction = '';
@@ -264,6 +265,10 @@ export class PostsComponent implements OnInit {
           this.postsCount = posts.data.length;
           this.posts = this._core.normalizeKeys(posts.data);
         }
+
+        console.log(posts);
+
+        this.genericPosts = posts.data;
         this.loadingData = false;
       })
       .catch((e) => {
@@ -307,6 +312,40 @@ export class PostsComponent implements OnInit {
     } else {
       return '';
     }
+  }
+
+  checkSearchStore() {
+    let data = {
+      start: this.defaultStartDate,
+      end: this.defaultEndDate,
+    };
+
+    return data;
+  }
+
+
+  prevPage() {
+    this.loadingData = true;
+    let data = this.checkSearchStore();
+    this.postsService
+      .getPostsAtUrl(this.genericPosts.prev_page_url, data)
+      .then((posts) => {
+        this.genericPosts = posts.data;
+        this.posts = posts.data.data;
+        this.loadingData = false;
+      });
+  }
+
+  nextPage() {
+    this.loadingData = true;
+    let data = this.checkSearchStore();
+    this.postsService
+      .getPostsAtUrl(this.genericPosts.next_page_url, data)
+      .then((posts) => {
+        this.genericPosts = posts.data;
+        this.posts = posts.data.data;
+        this.loadingData = false;
+      });
   }
 
   customizeExcelCell = (options: any) => {

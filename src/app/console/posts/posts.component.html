@@ -6,55 +6,54 @@
             </h3>
             <span><a class="btn btn-success btn-sm addButton" (click)="openPostModal('addPost', null)">
                     <i class="fa fa-plus"></i> </a></span>
-             
-            <br><br>                    
+
+            <br><br>
             <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-                    <div class="row">
-                        <div class="col-lg-3">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text secondary">
-                                        <i class="fa fa-hourglass-start"></i>
-                                    </span>
-                                </div>
-                                <input style="pointer-events: none" (ngModelChange)="onSearch()" class="form-control"
-                                    [placeholder]="'From' | translate" name="dp" formControlName="startd"
-                                    [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #j="ngbDatepicker" />
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary btn-sm" id="startdd" (click)="j.toggle()"
-                                        type="button">
-                                        <i class="bi bi-calendar-check" aria-hidden="true"></i>
-                                    </button>
-                                </div>
+                <div class="row">
+                    <div class="col-lg-3">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text secondary">
+                                    <i class="fa fa-hourglass-start"></i>
+                                </span>
+                            </div>
+                            <input style="pointer-events: none" (ngModelChange)="onSearch()" class="form-control"
+                                [placeholder]="'From' | translate" name="dp" formControlName="startd"
+                                [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #j="ngbDatepicker" />
+                            <div class="input-group-append">
+                                <button class="btn btn-primary btn-sm" id="startdd" (click)="j.toggle()" type="button">
+                                    <i class="bi bi-calendar-check" aria-hidden="true"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="col-lg-3">
-                            <div class="input-group input-group-sm">
-                                <div class="input-group-prepend">
-                                    <span class="input-group-text secondary">
-                                        <i class="fa fa-hourglass-end"></i>
-                                    </span>
-                                </div>
-                                <input (ngModelChange)="onSearch()" style="pointer-events: none"
-                                    class="form-control input-sm inline-form-control"
-                                    [placeholder]="'End Date' | translate" name="dp" formControlName="enddate"
-                                    [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #k="ngbDatepicker" />
-                                <div class="input-group-append">
-                                    <button class="btn btn-primary btn-sm" (click)="k.toggle()" type="button">
-                                        <i class="bi bi-calendar-check" aria-hidden="true"></i>
-                                    </button>
-                                </div>
+                    </div>
+                    <div class="col-lg-3">
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text secondary">
+                                    <i class="fa fa-hourglass-end"></i>
+                                </span>
+                            </div>
+                            <input (ngModelChange)="onSearch()" style="pointer-events: none"
+                                class="form-control input-sm inline-form-control" [placeholder]="'End Date' | translate"
+                                name="dp" formControlName="enddate" [minDate]="minDate" [maxDate]="maxDate"
+                                ngbDatepicker #k="ngbDatepicker" />
+                            <div class="input-group-append">
+                                <button class="btn btn-primary btn-sm" (click)="k.toggle()" type="button">
+                                    <i class="bi bi-calendar-check" aria-hidden="true"></i>
+                                </button>
                             </div>
                         </div>
-                        <div class="col-lg-2">
-                            &nbsp;
-                            <span>
-                                <i (click)="refreshDataSource()" class="fa fa-undo pointer fa-sm"
-                                    aria-hidden="true" title="{{ 'Reset Filter' | translate }}"></i>
-                            </span>
-                        </div>
-                        <div class="pull-right col-lg-3">
-                            <!-- <div class="input-group mb-3 input-group-sm">
+                    </div>
+                    <div class="col-lg-2">
+                        &nbsp;
+                        <span>
+                            <i (click)="refreshDataSource()" class="fa fa-undo pointer fa-sm" aria-hidden="true"
+                                title="{{ 'Reset Filter' | translate }}"></i>
+                        </span>
+                    </div>
+                    <div class="pull-right col-lg-3">
+                        <!-- <div class="input-group mb-3 input-group-sm">
                                 <div class="input-group-prepend">
                                     <label class="input-group-text" for="inputGroupSelect01">{{
                                         "Status" | translate
@@ -70,8 +69,8 @@
                                     <option value="all">{{ "All" | translate }}</option>
                                 </select>
                             </div> -->
-                        </div>
                     </div>
+                </div>
             </form>
 
             <dx-data-grid #postsContainer id="postsContainer" [dataSource]="posts" [columnAutoWidth]="true"
@@ -79,7 +78,7 @@
                 [allowCollapsing]="false" [wordWrapEnabled]="true" [hoverStateEnabled]="true"
                 (onFileSaving)="_core.onFileSaving($event, 'Posts')">
                 <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
-                <dxo-paging [enabled]="true" [pageSize]="5"></dxo-paging>
+                <dxo-paging [enabled]="true" [pageSize]="10"></dxo-paging>
                 <dxo-pager [showPageSizeSelector]="true" [allowedPageSizes]="[5, 10, 20, 30]" [showInfo]="true">
                 </dxo-pager>
                 <dxo-search-panel [visible]="true" [width]="240" [placeholder]="'Search...' | translate">
@@ -137,6 +136,27 @@
                     [customizeExcelCell]="customizeExcelCell"></dxo-export>
                 <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
             </dx-data-grid>
+            <div class="row">
+                <div class="col center">
+                    <span>
+                        <p>{{'Showing posts'| translate}} : {{genericPosts.from ? genericPosts.from : '0' }}
+                            {{'to'|
+                            translate}}
+                            {{genericPosts.to ? genericPosts.to : '0'}} {{'of'|
+                            translate}} {{genericPosts.total? genericPosts.total : '0'}}</p>
+                        <p>{{'Page' | translate}}&nbsp;{{genericPosts.current_page ? genericPosts.current_page :
+                            '0'}}
+                            {{'of'|
+                            translate}}
+                            {{genericPosts.last_page ? genericPosts.last_page : '0'}}
+                        </p>
+                        <button class="btn btn-primary btn-sm" (click)="prevPage()"
+                            [disabled]="!genericPosts.prev_page_url">{{'Prev'| translate}} << </button> &nbsp;
+                                <button class="btn btn-primary btn-sm" (click)="nextPage()"
+                                    [disabled]="!genericPosts.next_page_url">{{'Next'| translate}} >> </button>
+                    </span>
+                </div>
+            </div>
         </div>
     </div>
 </div>
