@@ -41,7 +41,9 @@
               "rxjs-compat",
               "crypto-js",
               "lodash",
-              "ng2-pdf-viewer"
+              "ng2-pdf-viewer",
+							"pdfjs-dist/build/pdf",
+							"pdfjs-dist/web/pdf_viewer"
             ],
             "serviceWorker": true,
             "ngswConfigPath": "ngsw-config.json"
@@ -66,7 +68,7 @@
                   "with": "src/environments/environment.prod.ts"
                 }
               ],
-              "outputPath": "dist/",
+              "outputPath": "dist/foodstability",
               "baseHref": "/",
               "outputHashing": "all"
             },
