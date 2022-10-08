@@ -90,6 +90,10 @@ export class PostsService {
       url += `&end_date=${encodeURIComponent(dataObject.end)}`;
     }
 
+    if (dataObject.visibility == 0 || dataObject.visibility) {
+      url += `&visibility=${encodeURIComponent(dataObject.visibility)}`;
+    }
+
     return this.core.makeRemoteRequest(url, 'get', null, httpOptions);
   }
 
