@@ -183,11 +183,25 @@ export class ArticlesComponent implements OnInit, AfterViewInit {
   }
 
   checkSearchStore(){
-    let data = {
-      start: this.defaultStartDate,
-      end: this.defaultEndDate,
-    };
+    let searchData = JSON.parse(
+      localStorage.getItem('home_posts_search_data') as '{}'
+    );
+    let data: any = {};
 
+    if (this._core.isEmptyOrNull(searchData)) {
+      data = {
+        start: this.defaultStartDate,
+        end: this.defaultEndDate,
+        visibility: 0,
+      };
+    } else {
+      data = {
+        start: searchData.start,
+        end: this.defaultEndDate,
+        visibility: 0,
+      };
+    }
+   
     return data;
   }
 
@@ -203,7 +217,7 @@ export class ArticlesComponent implements OnInit, AfterViewInit {
     let data: any = {};
     if (startDate) data.start = startDate;
     if (endDate) data.end = endDate;
-
+    data.visibility = 0;
     this.getPosts(data);
   }
 

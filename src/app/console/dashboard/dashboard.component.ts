@@ -134,16 +134,18 @@ export class DashboardComponent implements OnInit {
     let data = {
       start: this.defaultStartDate,
       end: this.defaultEndDate,
+      visibility: 0
     }
 
     this.postsService
       .getPosts(data)
       .then(posts => {
+        console.log(posts);
         if (posts.data.data) {
-          this.postsCount = posts.data.data.length;
+          this.postsCount = posts.data.total;
           this.posts = this._core.normalizeKeys(posts.data.data);
         }else{
-          this.postsCount = posts.data.length;
+          this.postsCount = posts.total;
           this.posts = this._core.normalizeKeys(posts.data);
         }
         this.loadingData = false;

@@ -72,6 +72,10 @@ export class PostsService {
       url += `&page=1`;
     }
 
+    if (dataObject.visibility == 0 || dataObject.visibility) {
+      url += `&visibility=${encodeURIComponent(dataObject.visibility)}`;
+    }
+
     return this.core.makeRemoteRequest(url, 'get', null, httpOptions);
   }
 

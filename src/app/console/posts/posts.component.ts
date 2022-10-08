@@ -191,7 +191,7 @@ export class PostsComponent implements OnInit {
     let data: any = {};
     if (startDate) data.start = startDate;
     if (endDate) data.end = endDate;
-
+    data.visibility = 0;
     this.getPosts(data);
   }
 
@@ -308,11 +308,13 @@ export class PostsComponent implements OnInit {
       data = {
         start: this.defaultStartDate,
         end: this.defaultEndDate,
+        visibility: 0,
       };
     } else {
       data = {
         start: searchData.start,
         end: this.defaultEndDate,
+        visibility: 0,
         //status: searchData.status
       };
     }

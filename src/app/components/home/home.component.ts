@@ -190,12 +190,13 @@ export class HomeComponent implements OnInit, AfterViewInit {
       data = {
         start: this.defaultStartDate,
         end: this.defaultEndDate,
+        visibility: 0,
       };
     } else {
       data = {
         start: searchData.start,
         end: this.defaultEndDate,
-        //status: searchData.status
+        visibility: 0,
       };
     }
    
@@ -215,6 +216,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     if (startDate) data.start = startDate;
     if (endDate) data.end = endDate;
 
+    data.visibility = 0;
     this.getPosts(data);
   }
 
@@ -325,6 +327,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
           this.postsCount = posts.data.length;
           this.posts = this._core.normalizeKeys(posts.data);
         }
+
+        console.log(posts);
 
         this.genericPosts = posts.data;
         this.loadingData = false;
