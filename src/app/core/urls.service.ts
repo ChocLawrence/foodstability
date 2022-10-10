@@ -12,27 +12,11 @@ export class UrlsService {
     if (url.includes("localhost")) {
       returnUrl = "http://localhost:8000/api/";
     } else if (url.includes("foodstability.com")) {
-      returnUrl = "https://foodstability-api-cby54.ondigitalocean.app/api/";
+      returnUrl = "https://api.foodstability.cm/api/";
     } else {
       returnUrl = "http://localhost:8000/api/";
     }
 
-    return returnUrl;
-  }
-
-  public apiStorageUrl() {
-    
-    let url = location.href;
-    let returnUrl = "";
-
-    if (url.includes("localhost")) {
-      returnUrl = "http://localhost:8000/storage/";
-    } else if (url.includes("foodstability.com")) {
-      returnUrl = "https://foodstability-api-cby54.ondigitalocean.app/storage/";
-    } else {
-      returnUrl = "http://localhost:8000/storage/";
-    }
-    
     return returnUrl;
   }
 
