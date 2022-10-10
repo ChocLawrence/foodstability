@@ -12,7 +12,7 @@ export class UrlsService {
     if (url.includes("localhost")) {
       returnUrl = "http://localhost:8000/api/";
     } else if (url.includes("foodstability.com")) {
-      returnUrl = "https://api.foodstability.cm/api/";
+      returnUrl = "https://api.foodstability.com/api/";
     } else {
       returnUrl = "http://localhost:8000/api/";
     }
