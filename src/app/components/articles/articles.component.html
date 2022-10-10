@@ -113,7 +113,7 @@
             <div><a routerLink="/abstract/{{ post.slug }}" target="_blank" (click)="updatePostCount(post.id)">
                 <strong id="abstract">Abstract
                   |
-                  <a [href]="_urls.apiStorageUrl() + 'post/' + post.pdf" target="_blank"><span id="pdf">PDF&nbsp;<i
+                  <a routerLink="/pdf/{{ post.slug }}" target="_blank"><span id="pdf">PDF&nbsp;<i
                         class="fa fa-file-pdf-o red"></i></span></a>
                 </strong></a>
               <strong> | <span id="views{{post.id}}">{{ post.view_count }}</span>&nbsp;<i
