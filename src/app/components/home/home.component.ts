@@ -328,8 +328,6 @@ export class HomeComponent implements OnInit, AfterViewInit {
           this.posts = this._core.normalizeKeys(posts.data);
         }
 
-        console.log(posts);
-
         this.genericPosts = posts.data;
         this.loadingData = false;
       })
