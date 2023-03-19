@@ -217,13 +217,13 @@ export class ModalPostComponent implements OnInit {
   }
 
   setUrls() {
-    if (!this.post.image) {
+    if (this.post.image) {
       this.sanitizedImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
         'data:image/png;base64,' + this.post.image
       );
     }
 
-    if (!this.post.pdf) {
+    if (this.post.pdf) {
       this.sanitizedPdfUrl = this._base64ToArrayBuffer(this.post.pdf);
     }
   }

@@ -324,7 +324,7 @@ export class CoreService {
   addThouSep(num: any, maxFractionDigits = 2) {
     let formattedNum = '';
     let numb = Number(num);
-    if (numb != NaN) {
+    if (!Number.isNaN(numb)) {
       try {
         formattedNum = numb.toLocaleString(this.locale, {
           maximumFractionDigits: maxFractionDigits,

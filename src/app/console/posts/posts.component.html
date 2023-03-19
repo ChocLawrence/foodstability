@@ -114,7 +114,7 @@
                 </div>
 
                 <div *dxTemplate="let cell of 'actionsTemplate'">
-                    <div class="mainActions">
+                    <div class="mainActions" *ngIf="cell.data != null">
                         <ul>
                             <li>
                                 <i class="fa fa-sm fa-eye theme" [title]="'View Post' | translate"

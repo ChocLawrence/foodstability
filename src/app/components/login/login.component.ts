@@ -66,28 +66,6 @@ export class LoginComponent implements OnInit {
 
   }
 
-  checkOngoingTransaction() {
-
-    let ongoingTransaction = this.core.decryptFromLocalStorage('ongoing_transaction');
-
-    if (!this.core.isEmptyOrNull(ongoingTransaction) && ongoingTransaction !== 'empty') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
-  checkOngoingRequest() {
-
-    let ongoingRequest = this.core.decryptFromLocalStorage('ongoing_request');
-
-    if (!this.core.isEmptyOrNull(ongoingRequest) && ongoingRequest !== 'empty') {
-      return true;
-    } else {
-      return false;
-    }
-  }
-
 
   loginFormIsValid() {
     return this.loginForm.controls['email'].valid
