@@ -140,7 +140,6 @@ export class DashboardComponent implements OnInit {
     this.postsService
       .getPosts(data)
       .then(posts => {
-        console.log(posts);
         if (posts.data.data) {
           this.postsCount = posts.data.total;
           this.posts = this._core.normalizeKeys(posts.data.data);

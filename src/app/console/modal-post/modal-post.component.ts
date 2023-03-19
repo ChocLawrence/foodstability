@@ -323,6 +323,8 @@ export class ModalPostComponent implements OnInit {
       return category.id == this.post.category_id;
     });
 
+    console.log(this.post)
+
     this.postForm.patchValue({
       title: this.post.title,
       category_id: selectedCategory,

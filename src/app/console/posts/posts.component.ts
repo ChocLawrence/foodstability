@@ -308,13 +308,13 @@ export class PostsComponent implements OnInit {
       data = {
         start: this.defaultStartDate,
         end: this.defaultEndDate,
-        visibility: 0,
+        visibility: null,
       };
     } else {
       data = {
         start: searchData.start,
         end: this.defaultEndDate,
-        visibility: 0,
+        visibility: null,
         //status: searchData.status
       };
     }
