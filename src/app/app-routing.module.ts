@@ -24,97 +24,97 @@ import { AuthorsGuideComponent } from './components/authors-guide/authors-guide.
 import { PdfComponent } from './components/pdf/pdf.component';
 
 const routes: Routes = [
-  // {
-  //   path: 'author',
-  //   loadChildren: () => {
-  //     return AuthorModule;
-  //   },
-  //   canActivate: [AuthGuard],
-  // },
-  // {
-  //   path: 'console',
-  //   loadChildren: () => {
-  //     return ConsoleModule;
-  //   },
-  //   canActivate: [AdminAuthGuard],
-  // },
-  // {
-  //   path: '',
-  //   children: [{ path: '', component: HomeComponent }],
-  // },
-  // {
-  //   path: 'editorial',
-  //   children: [{ path: '', component: EditorialComponent }],
-  // },
-  // {
-  //   path: 'articles',
-  //   children: [{ path: '', component: ArticlesComponent }],
-  // },
-  // {
-  //   path: 'review',
-  //   children: [{ path: '', component: ReviewComponent }],
-  // },
-  // {
-  //   path: 'ethics',
-  //   children: [{ path: '', component: EthicsComponent }],
-  // },
-  // {
-  //   path: 'abstract',
-  //   children: [{ path: ':slug', component: AbstractComponent }],
-  // },
-  // {
-  //   path: 'pdf',
-  //   children: [{ path: ':slug', component: PdfComponent }],
-  // },
-  // {
-  //   path: 'archives',
-  //   children: [
-  //     { path: '', component: ArchivesComponent },
-  //     { path: ':volume', component: ArchivesComponent },
-  //     { path: ':volume/:issue', component: ArchivesComponent },
-  //   ],
-  // },
-  // {
-  //   path: 'apc',
-  //   children: [{ path: '', component: ApcComponent }],
-  // },
-  // {
-  //   path: 'authors-guide',
-  //   children: [{ path: '', component: AuthorsGuideComponent }],
-  // },
-  // {
-  //   path: 'openaccess',
-  //   children: [{ path: '', component: OpenaccessComponent }],
-  // },
-  // {
-  //   path: 'contact',
-  //   children: [{ path: '', component: ContactComponent }],
-  // },
-  // {
-  //   path: 'login',
-  //   children: [{ path: '', component: LoginComponent }],
-  // },
-  // {
-  //   path: 'signup',
-  //   children: [{ path: '', component: SignupComponent }],
-  // },
-  // {
-  //   path: 'password-reset',
-  //   children: [
-  //     { path: '', component: PasswordResetComponent },
-  //     { path: 'change/:id', component: PasswordResetComponent },
-  //   ],
-  // },
-  // {
-  //   path: 'verification',
-  //   children: [{ path: ':id', component: AccountVerificationComponent }],
-  // },
-  // {
-  //   path: 'verify-email',
-  //   children: [{ path: '', component: VerifyEmailComponent }],
-  // },
-  { path: '', component: PageNotFoundComponent },
-  { path: '**', redirectTo: '' },
+  {
+    path: 'author',
+    loadChildren: () => {
+      return AuthorModule;
+    },
+    canActivate: [AuthGuard],
+  },
+  {
+    path: 'console',
+    loadChildren: () => {
+      return ConsoleModule;
+    },
+    canActivate: [AdminAuthGuard],
+  },
+  {
+    path: '',
+    children: [{ path: '', component: HomeComponent }],
+  },
+  {
+    path: 'editorial',
+    children: [{ path: '', component: EditorialComponent }],
+  },
+  {
+    path: 'articles',
+    children: [{ path: '', component: ArticlesComponent }],
+  },
+  {
+    path: 'review',
+    children: [{ path: '', component: ReviewComponent }],
+  },
+  {
+    path: 'ethics',
+    children: [{ path: '', component: EthicsComponent }],
+  },
+  {
+    path: 'abstract',
+    children: [{ path: ':slug', component: AbstractComponent }],
+  },
+  {
+    path: 'pdf',
+    children: [{ path: ':slug', component: PdfComponent }],
+  },
+  {
+    path: 'archives',
+    children: [
+      { path: '', component: ArchivesComponent },
+      { path: ':volume', component: ArchivesComponent },
+      { path: ':volume/:issue', component: ArchivesComponent },
+    ],
+  },
+  {
+    path: 'apc',
+    children: [{ path: '', component: ApcComponent }],
+  },
+  {
+    path: 'authors-guide',
+    children: [{ path: '', component: AuthorsGuideComponent }],
+  },
+  {
+    path: 'openaccess',
+    children: [{ path: '', component: OpenaccessComponent }],
+  },
+  {
+    path: 'contact',
+    children: [{ path: '', component: ContactComponent }],
+  },
+  {
+    path: 'login',
+    children: [{ path: '', component: LoginComponent }],
+  },
+  {
+    path: 'signup',
+    children: [{ path: '', component: SignupComponent }],
+  },
+  {
+    path: 'password-reset',
+    children: [
+      { path: '', component: PasswordResetComponent },
+      { path: 'change/:id', component: PasswordResetComponent },
+    ],
+  },
+  {
+    path: 'verification',
+    children: [{ path: ':id', component: AccountVerificationComponent }],
+  },
+  {
+    path: 'verify-email',
+    children: [{ path: '', component: VerifyEmailComponent }],
+  },
+  { path: '404', component: PageNotFoundComponent },
+  { path: '**', redirectTo: '404' },
 ];
 
 @NgModule({
