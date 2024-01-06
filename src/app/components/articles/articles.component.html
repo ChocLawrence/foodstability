@@ -27,7 +27,7 @@
               [placeholder]="'From' | translate" name="dp" formControlName="startd" [minDate]="minDate"
               [maxDate]="maxDate" ngbDatepicker #j="ngbDatepicker" />
             <div class="input-group-append">
-              <button class="btn btn-primary btn-sm" id="startdd" (click)="j.toggle()" type="button">
+              <button class="btn btn-primary" id="startdd" (click)="j.toggle()" type="button">
                 <i class="bi bi-calendar-check" aria-hidden="true"></i>
               </button>
             </div>
@@ -45,7 +45,7 @@
               class="form-control input-sm inline-form-control" [placeholder]="'End Date' | translate" name="dp"
               formControlName="enddate" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #k="ngbDatepicker" />
             <div class="input-group-append">
-              <button class="btn btn-primary btn-sm" (click)="k.toggle()" type="button">
+              <button class="btn btn-primary" (click)="k.toggle()" type="button">
                 <i class="bi bi-calendar-check" aria-hidden="true"></i>
               </button>
             </div>
@@ -54,7 +54,7 @@
         <div class="col-lg-2">
           &nbsp;
           <span>
-            <i (click)="refreshDataSource()" class="fa fa-undo pointer fa-sm" aria-hidden="true"
+            <i (click)="refreshDataSource()" class="fa fa-undo pointer" aria-hidden="true"
               title="{{ 'Reset Filter' | translate }}"></i>
           </span>
         </div>
@@ -107,19 +107,18 @@
               <span>Volume:&nbsp;{{ post.volume }}</span>,
               <span>Issue:&nbsp;{{ post.issue }}</span>
             </div>
-            <div><strong id="category">Published&nbsp;: &nbsp;</strong><span id="date"><strong>{{ post.date }}
-                </strong></span></div>
+            <div><strong id="category">Published&nbsp;: &nbsp;</strong><span id="date">{{ post.date }}</span></div>
 
-            <div><a routerLink="/abstract/{{ post.slug }}" target="_blank" (click)="updatePostCount(post.id)">
-                <strong id="abstract">Abstract
-                  |
-                  <a routerLink="/pdf/{{ post.slug }}" target="_blank"><span id="pdf">PDF&nbsp;<i
-                        class="fa fa-file-pdf-o red"></i></span></a>
-                </strong></a>
-              <strong> | <span id="views{{post.id}}">{{ post.view_count }}</span>&nbsp;<i
-                  class="fa fa-eye"></i></strong>
-              <strong> | <span id="downloads{{post.id}}">{{ post.view_count }}</span>&nbsp;<i
-                  class="fa fa-download"></i></strong>
+            <div #counts>
+              <a routerLink="/abstract/{{ post.slug }}" target="_blank" (click)="updatePostCount(post.id)">
+                Abstract</a>&nbsp;&nbsp;|&nbsp;
+              <a routerLink="/pdf/{{ post.slug }}" target="_blank"><span id="pdf">PDF&nbsp;<i
+                    class="fa fa-file-pdf-o red"></i></span>
+              </a>
+              &nbsp;&nbsp;|&nbsp;<span id="views{{post.id}}">{{ post.view_count }}</span>&nbsp;<i
+                class="fa fa-eye"></i>
+              &nbsp;|&nbsp;<span id="downloads{{post.id}}">{{ post.view_count }}</span>&nbsp;<i
+                class="fa fa-download"></i>
             </div>
           </div>
           <hr class="style-two" />

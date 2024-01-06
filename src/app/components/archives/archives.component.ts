@@ -12,6 +12,7 @@ import { UrlsService } from '../../core/urls.service';
 import { Router, NavigationEnd } from '@angular/router';
 import { PostsService } from '../../services/posts.service';
 import { ArchivesService } from '../../services/archives.service';
+import { MetaService } from '../../services/meta.service';
 
 @Component({
   selector: 'app-archives',
@@ -38,6 +39,7 @@ export class ArchivesComponent implements OnInit, AfterViewInit {
     public _core: CoreService,
     public _urls: UrlsService,
     public router: Router,
+    private metaService: MetaService,
     private postsService: PostsService,
     private archivesService: ArchivesService
   ) {}
@@ -48,6 +50,7 @@ export class ArchivesComponent implements OnInit, AfterViewInit {
 
 
   ngOnInit(): void {
+    this.metaService.createCanonicalURL("https://foodstability.com/archives");
     this.titleService.setTitle(this.title);
     this.metaTagService.updateTag({
       name: 'description',

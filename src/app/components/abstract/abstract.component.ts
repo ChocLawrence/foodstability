@@ -12,6 +12,7 @@ import { UrlsService } from '../../core/urls.service';
 import { DatePipe } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { PostsService } from '../../services/posts.service';
+import { MetaService } from '../../services/meta.service';
 
 @Component({
   selector: 'app-abstract',
@@ -32,6 +33,7 @@ export class AbstractComponent implements OnInit, AfterViewInit  {
     public _core: CoreService,
     public _urls: UrlsService,
     private postsService: PostsService,
+    private metaService: MetaService,
     public router: Router,
     private metaTagService: Meta
   ) {}
@@ -42,6 +44,7 @@ export class AbstractComponent implements OnInit, AfterViewInit  {
 
 
   ngOnInit(): void {
+    this.metaService.createCanonicalURL("https://foodstability.com/abstract");
     this.titleService.setTitle(this.title);
     this.metaTagService.addTags([
       {

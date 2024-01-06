@@ -13,6 +13,7 @@ import { CategoriesService } from '../../services/categories.service';
 import { DatePipe } from '@angular/common';
 import { routerTransition } from '../../router.animations';
 import { PostsService } from '../../services/posts.service';
+import { MetaService } from '../../services/meta.service';
 import {
   FormBuilder,
   Validators,
@@ -98,6 +99,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     public _urls: UrlsService,
     private metaTagService: Meta,
     private _formBuilder: FormBuilder,
+    private metaService: MetaService,
     private datePipe: DatePipe,
     private postsService: PostsService,
     private categoriesService: CategoriesService
@@ -113,6 +115,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    this.metaService.createCanonicalURL("https://foodstability.com/");
     this.titleService.setTitle(this.title);
     this.metaTagService.addTags([
       {
