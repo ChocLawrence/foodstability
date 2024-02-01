@@ -41,9 +41,9 @@ export class LoginComponent implements OnInit {
         let menu = this.core.decryptFromLocalStorage('menu');
 
         if (menu == 1) {
-          this.destination = "/console";
-        } else if (menu == 2) {
           this.destination = "/author";
+        } else if (menu == 2) {
+          this.destination = "/console";
         }
 
         if (!this.core.isEmptyOrNull(this.destination)) {
