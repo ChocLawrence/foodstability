@@ -9,6 +9,8 @@ export class UrlsService {
     let url = location.href;
     let returnUrl = "";
 
+    //returnUrl = "http://localhost:8000/api/";
+    //returnUrl = "https://api.foodstability.com/api/";
     if (url.includes("localhost")) {
       returnUrl = "http://localhost:8000/api/";
     } else if (url.includes("foodstability.com")) {

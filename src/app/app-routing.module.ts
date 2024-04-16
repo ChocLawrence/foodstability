@@ -113,6 +113,10 @@ const routes: Routes = [
     path: 'verify-email',
     children: [{ path: '', component: VerifyEmailComponent }],
   },
+  // {
+  //   path: '',
+  //   children: [{ path: '', component: PageNotFoundComponent }],
+  // },
   { path: '404', component: PageNotFoundComponent },
   { path: '**', redirectTo: '404' },
 ];
