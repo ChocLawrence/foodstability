@@ -14,6 +14,7 @@ import { ErrorInterceptor } from './core/error.interceptor';
 import { JwtInterceptor } from './core/jwt.interceptor';
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import {
   NgbDropdownModule,
   NgbButtonsModule,
@@ -24,6 +25,7 @@ import {
   NgbPopoverModule,
   NgbAccordionModule
 } from "@ng-bootstrap/ng-bootstrap";
+import { NgbNavModule } from '@ng-bootstrap/ng-bootstrap';
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from "ngx-loading";
 import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
@@ -74,6 +76,8 @@ import { PdfComponent } from './components/pdf/pdf.component';
   ],
   imports: [
     BrowserModule,
+    NgbModule,
+    NgbNavModule,
     LanguageTranslationModule,
     BrowserAnimationsModule,
     FormsModule,

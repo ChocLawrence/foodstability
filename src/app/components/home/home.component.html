@@ -317,26 +317,20 @@
             </div>
           </div>
 
-          <div class="container row">
-            <div class="col-md-8 pull-left">
-              <span>
-                <p>{{'Showing posts'| translate}} : {{genericPosts.from ? genericPosts.from : '0' }} {{'to'| translate}}
-                  {{genericPosts.to ? genericPosts.to : '0'}} {{'of'|
-                  translate}} {{genericPosts.total? genericPosts.total : '0'}}</p>
-                <p>{{'Page' | translate}}&nbsp;{{genericPosts.current_page ? genericPosts.current_page : '0'}} {{'of'|
-                  translate}}
-                  {{genericPosts.last_page ? genericPosts.last_page : '0'}}
-                </p>
-                <button class="btn btn-primary btn-sm" (click)="prevPage()"
-                  [disabled]="!genericPosts.prev_page_url">{{'Prev'| translate}} << </button> &nbsp;
-                    <button class="btn btn-primary btn-sm" (click)="nextPage()"
-                      [disabled]="!genericPosts.next_page_url">{{'Next'| translate}} >> </button>
-              </span>
-            </div>
-            <div class="col readmore" title="{{'Read more articles' | translate}}">
-              <a routerLink="/articles" class="readmore_text"><button
-                  class="btn btn-primary readmore_btn pull-right">{{'Read More'| translate}}</button></a>
-            </div>
+          <div class="container row pad">
+              <div class="col center">
+                <div class="list-pagination">
+                    <p class="mt-10">{{'Showing posts'| translate}} : {{genericPosts.from ? genericPosts.from : '0' }}
+                        {{'to'| translate}}
+                        {{genericPosts.to ? genericPosts.to : '0'}} {{'of'| translate}} {{genericPosts.total ? genericPosts.total : '0'}}</p>
+                    <ngb-pagination *ngIf="genericPosts" [collectionSize]='genericPosts.total'
+                        [pageSize]="genericPosts.per_page" [(page)]="genericPosts.current_page"
+                        aria-label="Default pagination" (pageChange)="nextPage(genericPosts)">
+                        <ng-template ngbPaginationPrevious>Prev</ng-template>
+                        <ng-template ngbPaginationNext>Next</ng-template>
+                    </ngb-pagination>
+                </div>
+              </div>
           </div>
 
         </div>

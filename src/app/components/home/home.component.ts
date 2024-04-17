@@ -290,24 +290,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  prevPage() {
+  nextPage(pageData:any) {
     let data = this.checkSearchStore();
-    this.postsService
-      .getPostsAtUrl(this.genericPosts.prev_page_url, data)
-      .then((posts) => {
-        this.genericPosts = posts.data;
-        this.posts = posts.data.data;
-      });
-  }
-
-  nextPage() {
-    let data = this.checkSearchStore();
-    this.postsService
-      .getPostsAtUrl(this.genericPosts.next_page_url, data)
-      .then((posts) => {
-        this.genericPosts = posts.data;
-        this.posts = posts.data.data;
-      });
+    data.page = pageData.current_page;
+    this.getPosts(data);
   }
 
   async getPosts(data: any) {
