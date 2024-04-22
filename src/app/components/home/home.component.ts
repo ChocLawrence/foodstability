@@ -263,18 +263,16 @@ export class HomeComponent implements OnInit, AfterViewInit {
   }
 
   getCategories() {
-    this.loadingData = true;
 
     this.categoriesService
       .getCategories()
       .then((categories) => {
         this.categoriesCount = categories.data.length;
-        this.loadingData = false;
       })
       .catch((e) => {
-        this.loadingData = false;
         this._core.handleError(e);
       });
+
   }
 
   getStringDate(dateValue: any) {
