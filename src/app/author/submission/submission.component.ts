@@ -28,6 +28,7 @@ export class SubmissionComponent implements OnInit {
   public manuscriptFile: any;
   public supplementaryFile:any;
 
+  public loading = false;
   public loadingData = false;
   public users: any[] = [];
   public limit = 10;
@@ -132,7 +133,7 @@ export class SubmissionComponent implements OnInit {
 
   onSubmit() {
     if (this.submissionFormIsValid()) {
-      this.loadingData = true;
+      this.loading = true;
       let values = this.submissionForm.value;
       if (this.manuscriptFile) values.manuscriptFile = this.manuscriptFile;
       if (this.coverFile) values.coverFile = this.coverFile;
@@ -140,6 +141,8 @@ export class SubmissionComponent implements OnInit {
         values.supplementaryFile = this.supplementaryFile;
 
       this.addSubmission(values);
+    }else{
+      console.log("incomplete");
     }
 
     return false;
@@ -149,12 +152,14 @@ export class SubmissionComponent implements OnInit {
     this.submissionService
       .addSubmission(values)
       .then((r) => {
-        this._core.showSuccess('Success', 'Added Successfully...');
+        this._core.showSuccess('Success', 'Submitted Successfully...');
         this.loadingData = false;
+        this.loading = false;
         this.resetSubmissionForm();
       })
       .catch((e) => {
         this.loadingData = false;
+        this.loading = false;
         this._core.handleError(e);
       });
   }

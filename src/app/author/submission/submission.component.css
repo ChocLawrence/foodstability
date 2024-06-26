@@ -1,3 +1,13 @@
 .form-control {
   padding: 0.5em;
 }
+
+.confirm {
+  font-size: 1.2em;
+  color: rgb(251, 0, 0)
+}
+
+.checkb {
+  width: 15px;
+  height: 15px;
+}

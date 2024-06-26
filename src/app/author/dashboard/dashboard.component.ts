@@ -50,8 +50,6 @@ export class DashboardComponent implements OnInit {
     this.getCurrentUser();
     this.getTags();
     this.getCategories();
-    this.getPosts();
-    this.setDates();
   }
 
   getCurrentUser() {
@@ -59,16 +57,6 @@ export class DashboardComponent implements OnInit {
       this.user = this._core.loginUser.user;
     }
 
-    //console.log('user>>',this._core.loginUser);
-
-    // if (this.user.profile == '1') {
-    //   this.getUserProfile();
-    // }
-  }
-
-  setDates(){
-    this.defaultEndDate = `${this.endate.year}-${this.endate.month}-${this.endate.day}`;
-    this.defaultStartDate = `${this.stdate.year}-${this.stdate.month}-${this.stdate.day}`;
   }
 
 
@@ -104,33 +92,5 @@ export class DashboardComponent implements OnInit {
 
   }
 
-
-  getPosts() {
-    this.loadingData = true;
-    
-    let data = {
-      start: this.defaultStartDate,
-      end: this.defaultEndDate,
-      user_id : this.user.id
-    }
-
-    this.postsService
-      .getPosts(data)
-      .then(posts => {
-        if (posts.data.data) {
-          this.postsCount = posts.data.data.length;
-          this.posts = this._core.normalizeKeys(posts.data.data);
-        }else{
-          this.postsCount = posts.data.length;
-          this.posts = this._core.normalizeKeys(posts.data);
-        }
-        this.loadingData = false;
-      })
-      .catch(e => {
-        this.loadingData = false;
-        this._core.handleError(e);
-      });
-
-  }
 
 }
