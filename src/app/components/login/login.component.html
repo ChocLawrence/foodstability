@@ -36,22 +36,24 @@
                 </div>
 
                 <div class="container-login100-form-btn">
-                    <button class="login100-form-btn">
-                        {{'Login'| translate}}
+                    <button type="submit" class="login100-form-btn btn-lg" [disabled]="!loginFormIsValid() || loading">
+                        {{'Login'| translate}} &nbsp;
+                        <div class="spinner-border float-right" role="status" *ngIf="loading">
+                            <span class="visually-hidden">{{"Loading"| translate}}...</span>
+                        </div>
                     </button>
                 </div>
 
                 <div class="text-center p-t-12">
-                    <span class="txt3">
-                        {{'Forgot'| translate}}
-                    </span>
-                    <a class="txt3" routerLink="/password-reset">
-                        {{'email / password?'| translate}}
+                    <a routerLink="/password-reset">
+                        <span class="txt2" >
+                            {{'Forgot \'email / password?'| translate}}
+                        </span>
                     </a>
                 </div>
 
                 <div class="text-center p-t-136">
-                    <a class="txt3" routerLink="/signup">
+                    <a class="txt2" routerLink="/signup">
                         {{'Create your Account'| translate}}
                         <i class="fa fa-long-arrow-right m-l-5" aria-hidden="true"></i>
                     </a>

@@ -3,6 +3,12 @@
 @import url("https://cdnjs.cloudflare.com/ajax/libs/hamburgers/0.9.3/hamburgers.min.css");
 @import url("https://cdnjs.cloudflare.com/ajax/libs/select2-bootstrap-css/1.4.6/select2-bootstrap.min.css");
 
+
+.checkb {
+	border: solid;
+    width: 20px;
+    height: 20px;
+}
 /*[ FONT SIZE ]
 ///////////////////////////////////////////////////////////
 */

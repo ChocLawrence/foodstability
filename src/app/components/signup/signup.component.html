@@ -88,7 +88,7 @@
 
                 <div class="input-group">
                     <div class="form-check text-center">
-                        <input class="form-check-input" type="checkbox" value="" id="invalidCheck"
+                        <input class="form-check-input checkb pointer" type="checkbox" value="" id="invalidCheck"
                             formControlName="terms" required />
                         <label class="form-check-label" for="invalidCheck">
                             <a href="" routerLink="/terms-and-conditions" target="_blank" class="black">
@@ -102,11 +102,10 @@
                 </div>
 
                 <div class="container-login100-form-btn">
-                    <button class="login100-form-btn" [disabled]="!signupFormIsValid() || loading" type="submit">
-                        {{'Sign up'| translate}}
-                        &nbsp;
-                        <div class="spinner-border text-light" role="status" *ngIf="loading">
-                          <span class="sr-only">Loading...</span>
+                    <button type="submit" class="login100-form-btn btn-lg" [disabled]="!signupFormIsValid() || loading">
+                        {{'Sign up'| translate}} &nbsp;
+                        <div class="spinner-border float-right" role="status" *ngIf="loading">
+                            <span class="visually-hidden">{{"Loading"| translate}}...</span>
                         </div>
                     </button>
                 </div>
