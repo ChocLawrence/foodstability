@@ -196,6 +196,37 @@ export class CoreService {
     }
   }
 
+  goToConsole(){
+    let menu = this.decryptFromLocalStorage("menu");
+    let destination = '';
+    if (menu == "1") {
+      destination = "/author";
+    } else if (menu == "2") {
+      destination = "/console";
+    }
+
+    if (!this.isEmptyOrNull(destination)) {
+      this.redirectToDashboard(destination);
+      this.showSuccess(
+        "Success",
+        "Login Successful..."
+      );
+    } else {
+      this.showError(
+        "Oops",
+        "Refresh page and try again.."
+      );
+    }
+  }
+
+  redirectToDashboard(destination: string) {
+    let timer = setTimeout(() => {
+      window.location.href = destination;
+      clearTimeout(timer);
+    }, 2000);
+  }
+
+
   getRealOffset() {
     //in theory, client time should be server time - server timezone + client timezone
     //at least that's what I think

@@ -36,23 +36,16 @@ export class LoginComponent implements OnInit {
       values.email = values.email;
 
       this.authenticationservice.login(values).then(r => {
-        this.core.encryptToLocalStorage('currentUser', JSON.stringify(r.data));
-        this.core.encryptToLocalStorage('menu', JSON.stringify(r.data.user.role_id));
-        let menu = this.core.decryptFromLocalStorage('menu');
+        this.core.encryptToLocalStorage(
+          "currentUser",
+          JSON.stringify(r.data)
+        );
+        this.core.encryptToLocalStorage(
+          "menu",
+          JSON.stringify(r.data.user.role_id)
+        );
 
-        if (menu == 1) {
-          this.destination = "/author";
-        } else if (menu == 2) {
-          this.destination = "/console";
-        }
-
-        if (!this.core.isEmptyOrNull(this.destination)) {
-          this.redirectToDashboard(this.destination);
-          this.core.showSuccess("Success", "Login Successful...");
-        } else {
-          this.core.showError("Oops", "Refresh page and try again..");
-        }
-
+        this.core.goToConsole();
         this.loading = false;
 
       }).catch(e => {

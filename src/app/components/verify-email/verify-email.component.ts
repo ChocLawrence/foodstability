@@ -59,39 +59,25 @@ export class VerifyEmailComponent implements OnInit {
       .then((res) => {
         this.loading = false;
         this.verification = true;
-        this.timer(2);
+        this.timer(10);
       })
       .catch((e) => {
         this.loading = false;
         this.verification = false;
-        this.timer(1);
+        this.timer(10);
         this.core.handleError(e);
       });
   }
 
-  timer(minute: any) {
-    // let minute = 1;
-    let seconds: number = minute * 10;
-    let textSec: any = '0';
-    let statSec: number = 11;
-
-    const prefix = minute < 10 ? '0' : '';
-
-    const timer = setInterval(() => {
-      seconds--;
-      if (statSec != 0) statSec--;
-      else statSec = 10;
-
-      if (statSec < 10) {
-        textSec = '0' + statSec;
-      } else textSec = statSec;
-
-      this.display = `${prefix}${Math.floor(seconds / 60)}:${textSec}`;
-
-      if (seconds == 0) {
+  timer(timeleft: any) {
+    let downloadTimer = setInterval(() => {
+      if (timeleft <= 0) {
+        clearInterval(downloadTimer);
         this.redirectToLogin();
-        clearInterval(timer);
+      } else {
+        this.display = `${timeleft}` + ' seconds remaining';
       }
+      timeleft -= 1;
     }, 1000);
   }
 
