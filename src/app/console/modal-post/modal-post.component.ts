@@ -41,6 +41,7 @@ export class ModalPostComponent implements OnInit {
   public modalText = '';
   public loading = false;
   public loadingData = false;
+  public maxSize = 1.5 * 1024 * 1024; // 1.5MB in bytes
   modalReference: any;
   closeResult!: string;
 
@@ -147,8 +148,8 @@ export class ModalPostComponent implements OnInit {
   handleImageUpload(event: any) {
     this.imageFile = event.target.files[0];
 
-    if (this.imageFile && this.imageFile.size > 1000000) {
-      this.core.showError('Error', 'Limit file to 1 mb');
+    if (this.imageFile && this.imageFile.size > this.maxSize) {
+      this.core.showError('Error', 'Limit file to 1.5 mb');
       return;
     }
 
@@ -159,8 +160,8 @@ export class ModalPostComponent implements OnInit {
   handlePdfUpload(event: any) {
     this.pdfFile = event.target.files[0];
 
-    if (this.pdfFile && this.pdfFile.size > 1000000) {
-      this.core.showError('Error', 'Limit file to 1 mb');
+    if (this.pdfFile && this.pdfFile.size > this.maxSize) {
+      this.core.showError('Error', 'Limit file to 1.5 mb');
       return;
     }
 
