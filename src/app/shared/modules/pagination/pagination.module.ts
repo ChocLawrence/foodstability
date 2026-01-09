@@ -1,0 +1,18 @@
+import { NgModule } from "@angular/core";
+import { CommonModule } from "@angular/common";
+import { PaginationComponent } from "../../components/pagination/pagination.component";
+import { TranslateModule } from "@ngx-translate/core";
+
+@NgModule({
+  declarations: [
+    PaginationComponent,
+  ],
+  imports: [
+    CommonModule,
+    TranslateModule.forChild(),
+  ],
+  exports: [
+    PaginationComponent,
+  ],
+})
+export class PaginationModule {}

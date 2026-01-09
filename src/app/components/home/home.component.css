@@ -12,3 +12,52 @@
     background-color: rgb(97, 160, 97);
     border: none;
 }
+
+/* Ensure consistent input heights for filter form */
+.form-control[ngbDatepicker] {
+    height: 31px !important;
+}
+
+.input-group-sm .form-control,
+.input-group-sm .input-group-text,
+.input-group-sm > .input-group-prepend > .input-group-text,
+.input-group-sm > .input-group-append > .input-group-text,
+.input-group-sm > .input-group-prepend > .btn,
+.input-group-sm > .input-group-append > .btn {
+    height: 31px;
+    line-height: 1.5;
+}
+
+/* Make date inputs clickable and show cursor */
+.date-input-clickable {
+    cursor: pointer !important;
+}
+
+.date-input-clickable:hover {
+    border-color: #007bff;
+}
+
+/* Center calendar icons in buttons */
+.input-group-append .btn i,
+.input-group-prepend .btn i {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+    vertical-align: middle;
+}
+
+/* Ensure calendar button icons are centered */
+.input-group-append .btn.btn-primary,
+.input-group-prepend .btn.btn-primary {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.25rem 0.5rem;
+}
+
+.input-group-append .btn.btn-primary i,
+.input-group-prepend .btn.btn-primary i {
+    font-size: 1rem;
+    padding: 0.25rem;
+}

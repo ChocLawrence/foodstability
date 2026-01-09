@@ -38,6 +38,22 @@ export class PostsService {
       url += `&end_date=${encodeURIComponent(dataObject.end)}`;
     }
 
+    if (!this.core.isEmptyOrNull(dataObject.title)) {
+      url += `&title=${encodeURIComponent(dataObject.title)}`;
+    }
+
+    if (!this.core.isEmptyOrNull(dataObject.doi)) {
+      url += `&doi=${encodeURIComponent(dataObject.doi)}`;
+    }
+
+    if (!this.core.isEmptyOrNull(dataObject.volume)) {
+      url += `&volume=${encodeURIComponent(dataObject.volume)}`;
+    }
+
+    if (!this.core.isEmptyOrNull(dataObject.issue)) {
+      url += `&issue=${encodeURIComponent(dataObject.issue)}`;
+    }
+
     if (!this.core.isEmptyOrNull(dataObject.page_size)) {
       url += `&page_size=${encodeURIComponent(dataObject.page_size)}`;
     }
@@ -88,6 +104,22 @@ export class PostsService {
 
     if (!this.core.isEmptyOrNull(dataObject.end)) {
       url += `&end_date=${encodeURIComponent(dataObject.end)}`;
+    }
+
+    if (!this.core.isEmptyOrNull(dataObject.title)) {
+      url += `&title=${encodeURIComponent(dataObject.title)}`;
+    }
+
+    if (!this.core.isEmptyOrNull(dataObject.doi)) {
+      url += `&doi=${encodeURIComponent(dataObject.doi)}`;
+    }
+
+    if (!this.core.isEmptyOrNull(dataObject.volume)) {
+      url += `&volume=${encodeURIComponent(dataObject.volume)}`;
+    }
+
+    if (!this.core.isEmptyOrNull(dataObject.issue)) {
+      url += `&issue=${encodeURIComponent(dataObject.issue)}`;
     }
 
     if (dataObject.visibility == 0 || dataObject.visibility) {

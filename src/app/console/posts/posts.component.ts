@@ -86,6 +86,10 @@ export class PostsComponent implements OnInit {
   public data = {
     start: this.defaultStartDate,
     end: this.defaultEndDate,
+    title: '',
+    doi: '',
+    volume: '',
+    issue: '',
   };
 
   public genericPosts: any = [];
@@ -106,6 +110,10 @@ export class PostsComponent implements OnInit {
       startd: [this.stdate],
       enddate: [this.endate],
       count: [''],
+      title: [''],
+      doi: [''],
+      volume: [''],
+      issue: [''],
     });
   }
 
@@ -134,6 +142,10 @@ export class PostsComponent implements OnInit {
       startd: [this.stdate],
       enddate: [this.endate],
       count: [''],
+      title: [''],
+      doi: [''],
+      volume: [''],
+      issue: [''],
     });
   }
 
@@ -191,22 +203,37 @@ export class PostsComponent implements OnInit {
     let data: any = {};
     if (startDate) data.start = startDate;
     if (endDate) data.end = endDate;
+    if (search['title'].value && search['title'].value.trim()) {
+      data.title = search['title'].value.trim();
+    }
+    if (search['doi'].value && search['doi'].value.trim()) {
+      data.doi = search['doi'].value.trim();
+    }
+    if (search['volume'].value) {
+      data.volume = search['volume'].value;
+    }
+    if (search['issue'].value) {
+      data.issue = search['issue'].value;
+    }
     data.visibility = 0;
     this.getPosts(data);
   }
 
   onSearch() {
-    const search = this.searchForm.controls;
-    if (search['startd'].status === 'VALID') {
-      this.onSubmit();
-    }
-    // else if (search.value.status == "pending" || search.value.status == "success") {
-    //   this.onSubmit();
-    // }
+    // Trigger search when any field changes
+    this.onSubmit();
   }
 
   refreshDataSource() {
     this.initForm();
+    this.data = {
+      start: this.defaultStartDate,
+      end: this.defaultEndDate,
+      title: '',
+      doi: '',
+      volume: '',
+      issue: '',
+    };
     this.getPosts(this.data);
   }
 
@@ -214,6 +241,10 @@ export class PostsComponent implements OnInit {
     this.searchForm.patchValue({
       start: this.getStringDate(formData.start),
       end: formData.end,
+      title: formData.title || '',
+      doi: formData.doi || '',
+      volume: formData.volume || '',
+      issue: formData.issue || '',
     });
   }
 
@@ -233,12 +264,16 @@ export class PostsComponent implements OnInit {
   getPosts(data: any) {
     this.loadingData = true;
 
-    let searchDate = {
+    let searchData = {
       start: data.start,
       end: data.end,
+      title: data.title || '',
+      doi: data.doi || '',
+      volume: data.volume || '',
+      issue: data.issue || '',
     };
 
-    localStorage.setItem('posts_search_data', JSON.stringify(searchDate));
+    localStorage.setItem('posts_search_data', JSON.stringify(searchData));
 
     this.postsService
       .getPosts(data)
@@ -308,14 +343,21 @@ export class PostsComponent implements OnInit {
       data = {
         start: this.defaultStartDate,
         end: this.defaultEndDate,
+        title: '',
+        doi: '',
+        volume: '',
+        issue: '',
         visibility: null,
       };
     } else {
       data = {
-        start: searchData.start,
-        end: this.defaultEndDate,
+        start: searchData.start || this.defaultStartDate,
+        end: searchData.end || this.defaultEndDate,
+        title: searchData.title || '',
+        doi: searchData.doi || '',
+        volume: searchData.volume || '',
+        issue: searchData.issue || '',
         visibility: null,
-        //status: searchData.status
       };
     }
    
@@ -323,28 +365,41 @@ export class PostsComponent implements OnInit {
   }
 
 
-  prevPage() {
+  onPageChange(page: number) {
     this.loadingData = true;
     let data = this.checkSearchStore();
+    data.page = page;
     this.postsService
-      .getPostsAtUrl(this.genericPosts.prev_page_url, data)
+      .getPosts(data)
       .then((posts) => {
+        if (posts.data.data) {
+          this.postsCount = posts.data.data.length;
+          this.posts = this._core.normalizeKeys(posts.data.data);
+        } else {
+          this.postsCount = posts.data.length;
+          this.posts = this._core.normalizeKeys(posts.data);
+        }
         this.genericPosts = posts.data;
-        this.posts = posts.data.data;
         this.loadingData = false;
+      })
+      .catch((e) => {
+        this.loadingData = false;
+        this._core.handleError(e);
       });
   }
 
+  prevPage() {
+    // Deprecated - kept for backward compatibility if needed
+    if (this.genericPosts.current_page > 1) {
+      this.onPageChange(this.genericPosts.current_page - 1);
+    }
+  }
+
   nextPage() {
-    this.loadingData = true;
-    let data = this.checkSearchStore();
-    this.postsService
-      .getPostsAtUrl(this.genericPosts.next_page_url, data)
-      .then((posts) => {
-        this.genericPosts = posts.data;
-        this.posts = posts.data.data;
-        this.loadingData = false;
-      });
+    // Deprecated - kept for backward compatibility if needed
+    if (this.genericPosts.current_page < this.genericPosts.last_page) {
+      this.onPageChange(this.genericPosts.current_page + 1);
+    }
   }
 
   customizeExcelCell = (options: any) => {

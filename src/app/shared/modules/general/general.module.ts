@@ -30,7 +30,7 @@ import { NgxLoadingModule } from "ngx-loading";
   ],
   imports: [
     CommonModule,
-    TranslateModule,
+    TranslateModule.forChild(),
     FormsModule,
     ReactiveFormsModule,
     NgbDatepickerModule,

@@ -108,6 +108,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
       startd: [this.stdate],
       enddate: [this.endate],
       count: [''],
+      volume: [''],
+      issue: [''],
     });
   }
 
@@ -162,6 +164,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
       startd: [this.stdate],
       enddate: [this.endate],
       count: [''],
+      volume: [''],
+      issue: [''],
     });
   }
 
@@ -177,8 +181,10 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   loadForm(formData: any) {
     this.searchForm.patchValue({
-      start: this.getStringDate(formData.start),
-      end: formData.end,
+      startd: this.getStringDate(formData.start),
+      enddate: this.getStringDate(formData.end),
+      volume: formData.volume || '',
+      issue: formData.issue || '',
     });
   }
 
@@ -201,6 +207,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
         end: this.defaultEndDate,
         visibility: 0,
       };
+      
+      // Include volume and issue if they exist in stored data
+      if (searchData.volume) {
+        data.volume = searchData.volume;
+      }
+      if (searchData.issue) {
+        data.issue = searchData.issue;
+      }
     }
    
     return data;
@@ -218,6 +232,14 @@ export class HomeComponent implements OnInit, AfterViewInit {
     let data: any = {};
     if (startDate) data.start = startDate;
     if (endDate) data.end = endDate;
+    
+    // Include volume and issue filters
+    if (search['volume'].value) {
+      data.volume = search['volume'].value;
+    }
+    if (search['issue'].value) {
+      data.issue = search['issue'].value;
+    }
 
     data.visibility = 0;
     this.getPosts(data);
@@ -253,7 +275,23 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   refreshDataSource() {
     this.initForm();
-    let data = this.checkSearchStore();
+    // Reset form to default dates
+    let endDate = new Date();
+    let startDate = this._core.getStartDate(endDate);
+    this.stdate.year = startDate.getFullYear();
+    this.stdate.month = startDate.getMonth() + 1;
+    this.stdate.day = startDate.getDate();
+    this.endate.year = endDate.getFullYear();
+    this.endate.month = endDate.getMonth() + 1;
+    this.endate.day = endDate.getDate();
+    this.defaultEndDate = `${this.endate.year}-${this.endate.month}-${this.endate.day}`;
+    this.defaultStartDate = `${this.stdate.year}-${this.stdate.month}-${this.stdate.day}`;
+    
+    let data = {
+      start: this.defaultStartDate,
+      end: this.defaultEndDate,
+      visibility: 0,
+    };
     this.getPosts(data);
   }
 
@@ -288,19 +326,34 @@ export class HomeComponent implements OnInit, AfterViewInit {
     }
   }
 
-  nextPage(pageData:any) {
+  onPageChange(page: number) {
     let data = this.checkSearchStore();
-    data.page = pageData.current_page;
+    data.page = page;
     this.getPosts(data);
+  }
+
+  nextPage(pageData:any) {
+    // Deprecated - kept for backward compatibility if needed
+    if (pageData && pageData.current_page) {
+      this.onPageChange(pageData.current_page);
+    }
   }
 
   async getPosts(data: any) {
     this.loadingData = true;
 
-    let searchDate = {
+    let searchDate: any = {
       start: data.start,
       end: data.end,
     };
+    
+    // Include volume and issue in stored search data
+    if (data.volume) {
+      searchDate.volume = data.volume;
+    }
+    if (data.issue) {
+      searchDate.issue = data.issue;
+    }
 
     localStorage.setItem('home_posts_search_data', JSON.stringify(searchDate));
 

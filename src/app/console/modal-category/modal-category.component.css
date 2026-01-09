@@ -2,3 +2,34 @@
   width: 100%;
   height: 100%;
 }
+
+.modal-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1rem;
+    border-bottom: 1px solid #dee2e6;
+    border-top-left-radius: calc(0.3rem - 1px);
+    border-top-right-radius: calc(0.3rem - 1px);
+}
+
+.modal-header .close {
+    padding: 0;
+    background-color: transparent;
+    border: 0;
+    opacity: 0.5;
+    font-size: 1.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    margin-left: auto;
+}
+
+.modal-header .close:hover {
+    opacity: 0.75;
+}
+
+.modal-header h3 {
+    margin: 0;
+}

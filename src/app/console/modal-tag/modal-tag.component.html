@@ -1,16 +1,17 @@
 <ng-template #tagModal let-c="close" let-d="dismiss">
     <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="text-3 font-weight-400 m-0">
+                {{ modalTitle | translate }}
+            </h3>
+            <button type="button" class="close font-weight-400" data-dismiss="modal" aria-label="Close"
+                (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <div class="modal-body">
             <div class="row no-gutters">
                 <div class="col">
-                    <h3 class="text-3 font-weight-400 m-2">
-                        {{ modalTitle | translate }}
-                        <button type="button" class="close font-weight-400" data-dismiss="modal" aria-label="Close"
-                            (click)="d('Cross click')">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </h3>
-                    <hr />
                     <div class="px-3" *ngIf="tag && action == 'view'">
                         <ul class="list-unstyled">
                             <li class="mb-2">
@@ -27,6 +28,7 @@
                       action == 'updateTag' ||
                       action == 'addTag'
                     ">
+                                    <label for="name">{{ "Name" | translate }}</label>
                                     <div class="input-group">
                                         <input type="text" class="form-control" id="name" formControlName="name"
                                             required placeholder="Name" />

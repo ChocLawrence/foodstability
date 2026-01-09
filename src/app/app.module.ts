@@ -2,6 +2,7 @@ import { DatePipe, TitleCasePipe } from '@angular/common';
 import { HttpClientModule, HTTP_INTERCEPTORS } from "@angular/common/http";
 import { LOCALE_ID, NgModule } from '@angular/core';
 import { LanguageTranslationModule } from "./shared/modules/language-translation/language-translation.module";
+import { PaginationModule } from "./shared/modules/pagination/pagination.module";
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
 import { ToastrModule } from 'ngx-toastr';
 import { FormsModule, ReactiveFormsModule } from "@angular/forms";
@@ -79,6 +80,7 @@ import { PdfComponent } from './components/pdf/pdf.component';
     NgbModule,
     NgbNavModule,
     LanguageTranslationModule,
+    PaginationModule,
     BrowserAnimationsModule,
     FormsModule,
     PdfViewerModule, 

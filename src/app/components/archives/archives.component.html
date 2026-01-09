@@ -7,7 +7,7 @@
     <div class="container">
 
         <hr>
-        <h4 class="green">
+        <h4 class="green" *ngIf="!loadingData">
             <span routerLink="/archives" class="pointer blue">
                 Archives
             </span>
@@ -25,11 +25,11 @@
                 </span> > &nbsp; Issues {{issue}}
             </span>
         </h4>
-        <h6 class="card-subtitle mb-2 text-muted">2018 till date</h6>
+        <h6 class="card-subtitle mb-2 text-muted" *ngIf="!loadingData">2018 till date</h6>
 
 
 
-        <div class="row" *ngIf="activeSection=='volumes'">
+        <div class="row" *ngIf="activeSection=='volumes' && !loadingData">
             <!--Row Item-->
 
             <div class="col-sm-3 mb-5 mt-3" *ngFor="let volume of volumes">
@@ -45,7 +45,7 @@
             </div>
 
         </div>
-        <div class="row" *ngIf="activeSection=='issues'">
+        <div class="row" *ngIf="activeSection=='issues' && !loadingData">
             <div class="col-sm-3 mb-5 mt-3" *ngFor="let issue of issues">
                 <a routerLink="/archives/{{volume}}/{{issue.issue}}">
                     <div class="card item">
@@ -60,7 +60,8 @@
         </div>
 
         <br>
-        <div *ngFor="let post of posts">
+        <div *ngIf="activeSection=='issue-details' && !loadingData">
+          <div *ngFor="let post of posts">
             <div class="row">
               <div class="col-sm-3">
                 <figure id="figure">
@@ -109,6 +110,7 @@
 
             </div>
           </div>
+        </div>
         <!--End Row Item-->
 
     </div><!-- .row -->
@@ -116,3 +118,9 @@
     <app-footer></app-footer>
 
 </div>
+
+<ngx-loading [show]="loadingData" [config]="{
+  backdropBorderRadius: '3px',
+  fullScreenBackdrop: true,
+  animationType: animationType
+}"></ngx-loading>

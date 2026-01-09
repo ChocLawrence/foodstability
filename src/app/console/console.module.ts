@@ -21,6 +21,7 @@ import {
 import { NgxLoadingModule, ngxLoadingAnimationTypes } from "ngx-loading";
 import { ConsoleRoutingModule } from "./console-routing.module";
 import { ConsoleComponent } from "./console.component";
+import { PaginationModule } from "../shared/modules/pagination/pagination.module";
 import localeGb from "@angular/common/locales/en-GB";
 import { FormsModule } from "@angular/forms";
 import { HTTP_INTERCEPTORS } from "@angular/common/http";
@@ -50,6 +51,7 @@ registerLocaleData(localeGb);
   imports: [
     CommonModule,
     ConsoleRoutingModule,
+    PaginationModule,
     TranslateModule,
     DxDataGridModule,
     PdfViewerModule,

@@ -9,12 +9,13 @@
 
             <br><br>
             <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-                <div class="row">
-                    <div class="col-lg-3">
+                <div class="row mb-3">
+                    <div class="col-lg-3 col-md-6 mb-2">
+                        <label class="small mb-1">{{ "Date Range" | translate }}</label>
                         <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
                                 <span class="input-group-text secondary">
-                                    <i class="fa fa-hourglass-start"></i>
+                                    <i class="fa fa-calendar"></i>
                                 </span>
                             </div>
                             <input style="pointer-events: none" (ngModelChange)="onSearch()" class="form-control"
@@ -27,11 +28,12 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3">
+                    <div class="col-lg-3 col-md-6 mb-2">
+                        <label class="small mb-1">&nbsp;</label>
                         <div class="input-group input-group-sm">
                             <div class="input-group-prepend">
                                 <span class="input-group-text secondary">
-                                    <i class="fa fa-hourglass-end"></i>
+                                    <i class="fa fa-calendar"></i>
                                 </span>
                             </div>
                             <input (ngModelChange)="onSearch()" style="pointer-events: none"
@@ -45,30 +47,63 @@
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-2">
-                        &nbsp;
-                        <span>
-                            <i (click)="refreshDataSource()" class="fa fa-undo pointer fa-sm" aria-hidden="true"
-                                title="{{ 'Reset Filter' | translate }}"></i>
-                        </span>
+                    <div class="col-lg-3 col-md-6 mb-2">
+                        <label class="small mb-1">{{ "Title" | translate }}</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text secondary">
+                                    <i class="fa fa-book"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" [placeholder]="'Search by title...' | translate"
+                                formControlName="title" (keyup.enter)="onSubmit()" />
+                        </div>
                     </div>
-                    <div class="pull-right col-lg-3">
-                        <!-- <div class="input-group mb-3 input-group-sm">
-                                <div class="input-group-prepend">
-                                    <label class="input-group-text" for="inputGroupSelect01">{{
-                                        "Status" | translate
-                                        }}</label>
-                                </div>
-                                <select id="inputGroupSelect01" formControlName="status" (ngModelChange)="onSearch()">
-                                    <option disabled selected value>
-                                        {{ "Choose ..." | translate }}
-                                    </option>
-                                    <option value="pending">{{ "Pending" | translate }}</option>
-                                    <option value="success">{{ "Success" | translate }}</option>
-                                    <option value="error">{{ "Error" | translate }}</option>
-                                    <option value="all">{{ "All" | translate }}</option>
-                                </select>
-                            </div> -->
+                    <div class="col-lg-3 col-md-6 mb-2">
+                        <label class="small mb-1">{{ "DOI" | translate }}</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text secondary">
+                                    <i class="fa fa-tag"></i>
+                                </span>
+                            </div>
+                            <input type="text" class="form-control" [placeholder]="'Search by DOI...' | translate"
+                                formControlName="doi" (keyup.enter)="onSubmit()" />
+                        </div>
+                    </div>
+                </div>
+                <div class="row mb-3">
+                    <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                        <label class="small mb-1">{{ "Volume" | translate }}</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text secondary">
+                                    <i class="fa fa-bookmark"></i>
+                                </span>
+                            </div>
+                            <input type="number" class="form-control" [placeholder]="'Volume' | translate"
+                                formControlName="volume" (keyup.enter)="onSubmit()" min="1" />
+                        </div>
+                    </div>
+                    <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
+                        <label class="small mb-1">{{ "Issue" | translate }}</label>
+                        <div class="input-group input-group-sm">
+                            <div class="input-group-prepend">
+                                <span class="input-group-text secondary">
+                                    <i class="fa fa-bookmark"></i>
+                                </span>
+                            </div>
+                            <input type="number" class="form-control" [placeholder]="'Issue' | translate"
+                                formControlName="issue" (keyup.enter)="onSubmit()" min="1" />
+                        </div>
+                    </div>
+                    <div class="col-lg-8 col-md-4 col-sm-12 mb-2 d-flex align-items-end">
+                        <button type="submit" class="btn btn-primary btn-sm mr-2">
+                            <i class="fa fa-search"></i> {{ "Search" | translate }}
+                        </button> &nbsp;
+                        <button type="button" (click)="refreshDataSource()" class="btn btn-secondary btn-sm">
+                            <i class="fa fa-undo"></i> {{ "Reset" | translate }}
+                        </button>
                     </div>
                 </div>
             </form>
@@ -137,24 +172,11 @@
                 <dxo-column-chooser [enabled]="true"></dxo-column-chooser>
             </dx-data-grid>
             <div class="row">
-                <div class="col center">
-                    <span>
-                        <p>{{'Showing posts'| translate}} : {{genericPosts.from ? genericPosts.from : '0' }}
-                            {{'to'|
-                            translate}}
-                            {{genericPosts.to ? genericPosts.to : '0'}} {{'of'|
-                            translate}} {{genericPosts.total? genericPosts.total : '0'}}</p>
-                        <p>{{'Page' | translate}}&nbsp;{{genericPosts.current_page ? genericPosts.current_page :
-                            '0'}}
-                            {{'of'|
-                            translate}}
-                            {{genericPosts.last_page ? genericPosts.last_page : '0'}}
-                        </p>
-                        <button class="btn btn-primary btn-sm" (click)="prevPage()"
-                            [disabled]="!genericPosts.prev_page_url">{{'Prev'| translate}} << </button> &nbsp;
-                                <button class="btn btn-primary btn-sm" (click)="nextPage()"
-                                    [disabled]="!genericPosts.next_page_url">{{'Next'| translate}} >> </button>
-                    </span>
+                <div class="col-12">
+                    <app-pagination 
+                        [paginationData]="genericPosts" 
+                        (pageChange)="onPageChange($event)">
+                    </app-pagination>
                 </div>
             </div>
         </div>

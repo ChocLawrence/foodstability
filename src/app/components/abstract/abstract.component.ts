@@ -5,28 +5,33 @@ import {
   Injectable,
   AfterViewInit,
   ElementRef,
+  OnDestroy,
 } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { CoreService } from '../../core/core.service';
 import { UrlsService } from '../../core/urls.service';
 import { DatePipe } from '@angular/common';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { PostsService } from '../../services/posts.service';
 import { MetaService } from '../../services/meta.service';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-abstract',
   templateUrl: './abstract.component.html',
   styleUrls: ['./abstract.component.css'],
 })
-export class AbstractComponent implements OnInit, AfterViewInit  {
+export class AbstractComponent implements OnInit, AfterViewInit, OnDestroy  {
   public title = 'Abstract | Journal of Food Stability';
   public categories: any[] = [];
-  public post: any = [];
+  public post: any = null;
   public animationType = 'wanderingCubes';
-  public loadingData = false;
+  public loadingData = true;
   public date = new Date();
   public slug: any;
+
+  private destroy$ = new Subject<void>();
 
   constructor(
     private titleService: Title,
@@ -35,6 +40,7 @@ export class AbstractComponent implements OnInit, AfterViewInit  {
     private postsService: PostsService,
     private metaService: MetaService,
     public router: Router,
+    private route: ActivatedRoute,
     private metaTagService: Meta
   ) {}
 
@@ -65,7 +71,31 @@ export class AbstractComponent implements OnInit, AfterViewInit  {
       { name: 'date', content: this.date.toString(), scheme: 'YYYY-MM-DD' },
       { charset: 'UTF-8' },
     ]);
-    this.processReset();
+
+    // Subscribe to route parameter changes for navigation between different abstract pages
+    // This also handles the initial load
+    this.route.params
+      .pipe(takeUntil(this.destroy$))
+      .subscribe((params) => {
+        const newSlug = params['slug'];
+        // Process if we have a slug (either initial load or navigation)
+        if (newSlug) {
+          // Only reload if slug actually changed (for navigation between different abstracts)
+          if (!this.slug || newSlug !== this.slug) {
+            this.loadingData = true;
+            if (this._core.checkIfOnline()) {
+              this.processReset();
+            }
+          }
+        } else {
+          this.loadingData = false;
+        }
+      });
+  }
+
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
 
@@ -83,12 +113,20 @@ export class AbstractComponent implements OnInit, AfterViewInit  {
   }
 
   async processReset() {
+    // Reset post data when navigating
+    this.post = null;
+    
+    // Ensure loader is shown (in case it wasn't set by router subscription)
+    this.loadingData = true;
+    
     //check current url
     let splitUrl = this.router.url.split('/');
     this.slug = splitUrl[2];
 
     if (!this._core.isEmptyOrNull(this.slug)) {
       await this.getPost(this.slug);
+    } else {
+      this.loadingData = false;
     }
   }
 

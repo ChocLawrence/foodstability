@@ -1,0 +1,42 @@
+<div class="pagination-container">
+  <div class="pagination-info mb-2" [ngClass]="{'text-left': alignment === 'left', 'text-center': alignment === 'center', 'text-right': alignment === 'right'}">
+    <p class="mb-1">
+      {{ 'Showing' | translate }} {{ from ? from : '0' }} {{ 'to' | translate }} {{ to ? to : '0' }} 
+      {{ 'of' | translate }} {{ total ? total : '0' }} {{ 'results' | translate }}
+    </p>
+    <p class="mb-0">
+      {{ 'Page' | translate }} {{ currentPage ? currentPage : '0' }} {{ 'of' | translate }} {{ lastPage ? lastPage : '0' }}
+    </p>
+  </div>
+  
+  <nav aria-label="Page navigation" *ngIf="lastPage > 1">
+    <ul class="pagination pagination-sm" [ngClass]="{'justify-content-start': alignment === 'left', 'justify-content-center': alignment === 'center', 'justify-content-end': alignment === 'right'}">
+      <!-- Previous Button -->
+      <li class="page-item" [class.disabled]="currentPage === 1">
+        <a class="page-link" href="javascript:void(0)" (click)="previousPage($event)" [attr.aria-disabled]="currentPage === 1">
+          <span aria-hidden="true">&laquo;</span> {{ 'Prev' | translate }}
+        </a>
+      </li>
+
+      <!-- Page Numbers -->
+      <li *ngFor="let page of pages" class="page-item" 
+          [class.active]="page === currentPage"
+          [class.disabled]="isEllipsis(page)">
+        <a *ngIf="!isEllipsis(page)" 
+           class="page-link" 
+           href="javascript:void(0)" 
+           (click)="goToPage(page, $event)">
+          {{ page }}
+        </a>
+        <span *ngIf="isEllipsis(page)" class="page-link">{{ page }}</span>
+      </li>
+
+      <!-- Next Button -->
+      <li class="page-item" [class.disabled]="currentPage === lastPage">
+        <a class="page-link" href="javascript:void(0)" (click)="nextPage($event)" [attr.aria-disabled]="currentPage === lastPage">
+          {{ 'Next' | translate }} <span aria-hidden="true">&raquo;</span>
+        </a>
+      </li>
+    </ul>
+  </nav>
+</div>

@@ -5,24 +5,27 @@ import {
   Injectable,
   AfterViewInit,
   ElementRef,
+  OnDestroy,
 } from '@angular/core';
 import { Title, Meta } from '@angular/platform-browser';
 import { CoreService } from '../../core/core.service';
 import { UrlsService } from '../../core/urls.service';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router, NavigationEnd, ActivatedRoute } from '@angular/router';
 import { PostsService } from '../../services/posts.service';
 import { ArchivesService } from '../../services/archives.service';
 import { MetaService } from '../../services/meta.service';
+import { filter, takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'app-archives',
   templateUrl: './archives.component.html',
   styleUrls: ['./archives.component.css'],
 })
-export class ArchivesComponent implements OnInit, AfterViewInit {
+export class ArchivesComponent implements OnInit, AfterViewInit, OnDestroy {
   public title = 'Archives | Journal of Food Stability';
   public animationType = 'wanderingCubes';
-  public loadingData = false;
+  public loadingData = true;
   public activeSection = 'volumes';
   public volume: any;
   public issue: any;
@@ -33,12 +36,16 @@ export class ArchivesComponent implements OnInit, AfterViewInit {
   public issues: any[] = [];
   public posts: any[] = [];
 
+  private destroy$ = new Subject<void>();
+  private previousUrl: string = '';
+
   constructor(
     private titleService: Title,
     private metaTagService: Meta,
     public _core: CoreService,
     public _urls: UrlsService,
     public router: Router,
+    private route: ActivatedRoute,
     private metaService: MetaService,
     private postsService: PostsService,
     private archivesService: ArchivesService
@@ -57,31 +64,68 @@ export class ArchivesComponent implements OnInit, AfterViewInit {
       content:
         'The Archives for the Journal of Food Stability include an organized shelf where our visitors can easily access publications based on years, volumes and issues. This style of organization helps our visitors to get to articles they are looking for easily.',
     });
+    
+    // Subscribe to router navigation events to handle route changes
+    this.router.events
+      .pipe(
+        filter(event => event instanceof NavigationEnd),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        // Only process if navigating to/within archives routes and URL actually changed
+        const currentUrl = this.router.url;
+        if (currentUrl.startsWith('/archives') && currentUrl !== this.previousUrl) {
+          this.previousUrl = currentUrl;
+          this.loadingData = true;
+          if (this._core.checkIfOnline()) {
+            this.processPage();
+          }
+        }
+      });
+
+    // Set initial URL and load
+    this.previousUrl = this.router.url;
     if (this._core.checkIfOnline()) {
       this.processPage();
     }
   }
 
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
 
   async updatePostCount(id: any) {
-    this.loadingData = true;
+    // Don't show loader for view count updates - it's a background operation
     await this.postsService
       .updatePostCount(id)
       .then((r) => {
-        this.loadingData = false;
         this.viewCount = document.getElementById('views'+ id);
-        if(this.viewCount.innerHTML) this.viewCount.innerText =  Number(1) + Number(this.viewCount.innerHTML);
+        if(this.viewCount && this.viewCount.innerHTML) {
+          this.viewCount.innerText = Number(1) + Number(this.viewCount.innerHTML);
+        }
 
         this.downloadsCount = document.getElementById('downloads'+ id);
-        if(this.downloadsCount.innerHTML) this.downloadsCount.innerHTML =  Number(1) + Number(this.downloadsCount.innerHTML);
+        if(this.downloadsCount && this.downloadsCount.innerHTML) {
+          this.downloadsCount.innerHTML = Number(1) + Number(this.downloadsCount.innerHTML);
+        }
       })
       .catch((e) => {
-        this.loadingData = false;
-        this._core.handleError(e);
+        // Silently fail for view count updates - don't interrupt user experience
+        console.error('Failed to update post count:', e);
       });
   }
 
   async processPage() {
+    // Reset data when navigating
+    this.volumes = [];
+    this.issues = [];
+    this.posts = [];
+    
+    // Ensure loader is shown (in case it wasn't set by router subscription)
+    this.loadingData = true;
+    
     //check current url
     let splitUrl = this.router.url.split('/');
     this.volume = splitUrl[2];
@@ -100,6 +144,7 @@ export class ArchivesComponent implements OnInit, AfterViewInit {
       this.activeSection = 'issues';
       this.getArchivesByVolume(this.volume);
     } else {
+      this.activeSection = 'volumes';
       this.getArchives();
     }
   }

@@ -20,6 +20,8 @@ import { DomSanitizer } from '@angular/platform-browser';
 })
 export class ModalPostComponent implements OnInit {
   @ViewChild('postModal', { static: false }) postModal: any;
+  @ViewChild('imageInput', { static: false }) imageInput: any;
+  @ViewChild('pdfInput', { static: false }) pdfInput: any;
 
   public dropdownSettings: any = {
     singleSelection: true,
@@ -170,6 +172,9 @@ export class ModalPostComponent implements OnInit {
   }
 
   openModal() {
+    // Clear any previous previews first
+    this.clearPreviews();
+    
     const timer = setTimeout(() => {
       if (this.action == 'view') {
         this.setUrls();
@@ -206,6 +211,7 @@ export class ModalPostComponent implements OnInit {
         this.modalReference.result.then(
           (result: any) => {
             this.closeResult = `Closed with: ${result}`;
+            this.clearPreviews();
           },
           (reason: any) => {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
@@ -386,6 +392,13 @@ export class ModalPostComponent implements OnInit {
 
   resetpostForm() {
     this.postForm?.reset();
+    // Explicitly reset file controls
+    if (this.postForm) {
+      this.postForm.patchValue({
+        image: null,
+        pdf: null
+      });
+    }
   }
 
   getDate(date: string) {
@@ -402,10 +415,28 @@ export class ModalPostComponent implements OnInit {
   }
 
   notifyOfModalDismissal() {
+    this.clearPreviews();
     this.postModalClosed.emit();
     if (this.action == 'addPost' || this.action == 'updatePost') {
       this.resetpostForm();
     }
+  }
+
+  clearPreviews() {
+    this.sanitizedImageUrl = null;
+    this.sanitizedPdfUrl = null;
+    this.imageFile = null;
+    this.pdfFile = null;
+    
+    // Reset file input elements (use setTimeout to ensure ViewChild is available)
+    setTimeout(() => {
+      if (this.imageInput && this.imageInput.nativeElement) {
+        this.imageInput.nativeElement.value = '';
+      }
+      if (this.pdfInput && this.pdfInput.nativeElement) {
+        this.pdfInput.nativeElement.value = '';
+      }
+    }, 0);
   }
 
   private getDismissReason(reason: any): string {

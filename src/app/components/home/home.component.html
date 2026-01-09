@@ -203,70 +203,80 @@
           <span class="new">{{'NEW'| translate}}</span><strong><span class="orange"></span></strong>
           <p></p>
           <!-- put new label green-->
-          <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" title="{{'Search articles by date'| translate}}"
+          <form [formGroup]="searchForm" (ngSubmit)="onSubmit()" title="{{'Search articles'| translate}}"
             class="pointer">
-            <div class="row">
-              <div class="col-lg-5" title="{{'Start date'| translate}}">
+            <div class="row mb-2">
+              <div class="col-lg-3 col-md-6 mb-2" title="{{'Start date'| translate}}">
+                <label class="small mb-1">{{'Start date'| translate}}</label>
                 <div class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text secondary">
-                      {{'Start date'| translate}} &nbsp;
                       <i class="fa fa-hourglass-start"></i>
                     </span>
                   </div>
-                  <input style="pointer-events: none" (ngModelChange)="onSearch()" class="form-control"
+                  <input style="height: 31px; cursor: pointer;" (click)="j.toggle()" (ngModelChange)="onSearch()" class="form-control date-input-clickable"
                     [placeholder]="'From' | translate" name="dp" formControlName="startd" [minDate]="minDate"
-                    [maxDate]="maxDate" ngbDatepicker #j="ngbDatepicker" />
+                    [maxDate]="maxDate" ngbDatepicker #j="ngbDatepicker" readonly />
                   <div class="input-group-append">
-                    <button class="btn btn-secondary" id="startdd" (click)="j.toggle()" type="button">
+                    <button class="btn btn-primary" id="startdd" (click)="j.toggle()" type="button" style="height: 31px; display: flex; align-items: center; justify-content: center;">
                       <i class="bi bi-calendar-check" aria-hidden="true"></i>
                     </button>
                   </div>
                 </div>
               </div>
-              <div class="col-lg-5" title="{{'End date'| translate}}">
+              <div class="col-lg-3 col-md-6 mb-2" title="{{'End date'| translate}}">
+                <label class="small mb-1">{{'End date'| translate}}</label>
                 <div class="input-group input-group-sm">
                   <div class="input-group-prepend">
                     <span class="input-group-text secondary">
-                      {{'End date'| translate}} &nbsp;
                       <i class="fa fa-hourglass-end"></i>
                     </span>
                   </div>
-                  <input (ngModelChange)="onSearch()" style="pointer-events: none"
-                    class="form-control input-sm inline-form-control" [placeholder]="'End Date' | translate" name="dp"
+                  <input (click)="k.toggle()" (ngModelChange)="onSearch()" style="height: 31px; cursor: pointer;"
+                    class="form-control input-sm inline-form-control date-input-clickable" [placeholder]="'End Date' | translate" name="dp"
                     formControlName="enddate" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker
-                    #k="ngbDatepicker" />
+                    #k="ngbDatepicker" readonly />
                   <div class="input-group-append">
-                    <button class="btn btn-secondary" (click)="k.toggle()" type="button">
+                    <button class="btn btn-primary" (click)="k.toggle()" type="button" style="height: 31px; display: flex; align-items: center; justify-content: center;">
                       <i class="bi bi-calendar-check" aria-hidden="true"></i>
                     </button>
                   </div>
                 </div>
               </div>
-              <div class="col-lg-2">
-                &nbsp;
-                <span>
-                  <i (click)="refreshDataSource()" class="fa fa-undo pointer fa-lg" aria-hidden="true"
-                    title="{{ 'Reset Filter' | translate }}"></i>
-                </span>
+              <div class="col-lg-2 col-md-6 mb-2">
+                <label class="small mb-1">{{ "Volume" | translate }}</label>
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text secondary">
+                      <i class="fa fa-bookmark"></i>
+                    </span>
+                  </div>
+                  <input type="number" class="form-control" style="height: 31px;" [placeholder]="'Volume' | translate"
+                    formControlName="volume" (keyup.enter)="onSubmit()" min="1" />
+                </div>
               </div>
-              <div class="pull-right col-lg-3">
-                <!-- <div class="input-group mb-3 input-group-sm">
-                        <div class="input-group-prepend">
-                            <label class="input-group-text" for="inputGroupSelect01">{{
-                                "Status" | translate
-                                }}</label>
-                        </div>
-                        <select id="inputGroupSelect01" formControlName="status" (ngModelChange)="onSearch()">
-                            <option disabled selected value>
-                                {{ "Choose ..." | translate }}
-                            </option>
-                            <option value="pending">{{ "Pending" | translate }}</option>
-                            <option value="success">{{ "Success" | translate }}</option>
-                            <option value="error">{{ "Error" | translate }}</option>
-                            <option value="all">{{ "All" | translate }}</option>
-                        </select>
-                    </div> -->
+              <div class="col-lg-2 col-md-6 mb-2">
+                <label class="small mb-1">{{ "Issue" | translate }}</label>
+                <div class="input-group input-group-sm">
+                  <div class="input-group-prepend">
+                    <span class="input-group-text secondary">
+                      <i class="fa fa-bookmark"></i>
+                    </span>
+                  </div>
+                  <input type="number" class="form-control" style="height: 31px;" [placeholder]="'Issue' | translate"
+                    formControlName="issue" (keyup.enter)="onSubmit()" min="1" />
+                </div>
+              </div>
+              <div class="col-lg-2 col-md-12 mb-2 d-flex align-items-end">
+                <div class="w-100 d-flex align-items-center" style="gap: 10px;">
+                  <button type="submit" class="btn btn-primary btn-sm" style="height: 31px;">
+                    <i class="fa fa-search"></i> {{ "Search" | translate }}
+                  </button>
+                  <button type="button" (click)="refreshDataSource()" class="btn btn-secondary btn-sm" style="height: 31px;"
+                    title="{{ 'Reset Filter' | translate }}">
+                    <i class="fa fa-undo"></i> {{ "Reset" | translate }}
+                  </button>
+                </div>
               </div>
             </div>
           </form>
@@ -323,19 +333,13 @@
             </div>
           </div>
 
-          <div class="container row pad">
-              <div class="col center">
-                <div class="list-pagination">
-                    <p class="mt-10">{{'Showing posts'| translate}} : {{genericPosts.from ? genericPosts.from : '0' }}
-                        {{'to'| translate}}
-                        {{genericPosts.to ? genericPosts.to : '0'}} {{'of'| translate}} {{genericPosts.total ? genericPosts.total : '0'}}</p>
-                    <ngb-pagination *ngIf="genericPosts" [collectionSize]='genericPosts.total'
-                        [pageSize]="genericPosts.per_page" [(page)]="genericPosts.current_page"
-                        aria-label="Default pagination" (pageChange)="nextPage(genericPosts)">
-                        <ng-template ngbPaginationPrevious>Prev</ng-template>
-                        <ng-template ngbPaginationNext>Next</ng-template>
-                    </ngb-pagination>
-                </div>
+          <div class="row">
+              <div class="col-12">
+                <app-pagination 
+                    [paginationData]="genericPosts" 
+                    [alignment]="'left'"
+                    (pageChange)="onPageChange($event)">
+                </app-pagination>
               </div>
           </div>
 

@@ -1,16 +1,17 @@
 <ng-template #postModal let-c="close" let-d="dismiss">
     <div class="modal-content">
+        <div class="modal-header">
+            <h3 class="text-3 font-weight-400 m-0">
+                {{ modalTitle | translate }}
+            </h3>
+            <button type="button" class="close font-weight-400" data-dismiss="modal" aria-label="Close"
+                (click)="d('Cross click')">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
         <div class="modal-body">
             <div class="row no-gutters">
                 <div class="col">
-                    <h3 class="text-3 font-weight-400 m-2">
-                        {{ modalTitle | translate }}
-                        <button type="button" class="close font-weight-400" data-dismiss="modal" aria-label="Close"
-                            (click)="d('Cross click')">
-                            <span aria-hidden="true">&times;</span>
-                        </button>
-                    </h3>
-                    <hr />
                     <div class="px-3" *ngIf="post && action == 'view'">
                         <ul class="list-unstyled">
                             <li class="mb-2">
@@ -74,12 +75,14 @@
                             action == 'addPost'
                           ">
                                 <div class="vertical-input-group mb-2">
+                                    <label for="title">{{ "Title" | translate }}</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="name" formControlName="title"
+                                        <input type="text" class="form-control" id="title" formControlName="title"
                                             required placeholder="Title" />
                                     </div>
                                 </div>
                                 <div class="vertical-input-group mb-2">
+                                    <label>{{ "Category" | translate }}</label>
                                     <ng-multiselect-dropdown [placeholder]="'Category' | translate"
                                         [settings]="dropdownSettings" [data]="categories"
                                         [formControl]="$any(postForm).controls['category_id']"
@@ -89,6 +92,7 @@
                                 <div class="vertical-input-group mb-2" *ngIf="
                                 action == 'addPost'
                               ">
+                                    <label>{{ "Tag" | translate }}</label>
                                     <ng-multiselect-dropdown [placeholder]="'Tag' | translate"
                                         [settings]="dropdownSettings" [data]="tags"
                                         [formControl]="$any(postForm).controls['tag']" (onSelect)="onTagSelect($event)"
@@ -96,42 +100,49 @@
                                     </ng-multiselect-dropdown>
                                 </div>
                                 <div class="vertical-input-group mb-2">
+                                    <label for="doi">{{ "Doi" | translate }}</label>
                                     <div class="input-group">
-                                        <input type="text" class="form-control" id="name" formControlName="doi" required
+                                        <input type="text" class="form-control" id="doi" formControlName="doi" required
                                             placeholder="Doi" />
                                     </div>
                                 </div>
                                 <div class="vertical-input-group mb-2">
+                                    <label for="authors">{{ "Authors" | translate }}</label>
                                     <div class="input-group">
-                                        <textarea type="text" class="form-control" rows="5" id="name"
+                                        <textarea type="text" class="form-control" rows="5" id="authors"
                                             formControlName="authors" required placeholder="Authors"></textarea>
                                     </div>
                                 </div>
                                 <div class="vertical-input-group mb-2">
+                                    <label for="abstract">{{ "Abstract" | translate }}</label>
                                     <div class="input-group">
-                                        <textarea type="text" class="form-control" rows="5" id="name"
+                                        <textarea type="text" class="form-control" rows="5" id="abstract"
                                             formControlName="abstract" required placeholder="Abstract"></textarea>
                                     </div>
                                 </div>
                                 <div class="vertical-input-group mb-2">
+                                    <label for="practical">{{ "Practical" | translate }}</label>
                                     <div class="input-group">
-                                        <textarea type="text" class="form-control" rows="5" id="name"
+                                        <textarea type="text" class="form-control" rows="5" id="practical"
                                             formControlName="practical" required placeholder="Practical"></textarea>
                                     </div>
                                 </div>
                                 <div class="vertical-input-group mb-2">
+                                    <label for="keywords">{{ "Keywords" | translate }}</label>
                                     <div class="input-group">
-                                        <textarea type="text" class="form-control" rows="5" id="name"
+                                        <textarea type="text" class="form-control" rows="5" id="keywords"
                                             formControlName="keywords" required placeholder="Keywords"></textarea>
                                     </div>
                                 </div>
                                 <div class="vertical-input-group mb-2">
+                                    <label for="volume">{{ "Volume" | translate }}</label>
                                     <div class="input-group">
                                         <input type="number" class="form-control" id="volume" formControlName="volume"
                                             required placeholder="Volume" min="1" />
                                     </div>
                                 </div>
                                 <div class="vertical-input-group mb-2">
+                                    <label for="issue">{{ "Issue" | translate }}</label>
                                     <div class="input-group">
                                         <input type="number" class="form-control" id="issue" formControlName="issue"
                                             required placeholder="Issue" min="1" />
@@ -140,9 +151,9 @@
                                 <div class="vertical-input-group mb-2">
                                     <label for="image">{{'Image'| translate}}</label>
                                     <div class="input-group">
-                                        <input accept="image/png,image/jpg,image/jpeg" type="file"
+                                        <input #imageInput accept="image/png,image/jpg,image/jpeg" type="file" id="image"
                                             formControlName="image" (change)="imageFileChanged($event)" />
-                                        <p class="mt-4">
+                                        <p class="mt-4" *ngIf="sanitizedImageUrl">
                                             <img class="photo" [src]="sanitizedImageUrl" alt="" />
                                         </p>
                                     </div>
@@ -156,8 +167,9 @@
                                             [render-text]="true" [show-borders]="true"></pdf-viewer>
                                     </li>
                                     <hr>
+                                    <label for="pdf">{{ "PDF" | translate }}</label>
                                     <div class="input-group">
-                                        <input accept="application/pdf" type="file" formControlName="pdf"
+                                        <input #pdfInput accept="application/pdf" type="file" id="pdf" formControlName="pdf"
                                             (change)="pdfFileChanged($event)" />
                                     </div>
                                 </div>
