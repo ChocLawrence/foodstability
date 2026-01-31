@@ -516,4 +516,26 @@ export class CoreService {
       return Promise.reject('Error');
     }
   }
+
+  /**
+   * Resolve image path from API (storage path) to full URL.
+   * Use for posts.image, categories.image, users.image.
+   */
+  getImageUrl(image: string): string {
+    if (!image || image === 'undefined') {
+      return '';
+    }
+    if (image.startsWith('data:')) {
+      return '';
+    }
+    const pathPrefixes = ['storage/', 'images/', 'pdfs/', 'posts/', 'categories/', 'users/'];
+    const isFilePath =
+      pathPrefixes.some((p) => image.startsWith(p)) ||
+      (image.includes('/') && /\.(jpg|jpeg|png|gif|webp)$/i.test(image));
+    if (isFilePath) {
+      const pathWithoutStorage = image.startsWith('storage/') ? image.substring(8) : image;
+      return this.urlService.apiStorageUrl() + pathWithoutStorage;
+    }
+    return this.urlService.apiStorageUrl() + image;
+  }
 }

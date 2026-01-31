@@ -70,7 +70,7 @@
                   </span>
                   <span *ngIf="post.image">
                     <img id="article_image" class="img-rounded img-responsive zoom_home"
-                      [src]="'data:image/png;base64,' + post.image" alt="{{ post.title}}">
+                      [src]="_core.getImageUrl(post.image)" alt="{{ post.title}}">
                   </span>
                 </figure>
               </div>

@@ -100,12 +100,13 @@ export class AbstractComponent implements OnInit, AfterViewInit, OnDestroy  {
 
 
   downloadPdf() {
-    const linkSource = `data:application/pdf;base64,${this.post.pdf}`;
-    const downloadLink = document.createElement('a');
-    const fileName = this.post.slug + '.pdf';
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-    downloadLink.click();
+    if (!this.post?.pdf) return;
+    const pdf = this.post.pdf;
+    const isFilePath = pdf.startsWith('storage/') || pdf.includes('/') || /\.pdf$/i.test(pdf);
+    if (isFilePath) {
+      const downloadUrl = this._urls.apiUrl() + 'posts/download-pdf/' + encodeURIComponent(this.post.slug);
+      window.location.href = downloadUrl;
+    }
   }
 
   stripString(text:string){

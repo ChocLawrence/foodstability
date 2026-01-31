@@ -94,10 +94,10 @@
                   <label for="image">{{'Profile Image'| translate}}</label>
                   <hr>
                   <div class="input-group">
-                    <input accept="image/png,image/jpg,image/jpeg" type="file" id="image" formControlName="image"
+                    <input accept="image/png,image/jpg,image/jpeg" type="file" id="image"
                       (change)="fileChanged($event)" />
                     <p class="mt-4">
-                      <img class="photo" src="{{ preview ? preview : default }}" alt="" />
+                      <img class="photo" [src]="preview || default" alt="" />
                     </p>
                   </div>
                 </div>
@@ -127,11 +127,11 @@
     </div>
     <div class="modal-footer">
       <div *ngIf="action == 'updateUser'">
-        <button class="btn btn-primary btn-sm" (click)="restoreUserForm()">
+        <button class="btn btn-success btn-sm" (click)="restoreUserForm()">
           {{ "Restore" | translate }}
         </button>
         &nbsp;
-        <button class="btn btn-primary btn-sm" [disabled]="loading" (click)="updateUserSubmitBtn.click()">
+        <button class="btn btn-success btn-sm" [disabled]="loading" (click)="updateUserSubmitBtn.click()">
           {{ "Update" | translate }} &nbsp;
           <div class="spinner-border float-right" role="status" *ngIf="loading">
             <span class="sr-only">Loading...</span>
@@ -143,7 +143,7 @@
           {{ "Cancel" | translate }}
         </button>
         &nbsp;
-        <button *ngIf="action == 'deleteUser'" class="btn btn-primary btn-sm" [disabled]="loading"
+        <button *ngIf="action == 'deleteUser'" class="btn btn-danger btn-sm" [disabled]="loading"
           (click)="deleteUser()">
           {{ "Confirm" | translate }} &nbsp;
           <div class="spinner-border float-right" role="status" *ngIf="loading">
@@ -151,7 +151,7 @@
           </div>
         </button>
 
-        <button *ngIf="action == 'banUser'" class="btn btn-primary btn-sm" [disabled]="loading" (click)="banUser()">
+        <button *ngIf="action == 'banUser'" class="btn btn-success btn-sm" [disabled]="loading" (click)="banUser()">
           {{ "Confirm" | translate }} &nbsp;
           <div class="spinner-border float-right" role="status" *ngIf="loading">
             <span class="sr-only">Loading...</span>

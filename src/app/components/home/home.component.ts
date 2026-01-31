@@ -13,6 +13,7 @@ import { CategoriesService } from '../../services/categories.service';
 import { DatePipe } from '@angular/common';
 import { routerTransition } from '../../router.animations';
 import { PostsService } from '../../services/posts.service';
+import { ArchivesService } from '../../services/archives.service';
 import { MetaService } from '../../services/meta.service';
 import {
   FormBuilder,
@@ -72,6 +73,8 @@ export class HomeComponent implements OnInit, AfterViewInit {
   public posts: any = [];
   public genericPosts: any = [];
   public categories: any[] = [];
+  public volumeList: any[] = [];
+  public issueList: any[] = [];
 
   public searchForm: FormGroup;
   public defaultStartDate = '';
@@ -102,6 +105,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
     private metaService: MetaService,
     private datePipe: DatePipe,
     private postsService: PostsService,
+    private archivesService: ArchivesService,
     private categoriesService: CategoriesService
   ) {
     this.searchForm = this._formBuilder.group({
@@ -155,8 +159,44 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.endate.day = endDate.getDate();
     if (this._core.checkIfOnline()) {
       this.getCategories();
+      this.getVolumes();
       this.refresh();
     }
+  }
+
+  getVolumes() {
+    this.archivesService
+      .getArchives()
+      .then((res) => {
+        this.volumeList = (res.data && Array.isArray(res.data)) ? this._core.normalizeKeys(res.data) : [];
+      })
+      .catch(() => {
+        this.volumeList = [];
+      });
+  }
+
+  onVolumeChange() {
+    const volume = this.searchForm.get('volume')?.value;
+    this.searchForm.patchValue({ issue: '' });
+    this.issueList = [];
+    const issueControl = this.searchForm.get('issue');
+    if (volume) {
+      issueControl?.enable();
+      this.loadIssuesForVolume(volume);
+    } else {
+      issueControl?.disable();
+    }
+  }
+
+  private loadIssuesForVolume(volume: string | number) {
+    this.archivesService
+      .getArchivesByVolume(volume)
+      .then((res) => {
+        this.issueList = (res.data && Array.isArray(res.data)) ? this._core.normalizeKeys(res.data) : [];
+      })
+      .catch(() => {
+        this.issueList = [];
+      });
   }
 
   initForm() {
@@ -165,7 +205,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
       enddate: [this.endate],
       count: [''],
       volume: [''],
-      issue: [''],
+      issue: [{ value: '', disabled: true }],
     });
   }
 
@@ -176,10 +216,21 @@ export class HomeComponent implements OnInit, AfterViewInit {
     this.initForm();
     let data = this.checkSearchStore();
     this.loadForm(data);
+    if (data.volume) {
+      this.loadIssuesForVolume(data.volume);
+    } else {
+      this.issueList = [];
+    }
     await this.getPosts(data);
   }
 
   loadForm(formData: any) {
+    const issueControl = this.searchForm.get('issue');
+    if (formData.volume) {
+      issueControl?.enable();
+    } else {
+      issueControl?.disable();
+    }
     this.searchForm.patchValue({
       startd: this.getStringDate(formData.start),
       enddate: this.getStringDate(formData.end),
@@ -275,6 +326,7 @@ export class HomeComponent implements OnInit, AfterViewInit {
 
   refreshDataSource() {
     this.initForm();
+    this.issueList = [];
     // Reset form to default dates
     let endDate = new Date();
     let startDate = this._core.getStartDate(endDate);

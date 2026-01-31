@@ -23,6 +23,9 @@ export class DashboardComponent implements OnInit {
   public postsCount: number = 0;
   public tagsCount: number = 0;
   public posts: any[] = [];
+  public postsChartData: { year: string; count: number }[] = [];
+  public recentPosts: any[] = [];
+  public volumeIssueStats: { volume: string; issues: { issue: string; count: number }[]; totalArticles: number }[] = [];
 
   public defaultStartDate = "";
   public defaultEndDate = "";
@@ -154,8 +157,9 @@ export class DashboardComponent implements OnInit {
       start: `${startDate.getFullYear()}-${startDate.getMonth() + 1}-${startDate.getDate()}`,
       end: `${currentDate.getFullYear()}-${currentDate.getMonth() + 1}-${currentDate.getDate()}`,
       page: 1,
-      page_size: 1 // Only need pagination metadata (total count), not the actual posts data
-      // Don't set visibility to get all posts for admin dashboard
+      page_size: 500,
+      sortBy: 'created_at',
+      sortOrder: 'desc'
     }
 
     this.postsService
@@ -168,18 +172,27 @@ export class DashboardComponent implements OnInit {
             this.postsCount = Number(posts.data.total);
             if (posts.data.data && Array.isArray(posts.data.data) && posts.data.data.length > 0) {
               this.posts = this._core.normalizeKeys(posts.data.data);
+            } else {
+              this.posts = [];
             }
+            this.buildChartAndStats();
           } else if (Array.isArray(posts.data)) {
-            // Non-paginated response (array)
             this.postsCount = posts.data.length;
             this.posts = this._core.normalizeKeys(posts.data);
+            this.buildChartAndStats();
           } else {
             this.postsCount = 0;
             this.posts = [];
+            this.postsChartData = [];
+            this.recentPosts = [];
+            this.volumeIssueStats = [];
           }
         } else {
           this.postsCount = 0;
           this.posts = [];
+          this.postsChartData = [];
+          this.recentPosts = [];
+          this.volumeIssueStats = [];
         }
         this.loadingData = false;
       })
@@ -188,8 +201,48 @@ export class DashboardComponent implements OnInit {
         this._core.handleError(e);
         this.postsCount = 0;
         this.posts = [];
+        this.postsChartData = [];
+        this.recentPosts = [];
+        this.volumeIssueStats = [];
       });
 
   }
 
+  buildChartAndStats(): void {
+    const list = this.posts || [];
+    const byYear: Record<string, number> = {};
+    list.forEach((p: any) => {
+      const d = p.created_at ? new Date(p.created_at) : null;
+      if (d && !isNaN(d.getTime())) {
+        const key = String(d.getFullYear());
+        byYear[key] = (byYear[key] || 0) + 1;
+      }
+    });
+    this.postsChartData = Object.keys(byYear)
+      .sort((a, b) => Number(a) - Number(b))
+      .map(year => ({ year, count: byYear[year] }));
+
+    this.recentPosts = list.slice(0, 5);
+
+    const volMap: Record<string, Record<string, number>> = {};
+    list.forEach((p: any) => {
+      const v = p.volume != null ? String(p.volume) : '—';
+      const i = p.issue != null ? String(p.issue) : '—';
+      if (!volMap[v]) volMap[v] = {};
+      volMap[v][i] = (volMap[v][i] || 0) + 1;
+    });
+    this.volumeIssueStats = Object.keys(volMap)
+      .sort((a, b) => (a === '—' ? 1 : b === '—' ? -1 : Number(b) - Number(a)))
+      .map(volume => {
+        const issues = Object.entries(volMap[volume]).map(([issue, count]) => ({ issue, count }));
+        issues.sort((x, y) => (x.issue === '—' ? 1 : y.issue === '—' ? -1 : Number(y.issue) - Number(x.issue)));
+        const totalArticles = issues.reduce((s, i) => s + i.count, 0);
+        return { volume, issues, totalArticles };
+      });
+  }
+
+  getDate(date: string): string {
+    if (!date) return '—';
+    return this._core.formatDate(date) || '—';
+  }
 }

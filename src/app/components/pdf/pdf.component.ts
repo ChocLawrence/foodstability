@@ -12,6 +12,7 @@ import { UrlsService } from '../../core/urls.service';
 import { DatePipe } from '@angular/common';
 import { Router, NavigationEnd } from '@angular/router';
 import { PostsService } from '../../services/posts.service';
+import { DomSanitizer } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-pdf',
@@ -24,6 +25,7 @@ export class PdfComponent implements OnInit, AfterViewInit {
   public post: any = [];
   public animationType = 'wanderingCubes';
   public sanitizedPdfUrl: any = null;
+  public sanitizedPdfUrlForIframe: any = null;
   public loadingData = false;
   public date = new Date();
   public slug: any;
@@ -34,7 +36,8 @@ export class PdfComponent implements OnInit, AfterViewInit {
     public _urls: UrlsService,
     private postsService: PostsService,
     public router: Router,
-    private metaTagService: Meta
+    private metaTagService: Meta,
+    public sanitizer: DomSanitizer
   ) {}
 
   ngAfterViewInit() {}
@@ -79,14 +82,31 @@ export class PdfComponent implements OnInit, AfterViewInit {
 
   getPost(slug: any) {
     this.loadingData = true;
+    this.sanitizedPdfUrl = null;
+    this.sanitizedPdfUrlForIframe = null;
 
     this.postsService
       .getSinglePostBySlug(slug)
-      .then((post) => {
+      .then(async (post) => {
         this.post = this._core.normalizeKeys(post.data);
 
         if (this.post.pdf) {
-          this.sanitizedPdfUrl = this._base64ToArrayBuffer(this.post.pdf);
+          const pathWithoutStorage = this.post.pdf.startsWith('storage/')
+            ? this.post.pdf.substring(8)
+            : this.post.pdf;
+          const isFilePath =
+            this.post.pdf.startsWith('storage/') ||
+            this.post.pdf.includes('/') ||
+            /\.pdf$/i.test(this.post.pdf);
+          if (isFilePath) {
+            const pdfUrl = this._urls.apiStorageUrl() + pathWithoutStorage;
+            try {
+              await this.loadPdfFromUrl(pdfUrl);
+            } catch {
+              this.sanitizedPdfUrl = pdfUrl;
+              this.sanitizedPdfUrlForIframe = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+            }
+          }
         }
         this.loadingData = false;
       })
@@ -96,22 +116,32 @@ export class PdfComponent implements OnInit, AfterViewInit {
       });
   }
 
-  downloadPdf() {
-    const linkSource = `data:application/pdf;base64,${this.post.pdf}`;
-    const downloadLink = document.createElement('a');
-    const fileName = this.post.slug + '.pdf';
-    downloadLink.href = linkSource;
-    downloadLink.download = fileName;
-    downloadLink.click();
+  isPdfUrlString(): boolean {
+    return typeof this.sanitizedPdfUrl === 'string';
   }
 
-  _base64ToArrayBuffer(base64: any) {
-    const binary_string = window.atob(base64);
-    const len = binary_string.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
+  async loadPdfFromUrl(url: string): Promise<void> {
+    try {
+      const response = await fetch(url, { method: 'GET', headers: { Accept: 'application/pdf' } });
+      if (!response.ok) throw new Error(`Failed to load PDF: ${response.statusText}`);
+      const arrayBuffer = await response.arrayBuffer();
+      this.sanitizedPdfUrl = arrayBuffer;
+    } catch (error) {
+      if (!(error instanceof TypeError && error.message.includes('Failed to fetch'))) {
+        console.warn('Error loading PDF via fetch:', error);
+      }
+      throw error;
     }
-    return bytes.buffer;
+  }
+
+  downloadPdf() {
+    if (!this.post?.pdf) return;
+    const pdf = this.post.pdf;
+    const isFilePath = pdf.startsWith('storage/') || pdf.includes('/') || /\.pdf$/i.test(pdf);
+
+    if (isFilePath) {
+      const downloadUrl = this._urls.apiUrl() + 'posts/download-pdf/' + encodeURIComponent(this.post.slug);
+      window.location.href = downloadUrl;
+    }
   }
 }

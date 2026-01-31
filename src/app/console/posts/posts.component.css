@@ -1,3 +1,69 @@
-.custom-search-form{
-    margin-top:5px;
+.custom-search-form {
+    margin-top: 5px;
+}
+
+.posts-filter {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    gap: 1rem 1.5rem;
+    padding: 1rem 0;
+    border-bottom: 1px solid #e9ecef;
+    margin-bottom: 1rem;
+}
+
+.filter-section {
+    display: flex;
+    flex-direction: column;
+    gap: 0.35rem;
+}
+
+.filter-section-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #6c757d;
+    margin: 0;
+}
+
+.filter-date-row,
+.filter-fields-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem 1rem;
+    align-items: flex-end;
+}
+
+.filter-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.filter-field label.small {
+    margin: 0;
+    font-weight: 500;
+    color: #495057;
+}
+
+.filter-field input.form-control-sm {
+    min-width: 140px;
+}
+
+.filter-date-row .filter-field input {
+    min-width: 160px;
+    cursor: pointer;
+}
+
+.filter-actions {
+    display: flex;
+    gap: 0.5rem;
+    align-items: flex-end;
+    margin-left: auto;
+}
+
+.filter-actions .btn {
+    white-space: nowrap;
 }

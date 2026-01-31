@@ -1,126 +1,159 @@
-<div class="container-fluid">
-    <!-- Card stats -->
-    <div class="row g-6 mb-6">
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card shadow border-0">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{'Posts'| translate}}</span>
-                            <span class="h3 font-bold mb-0">{{ postsCount ? postsCount : 0}}</span>
-                        </div>
-                        <div class="col-auto">
-                            <div class="icon icon-shape bg-tertiary text-white text-lg rounded-circle">
-                                <i class="bi bi-credit-card"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="mt-2 mb-0 text-sm">
-                        <span class="badge badge-pill bg-soft-success text-success me-2">
-                            <i class="bi bi-arrow-up me-1"></i>13%
-                        </span>
-                        <span class="text-nowrap text-xs text-muted">Since last month</span>
-                    </div> -->
-                </div>
-            </div>
+<div class="dashboard container-fluid">
+  <!-- Stat cards -->
+  <div class="row g-3 g-md-4 mb-4">
+    <div class="col-6 col-xl">
+      <div class="card stat-card stat-card-posts h-100 shadow-sm border-0">
+        <div class="card-body d-flex align-items-center">
+          <div class="stat-icon rounded-circle flex-shrink-0">
+            <i class="bi bi-file-earmark-text"></i>
+          </div>
+          <div class="ms-3 min-w-0">
+            <span class="stat-label text-muted small d-block">{{ 'Posts' | translate }}</span>
+            <span class="stat-value fw-bold">{{ postsCount }}</span>
+          </div>
         </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card shadow border-0">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{'Categories'| translate}}</span>
-                            <span class="h3 font-bold mb-0">{{ categoriesCount ? categoriesCount : 0}}</span>
-                        </div>
-                        <div class="col-auto">
-                            <div class="icon icon-shape bg-primary text-white text-lg rounded-circle">
-                                <i class="bi bi-people"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="mt-2 mb-0 text-sm">
-                        <span class="badge badge-pill bg-soft-success text-success me-2">
-                            <i class="bi bi-arrow-up me-1"></i>30%
-                        </span>
-                        <span class="text-nowrap text-xs text-muted">Since last month</span>
-                    </div> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card shadow border-0">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{'Tags'| translate}}</span>
-                            <span class="h3 font-bold mb-0">{{ tagsCount ? tagsCount : 0}}</span>
-                        </div>
-                        <div class="col-auto">
-                            <div class="icon icon-shape bg-info text-white text-lg rounded-circle">
-                                <i class="bi bi-clock-history"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="mt-2 mb-0 text-sm">
-                        <span class="badge badge-pill bg-soft-danger text-danger me-2">
-                            <i class="bi bi-arrow-down me-1"></i>-5%
-                        </span>
-                        <span class="text-nowrap text-xs text-muted">Since last month</span>
-                    </div> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card shadow border-0">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{'Subscribers'| translate}}</span>
-                            <span class="h3 font-bold mb-0">{{ subscribersCount ? subscribersCount : 0}}</span>
-                        </div>
-                        <div class="col-auto">
-                            <div class="icon icon-shape bg-warning text-white text-lg rounded-circle">
-                                <i class="bi bi-minecart-loaded"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="mt-2 mb-0 text-sm">
-                        <span class="badge badge-pill bg-soft-success text-success me-2">
-                            <i class="bi bi-arrow-up me-1"></i>10%
-                        </span>
-                        <span class="text-nowrap text-xs text-muted">Since last month</span>
-                    </div> -->
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-sm-6 col-12">
-            <div class="card shadow border-0">
-                <div class="card-body">
-                    <div class="row">
-                        <div class="col">
-                            <span class="h6 font-semibold text-muted text-sm d-block mb-2">{{'Users'| translate}}</span>
-                            <span class="h3 font-bold mb-0">{{ usersCount ? usersCount : 0}}</span>
-                        </div>
-                        <div class="col-auto">
-                            <div class="icon icon-shape bg-secondary text-white text-lg rounded-circle">
-                                <i class="bi bi-person"></i>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- <div class="mt-2 mb-0 text-sm">
-                        <span class="badge badge-pill bg-soft-success text-success me-2">
-                            <i class="bi bi-arrow-up me-1"></i>10%
-                        </span>
-                        <span class="text-nowrap text-xs text-muted">Since last month</span>
-                    </div> -->
-                </div>
-            </div>
-        </div>
+      </div>
     </div>
+    <div class="col-6 col-xl">
+      <div class="card stat-card stat-card-categories h-100 shadow-sm border-0">
+        <div class="card-body d-flex align-items-center">
+          <div class="stat-icon rounded-circle flex-shrink-0">
+            <i class="bi bi-folder2"></i>
+          </div>
+          <div class="ms-3 min-w-0">
+            <span class="stat-label text-muted small d-block">{{ 'Categories' | translate }}</span>
+            <span class="stat-value fw-bold">{{ categoriesCount }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-xl">
+      <div class="card stat-card stat-card-tags h-100 shadow-sm border-0">
+        <div class="card-body d-flex align-items-center">
+          <div class="stat-icon rounded-circle flex-shrink-0">
+            <i class="bi bi-tags"></i>
+          </div>
+          <div class="ms-3 min-w-0">
+            <span class="stat-label text-muted small d-block">{{ 'Tags' | translate }}</span>
+            <span class="stat-value fw-bold">{{ tagsCount }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-xl">
+      <div class="card stat-card stat-card-subscribers h-100 shadow-sm border-0">
+        <div class="card-body d-flex align-items-center">
+          <div class="stat-icon rounded-circle flex-shrink-0">
+            <i class="bi bi-envelope-heart"></i>
+          </div>
+          <div class="ms-3 min-w-0">
+            <span class="stat-label text-muted small d-block">{{ 'Subscribers' | translate }}</span>
+            <span class="stat-value fw-bold">{{ subscribersCount }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="col-6 col-xl">
+      <div class="card stat-card stat-card-users h-100 shadow-sm border-0">
+        <div class="card-body d-flex align-items-center">
+          <div class="stat-icon rounded-circle flex-shrink-0">
+            <i class="bi bi-people"></i>
+          </div>
+          <div class="ms-3 min-w-0">
+            <span class="stat-label text-muted small d-block">{{ 'Users' | translate }}</span>
+            <span class="stat-value fw-bold">{{ usersCount }}</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Posts over time chart -->
+  <div class="row mb-4">
+    <div class="col-12">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header bg-transparent border-0 py-3">
+          <h5 class="mb-0 fw-semibold">{{ 'Articles by year' | translate }}</h5>
+        </div>
+        <div class="card-body pt-0">
+          <dx-chart
+            [dataSource]="postsChartData"
+            palette="Soft Pastel"
+            [title]="{ text: '' }">
+            <dxi-series
+              valueField="count"
+              argumentField="year"
+              type="spline"
+              color="#198754"
+              width="2">
+            </dxi-series>
+            <dxo-legend [visible]="false"></dxo-legend>
+            <dxo-tooltip [enabled]="true"></dxo-tooltip>
+            <dxo-argument-axis>
+              <dxi-label overlappingBehavior="stagger"></dxi-label>
+            </dxo-argument-axis>
+          </dx-chart>
+          <p *ngIf="postsChartData.length === 0 && !loadingData" class="text-muted small mb-0 mt-2">{{ 'No data for the selected period' | translate }}</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Recent posts + Volumes & issues -->
+  <div class="row g-4">
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header bg-transparent border-bottom py-3 d-flex align-items-center justify-content-between">
+          <h5 class="mb-0 fw-semibold">{{ 'Recent posts' | translate }}</h5>
+          <a routerLink="/console/posts" class="btn btn-sm btn-outline-success">{{ 'View all' | translate }}</a>
+        </div>
+        <div class="card-body p-0">
+          <ul class="list-group list-group-flush recent-posts-list">
+            <li *ngFor="let post of recentPosts" class="list-group-item list-group-item-action d-flex align-items-start">
+              <i class="bi bi-file-earmark-text text-success me-2 mt-1 flex-shrink-0"></i>
+              <div class="min-w-0 flex-grow-1">
+                <span class="d-block text-truncate fw-medium" [title]="post.title">{{ post.title || ('Untitled' | translate) }}</span>
+                <span class="small text-muted">{{ getDate(post.created_at) }}</span>
+                <span *ngIf="post.volume != null || post.issue != null" class="small text-muted ms-1">
+                  · Vol.{{ post.volume ?? '—' }}({{ post.issue ?? '—' }})
+                </span>
+              </div>
+            </li>
+          </ul>
+          <p *ngIf="recentPosts.length === 0 && !loadingData" class="text-muted small p-3 mb-0">{{ 'No posts yet' | translate }}</p>
+        </div>
+      </div>
+    </div>
+    <div class="col-lg-6">
+      <div class="card shadow-sm border-0 h-100">
+        <div class="card-header bg-transparent border-bottom py-3">
+          <h5 class="mb-0 fw-semibold">{{ 'Volumes & issues' | translate }}</h5>
+          <p class="small text-muted mb-0 mt-1">{{ 'Articles per volume and issue' | translate }}</p>
+        </div>
+        <div class="card-body volumes-issues-body">
+          <div *ngIf="volumeIssueStats.length === 0 && !loadingData" class="text-muted small">{{ 'No volume/issue data' | translate }}</div>
+          <div *ngFor="let vol of volumeIssueStats" class="volume-block mb-3">
+            <div class="volume-header d-flex align-items-center mb-2">
+              <i class="bi bi-journal-bookmark-fill text-success me-2"></i>
+              <span class="fw-semibold">Volume {{ vol.volume }}</span>
+              <span class="badge bg-success ms-2">{{ vol.totalArticles }} {{ 'articles' | translate }}</span>
+            </div>
+            <ul class="issue-list list-unstyled ms-4 mb-0">
+              <li *ngFor="let iss of vol.issues" class="d-flex align-items-center py-1 small">
+                <i class="bi bi-bookmark text-muted me-2"></i>
+                <span>{{ 'Issue' | translate }} {{ iss.issue }}</span>
+                <span class="badge bg-light text-dark ms-2">{{ iss.count }}</span>
+              </li>
+            </ul>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
 
 <ngx-loading [show]="loadingData" [config]="{
-    backdropBorderRadius: '3px',
-    fullScreenBackdrop: true,
-    animationType: animationType
-  }"></ngx-loading>
+  backdropBorderRadius: '3px',
+  fullScreenBackdrop: true,
+  animationType: animationType
+}"></ngx-loading>

@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { CoreService } from '../../core/core.service';
 import { UrlsService } from '../../core/urls.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
@@ -16,6 +17,7 @@ export class ModalUserComponent implements OnInit {
 
 
   public file: any;
+  public imageObjectUrl: string | null = null;
   public preview: any;
   public default = 'assets/images/default.png';
   public modalTitle = '';
@@ -40,7 +42,8 @@ export class ModalUserComponent implements OnInit {
     private fb: FormBuilder,
     public _urls: UrlsService,
     private usersService: UsersService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private sanitizer: DomSanitizer) {
 
   }
 
@@ -148,8 +151,8 @@ export class ModalUserComponent implements OnInit {
 
   populateUserForm() {
 
-    if(this.user.image){
-      this.preview = "data:image/png;base64," + this.user.image;
+    if (this.user.image) {
+      this.preview = this.core.getImageUrl(this.user.image);
     }
 
     this.userForm.patchValue({
@@ -191,12 +194,14 @@ export class ModalUserComponent implements OnInit {
       return;
     }
 
-    const reader = new FileReader();
-    reader.readAsDataURL(this.file);
-    reader.onload = () => {
-      this.preview = reader.result;
-    };
-
+    if (this.imageObjectUrl) {
+      URL.revokeObjectURL(this.imageObjectUrl);
+      this.imageObjectUrl = null;
+    }
+    if (this.file) {
+      this.imageObjectUrl = URL.createObjectURL(this.file);
+      this.preview = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageObjectUrl);
+    }
   }
 
   getDate(date: string) {
@@ -222,6 +227,10 @@ export class ModalUserComponent implements OnInit {
   }
 
   notifyOfModalDismissal() {
+    if (this.imageObjectUrl) {
+      URL.revokeObjectURL(this.imageObjectUrl);
+      this.imageObjectUrl = null;
+    }
     this.userModalClosed.emit();
     if (this.action == 'updateUser') {
       this.resetUserForm();

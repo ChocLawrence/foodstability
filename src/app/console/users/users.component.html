@@ -23,9 +23,9 @@
                 </dxi-column>
                 <dxi-column dataField="gender" width="auto" [caption]="'Gender' | translate">
                 </dxi-column>
-                <dxi-column dataField="phone" width="auto" [caption]="'Email' | translate">
+                <dxi-column dataField="email" width="auto" [caption]="'Email' | translate">
                 </dxi-column>
-                <dxi-column dataField="phone" width="auto" [caption]="'Phone' | translate">
+                <dxi-column dataField="phone" width="auto" [caption]="'Phone' | translate" cellTemplate="phoneTemplate">
                 </dxi-column>
                 <dxi-column dataField="image" width="300" [caption]="'Image' | translate" cellTemplate="imageTemplate">
                 </dxi-column>
@@ -35,10 +35,13 @@
                 <dxi-column cellTemplate="actionsTemplate" [caption]="" alignment="right">
                 </dxi-column>
 
+                <div *dxTemplate="let cell of 'phoneTemplate'">
+                    <span>{{ cell.data.phone ? cell.data.phone : '-' }}</span>
+                </div>
+
                 <div *dxTemplate="let cell of 'imageTemplate'">
                     <span *ngIf="cell.data.image">
-                        <img [src]="'data:image/png;base64,' +  cell.data.image" alt="" width="100" height="100"
-                            class="photo">
+                        <img [src]="_core.getImageUrl(cell.data.image)" alt="" width="100" height="100" class="photo">
                     </span>
                     <span *ngIf="!cell.data.image">
                         <img src="assets/images/avatar.jpeg" alt="" width="50" height="50" class="photo">

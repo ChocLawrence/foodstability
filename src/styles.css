@@ -1738,6 +1738,7 @@ section {
 
 #figure {
   margin-right: 10px;
+  overflow: visible;
 }
 
 #article_image {
@@ -1770,14 +1771,18 @@ section {
   transform: scale(2);
 }
 
+.zoom_home {
+  transform-origin: center center;
+  transition: transform 0.2s ease;
+}
+
 .zoom_home:hover {
   position: relative;
   z-index: 999;
-  -ms-transform: scale(3);
-  /* IE 9 */
-  -webkit-transform: scale(3);
-  /* Safari 3-8 */
-  transform: scale(3);
+  /* Scale so zoom stays visible without cropping (super_container has overflow:hidden) */
+  -ms-transform: scale(1.15);
+  -webkit-transform: scale(1.15);
+  transform: scale(1.15);
 }
 
 #oa {

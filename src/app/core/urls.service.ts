@@ -22,6 +22,17 @@ export class UrlsService {
     return returnUrl;
   }
 
+  /** Base URL for storage (images, PDFs). No trailing slash. */
+  public apiStorageUrl(): string {
+    const url = location.href;
+    if (url.includes('localhost')) {
+      return 'http://localhost:8000/storage/';
+    }
+    if (url.includes('foodstability.com')) {
+      return 'https://api.foodstability.com/storage/';
+    }
+    return 'http://localhost:8000/storage/';
+  }
 
   constructor() { }
 }

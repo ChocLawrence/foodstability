@@ -9,99 +9,60 @@
 
             <br><br>
             <form [formGroup]="searchForm" (ngSubmit)="onSubmit()">
-                <div class="row mb-3">
-                    <div class="col-lg-3 col-md-6 mb-2">
-                        <label class="small mb-1">{{ "Date Range" | translate }}</label>
-                        <div class="input-group input-group-sm">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text secondary">
-                                    <i class="fa fa-calendar"></i>
-                                </span>
+                <div class="posts-filter">
+                    <div class="filter-section">
+                        <label class="filter-section-label">{{ "Date Range" | translate }}</label>
+                        <div class="filter-date-row">
+                            <div class="filter-field">
+                                <label class="small mb-1">{{ "From" | translate }}</label>
+                                <input (ngModelChange)="onSearch()" class="form-control form-control-sm"
+                                    [placeholder]="'From' | translate" name="dp" formControlName="startd"
+                                    [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #j="ngbDatepicker"
+                                    (click)="j.toggle()" readonly />
                             </div>
-                            <input style="pointer-events: none" (ngModelChange)="onSearch()" class="form-control"
-                                [placeholder]="'From' | translate" name="dp" formControlName="startd"
-                                [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #j="ngbDatepicker" />
-                            <div class="input-group-append">
-                                <button class="btn btn-primary btn-sm" id="startdd" (click)="j.toggle()" type="button">
-                                    <i class="bi bi-calendar-check" aria-hidden="true"></i>
-                                </button>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="col-lg-3 col-md-6 mb-2">
-                        <label class="small mb-1">&nbsp;</label>
-                        <div class="input-group input-group-sm">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text secondary">
-                                    <i class="fa fa-calendar"></i>
-                                </span>
-                            </div>
-                            <input (ngModelChange)="onSearch()" style="pointer-events: none"
-                                class="form-control input-sm inline-form-control" [placeholder]="'End Date' | translate"
-                                name="dp" formControlName="enddate" [minDate]="minDate" [maxDate]="maxDate"
-                                ngbDatepicker #k="ngbDatepicker" />
-                            <div class="input-group-append">
-                                <button class="btn btn-primary btn-sm" (click)="k.toggle()" type="button">
-                                    <i class="bi bi-calendar-check" aria-hidden="true"></i>
-                                </button>
+                            <div class="filter-field">
+                                <label class="small mb-1">{{ "End Date" | translate }}</label>
+                                <input (ngModelChange)="onSearch()" class="form-control form-control-sm"
+                                    [placeholder]="'End Date' | translate" name="dp" formControlName="enddate"
+                                    [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker #k="ngbDatepicker"
+                                    (click)="k.toggle()" readonly />
                             </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-2">
-                        <label class="small mb-1">{{ "Title" | translate }}</label>
-                        <div class="input-group input-group-sm">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text secondary">
-                                    <i class="fa fa-book"></i>
-                                </span>
+                    <div class="filter-section">
+                        <label class="filter-section-label">{{ "Search" | translate }}</label>
+                        <div class="filter-fields-row">
+                            <div class="filter-field">
+                                <label class="small mb-1">{{ "Title" | translate }}</label>
+                                <input type="text" class="form-control form-control-sm"
+                                    [placeholder]="'Search by title...' | translate" formControlName="title"
+                                    (keyup.enter)="onSubmit()" />
                             </div>
-                            <input type="text" class="form-control" [placeholder]="'Search by title...' | translate"
-                                formControlName="title" (keyup.enter)="onSubmit()" />
+                            <div class="filter-field">
+                                <label class="small mb-1">{{ "DOI" | translate }}</label>
+                                <input type="text" class="form-control form-control-sm"
+                                    [placeholder]="'Search by DOI...' | translate" formControlName="doi"
+                                    (keyup.enter)="onSubmit()" />
+                            </div>
+                            <div class="filter-field">
+                                <label class="small mb-1">{{ "Volume" | translate }}</label>
+                                <input type="number" class="form-control form-control-sm"
+                                    [placeholder]="'Volume' | translate" formControlName="volume"
+                                    (keyup.enter)="onSubmit()" min="1" />
+                            </div>
+                            <div class="filter-field">
+                                <label class="small mb-1">{{ "Issue" | translate }}</label>
+                                <input type="number" class="form-control form-control-sm"
+                                    [placeholder]="'Issue' | translate" formControlName="issue"
+                                    (keyup.enter)="onSubmit()" min="1" />
+                            </div>
                         </div>
                     </div>
-                    <div class="col-lg-3 col-md-6 mb-2">
-                        <label class="small mb-1">{{ "DOI" | translate }}</label>
-                        <div class="input-group input-group-sm">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text secondary">
-                                    <i class="fa fa-tag"></i>
-                                </span>
-                            </div>
-                            <input type="text" class="form-control" [placeholder]="'Search by DOI...' | translate"
-                                formControlName="doi" (keyup.enter)="onSubmit()" />
-                        </div>
-                    </div>
-                </div>
-                <div class="row mb-3">
-                    <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
-                        <label class="small mb-1">{{ "Volume" | translate }}</label>
-                        <div class="input-group input-group-sm">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text secondary">
-                                    <i class="fa fa-bookmark"></i>
-                                </span>
-                            </div>
-                            <input type="number" class="form-control" [placeholder]="'Volume' | translate"
-                                formControlName="volume" (keyup.enter)="onSubmit()" min="1" />
-                        </div>
-                    </div>
-                    <div class="col-lg-2 col-md-4 col-sm-6 mb-2">
-                        <label class="small mb-1">{{ "Issue" | translate }}</label>
-                        <div class="input-group input-group-sm">
-                            <div class="input-group-prepend">
-                                <span class="input-group-text secondary">
-                                    <i class="fa fa-bookmark"></i>
-                                </span>
-                            </div>
-                            <input type="number" class="form-control" [placeholder]="'Issue' | translate"
-                                formControlName="issue" (keyup.enter)="onSubmit()" min="1" />
-                        </div>
-                    </div>
-                    <div class="col-lg-8 col-md-4 col-sm-12 mb-2 d-flex align-items-end">
-                        <button type="submit" class="btn btn-primary btn-sm mr-2">
+                    <div class="filter-actions">
+                        <button type="submit" class="btn btn-success btn-sm">
                             <i class="fa fa-search"></i> {{ "Search" | translate }}
-                        </button> &nbsp;
-                        <button type="button" (click)="refreshDataSource()" class="btn btn-secondary btn-sm">
+                        </button>
+                        <button type="button" (click)="refreshDataSource()" class="btn btn-outline-success btn-sm">
                             <i class="fa fa-undo"></i> {{ "Reset" | translate }}
                         </button>
                     </div>
@@ -139,7 +100,8 @@
                 </dxi-column>
 
                 <div *dxTemplate="let cell of 'imageTemplate'">
-                    <img [src]="'data:image/png;base64,' +  cell.data.image" alt="" width="100" height="100">
+                    <img *ngIf="cell.data.image" [src]="_core.getImageUrl(cell.data.image)" alt="" width="100" height="100">
+                    <span *ngIf="!cell.data.image">—</span>
                 </div>
 
                 <div *dxTemplate="let cell of 'createdAtTemplate'">

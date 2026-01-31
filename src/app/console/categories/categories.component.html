@@ -30,7 +30,8 @@
                 </dxi-column>
 
                 <div *dxTemplate="let cell of 'imageTemplate'">
-                    <img [src]="'data:image/png;base64,' + cell.data.image" alt="" width="100" height="100">
+                    <img *ngIf="cell.data.image" [src]="_core.getImageUrl(cell.data.image)" alt="" width="100" height="100">
+                    <span *ngIf="!cell.data.image">—</span>
                 </div>
 
                 <div *dxTemplate="let cell of 'createdAtTemplate'">

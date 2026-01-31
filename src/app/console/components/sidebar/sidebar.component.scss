@@ -1,0 +1,57 @@
+/* Account link: use theme color on hover instead of white */
+.nav-link-account:hover,
+.nav-link-account:focus {
+  color: var(--bs-success) !important;
+}
+
+/* Active sidebar menu item – clear, visible state */
+.navbar-nav .nav-link {
+  border-radius: 0.375rem;
+  margin: 0 0.5rem;
+  padding: 0.5rem 0.75rem;
+  transition: background-color 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+  border-left: 3px solid transparent;
+
+  &.active {
+    background-color: rgba(25, 135, 84, 0.12); // theme green tint; --bs-success fallback
+    color: var(--bs-success) !important;
+    font-weight: 600;
+    border-left-color: var(--bs-success);
+
+    i.bi {
+      color: var(--bs-success);
+    }
+  }
+
+  &:hover:not(.active) {
+    background-color: rgba(0, 0, 0, 0.04);
+    color: inherit;
+  }
+}
+
+/* Logout button: theme green, white text, readable on hover */
+.sidebar-logout-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  background-color: var(--bs-success) !important;
+  color: #fff !important;
+  font-weight: 500;
+  padding: 0.4rem 0.75rem;
+  border-radius: 0.375rem;
+  border: none;
+
+  i.bi {
+    color: #fff !important;
+  }
+
+  &:hover,
+  &:focus {
+    background-color: #0f5132 !important; /* darker green */
+    color: #fff !important;
+
+    i.bi {
+      color: #fff !important;
+    }
+  }
+}

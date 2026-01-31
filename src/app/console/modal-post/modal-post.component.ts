@@ -35,8 +35,11 @@ export class ModalPostComponent implements OnInit {
   };
 
   public imageFile: any;
+  public imageObjectUrl: string | null = null;
+  public pdfObjectUrl: string | null = null;
   public sanitizedImageUrl: any = null;
   public sanitizedPdfUrl: any = null;
+  public sanitizedPdfUrlForIframe: any = null;
   public pdfFile: any = null;
   public default = 'assets/images/gallery/chair.jpg';
   public modalTitle = '';
@@ -155,8 +158,14 @@ export class ModalPostComponent implements OnInit {
       return;
     }
 
-    const reader = new FileReader();
-    reader.readAsDataURL(this.imageFile);
+    if (this.imageObjectUrl) {
+      URL.revokeObjectURL(this.imageObjectUrl);
+      this.imageObjectUrl = null;
+    }
+    if (this.imageFile) {
+      this.imageObjectUrl = URL.createObjectURL(this.imageFile);
+      this.sanitizedImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageObjectUrl);
+    }
   }
 
   handlePdfUpload(event: any) {
@@ -167,8 +176,15 @@ export class ModalPostComponent implements OnInit {
       return;
     }
 
-    const reader = new FileReader();
-    reader.readAsDataURL(this.pdfFile);
+    if (this.pdfObjectUrl) {
+      URL.revokeObjectURL(this.pdfObjectUrl);
+      this.pdfObjectUrl = null;
+    }
+    if (this.pdfFile) {
+      this.pdfObjectUrl = URL.createObjectURL(this.pdfFile);
+      this.sanitizedPdfUrl = this.pdfObjectUrl;
+      this.sanitizedPdfUrlForIframe = this.sanitizer.bypassSecurityTrustResourceUrl(this.pdfObjectUrl);
+    }
   }
 
   openModal() {
@@ -225,24 +241,48 @@ export class ModalPostComponent implements OnInit {
 
   setUrls() {
     if (this.post.image) {
-      this.sanitizedImageUrl = this.sanitizer.bypassSecurityTrustResourceUrl(
-        'data:image/png;base64,' + this.post.image
-      );
+      const imgUrl = this.core.getImageUrl(this.post.image);
+      this.sanitizedImageUrl = imgUrl ? this.sanitizer.bypassSecurityTrustResourceUrl(imgUrl) : null;
     }
 
     if (this.post.pdf) {
-      this.sanitizedPdfUrl = this._base64ToArrayBuffer(this.post.pdf);
+      const pathWithoutStorage = this.post.pdf.startsWith('storage/')
+        ? this.post.pdf.substring(8)
+        : this.post.pdf;
+      const isFilePath =
+        this.post.pdf.startsWith('storage/') ||
+        this.post.pdf.includes('/') ||
+        /\.pdf$/i.test(this.post.pdf);
+      if (isFilePath) {
+        const pdfUrl = this._urls.apiStorageUrl() + pathWithoutStorage;
+        this.loadPdfFromUrl(pdfUrl).catch(() => {
+          this.sanitizedPdfUrl = pdfUrl;
+          this.sanitizedPdfUrlForIframe = this.sanitizer.bypassSecurityTrustResourceUrl(pdfUrl);
+        });
+      }
     }
   }
 
-  _base64ToArrayBuffer(base64: any) {
-    const binary_string = window.atob(base64);
-    const len = binary_string.length;
-    const bytes = new Uint8Array(len);
-    for (let i = 0; i < len; i++) {
-      bytes[i] = binary_string.charCodeAt(i);
+  isPdfUrlString(): boolean {
+    return typeof this.sanitizedPdfUrl === 'string';
+  }
+
+  async loadPdfFromUrl(url: string): Promise<void> {
+    try {
+      const response = await fetch(url, { method: 'GET', headers: { Accept: 'application/pdf' } });
+      if (!response.ok) throw new Error(`Failed to load PDF: ${response.statusText}`);
+      const arrayBuffer = await response.arrayBuffer();
+      this.sanitizedPdfUrl = arrayBuffer;
+    } catch (error) {
+      if (!(error instanceof TypeError && error.message.includes('Failed to fetch'))) {
+        console.warn('Error loading PDF via fetch:', error);
+      }
+      throw error;
     }
-    return bytes.buffer;
+  }
+
+  triggerSubmit() {
+    this.onSubmitPost();
   }
 
   onSubmitPost() {
@@ -258,9 +298,10 @@ export class ModalPostComponent implements OnInit {
       } else if (this.action == 'updatePost') {
         this.updatePost(values);
       }
+    } else {
+      this.postForm.markAllAsTouched();
+      this.core.showError('Validation', 'Please fill in all required fields and fix any errors.');
     }
-
-    return false;
   }
 
   addPost(values: any) {
@@ -423,12 +464,20 @@ export class ModalPostComponent implements OnInit {
   }
 
   clearPreviews() {
+    if (this.imageObjectUrl) {
+      URL.revokeObjectURL(this.imageObjectUrl);
+      this.imageObjectUrl = null;
+    }
+    if (this.pdfObjectUrl) {
+      URL.revokeObjectURL(this.pdfObjectUrl);
+      this.pdfObjectUrl = null;
+    }
     this.sanitizedImageUrl = null;
     this.sanitizedPdfUrl = null;
+    this.sanitizedPdfUrlForIframe = null;
     this.imageFile = null;
     this.pdfFile = null;
-    
-    // Reset file input elements (use setTimeout to ensure ViewChild is available)
+
     setTimeout(() => {
       if (this.imageInput && this.imageInput.nativeElement) {
         this.imageInput.nativeElement.value = '';

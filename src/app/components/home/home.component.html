@@ -217,11 +217,6 @@
                   <input style="height: 31px; cursor: pointer;" (click)="j.toggle()" (ngModelChange)="onSearch()" class="form-control date-input-clickable"
                     [placeholder]="'From' | translate" name="dp" formControlName="startd" [minDate]="minDate"
                     [maxDate]="maxDate" ngbDatepicker #j="ngbDatepicker" readonly />
-                  <div class="input-group-append">
-                    <button class="btn btn-primary" id="startdd" (click)="j.toggle()" type="button" style="height: 31px; display: flex; align-items: center; justify-content: center;">
-                      <i class="bi bi-calendar-check" aria-hidden="true"></i>
-                    </button>
-                  </div>
                 </div>
               </div>
               <div class="col-lg-3 col-md-6 mb-2" title="{{'End date'| translate}}">
@@ -236,11 +231,6 @@
                     class="form-control input-sm inline-form-control date-input-clickable" [placeholder]="'End Date' | translate" name="dp"
                     formControlName="enddate" [minDate]="minDate" [maxDate]="maxDate" ngbDatepicker
                     #k="ngbDatepicker" readonly />
-                  <div class="input-group-append">
-                    <button class="btn btn-primary" (click)="k.toggle()" type="button" style="height: 31px; display: flex; align-items: center; justify-content: center;">
-                      <i class="bi bi-calendar-check" aria-hidden="true"></i>
-                    </button>
-                  </div>
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 mb-2">
@@ -251,8 +241,10 @@
                       <i class="fa fa-bookmark"></i>
                     </span>
                   </div>
-                  <input type="number" class="form-control" style="height: 31px;" [placeholder]="'Volume' | translate"
-                    formControlName="volume" (keyup.enter)="onSubmit()" min="1" />
+                  <select class="form-control" style="height: 31px;" formControlName="volume" (change)="onVolumeChange()">
+                    <option value="">{{ 'All volumes' | translate }}</option>
+                    <option *ngFor="let v of volumeList" [value]="v.volume">{{ 'Volume' | translate }} {{ v.volume }}</option>
+                  </select>
                 </div>
               </div>
               <div class="col-lg-2 col-md-6 mb-2">
@@ -263,8 +255,10 @@
                       <i class="fa fa-bookmark"></i>
                     </span>
                   </div>
-                  <input type="number" class="form-control" style="height: 31px;" [placeholder]="'Issue' | translate"
-                    formControlName="issue" (keyup.enter)="onSubmit()" min="1" />
+                  <select class="form-control" style="height: 31px;" formControlName="issue">
+                    <option value="">{{ 'All issues' | translate }}</option>
+                    <option *ngFor="let i of issueList" [value]="i.issue">{{ 'Issue' | translate }} {{ i.issue }}</option>
+                  </select>
                 </div>
               </div>
               <div class="col-lg-2 col-md-12 mb-2 d-flex align-items-end">
@@ -292,7 +286,7 @@
                   </span>
                   <span *ngIf="post.image">
                     <img id="article_image" class="img-rounded img-responsive zoom_home"
-                      [src]="'data:image/png;base64,' + post.image" alt="{{ post.title}}">
+                      [src]="_core.getImageUrl(post.image)" alt="{{ post.title}}">
                   </span>
                 </figure>
               </div>

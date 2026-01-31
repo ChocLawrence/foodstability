@@ -9,184 +9,211 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
-        <div class="modal-body">
-            <div class="row no-gutters">
-                <div class="col">
-                    <div class="px-3" *ngIf="post && action == 'view'">
-                        <ul class="list-unstyled">
-                            <li class="mb-2">
-                                {{ "Title" | translate }}
-                                <p>{{ post.title }}</p>
-                            </li>
-                            <hr>
-                            <li class="mb-2">
-                                {{ "Category" | translate }}
-                                <p>{{ post.category_id ? getCategoryName(post.category_id) : '-'}}</p>
-                            </li>
-                            <hr>
-                            <li class="mb-2">
-                                {{ "Doi" | translate }}
-                                <p>{{ post.doi }}</p>
-                            </li>
-                            <hr>
-                            <li class="mb-2">
-                                {{ "Abstract" | translate }}
-                                <p>{{ post.abstract }}</p>
-                            </li>
-                            <hr>
-                            <li class="mb-2">
-                                {{ "Keywords" | translate }}
-                                <p>{{ post.keywords }}</p>
-                            </li>
-                            <hr>
-                            <li class="mb-2">
-                                {{ "Practical" | translate }}
-                                <p>{{ post.practical }}</p>
-                            </li>
-                            <hr>
-                            <li class="mb-2">
-                                {{ "Volume" | translate }}
-                                <p>{{ post.volume }}</p>
-                            </li>
-                            <hr>
-                            <li class="mb-2">
-                                {{ "Issue" | translate }}
-                                <p>{{ post.issue }}</p>
-                            </li>
-                            <hr>
-                            <li class="mb-2">
-                                {{ "Image" | translate }}
-                                <img class="photo" [src]="sanitizedImageUrl" alt="" />
-                            </li>
-                            <hr>
-                            <li class="mb-2" *ngIf="sanitizedPdfUrl">
-                                <strong>{{ "PDF" | translate }}</strong> &nbsp;
-                                <pdf-viewer [src]="sanitizedPdfUrl" [render-text]="true" [original-size]="false"
-                                    style="width: 500px; height: 600px" [external-link-target]="'blank'"
-                                    [render-text]="true" [show-borders]="true"></pdf-viewer>
-                            </li>
-                        </ul>
-                        <hr class="mb-2" />
+        <div class="modal-body modal-post-body">
+            <!-- View mode -->
+            <div *ngIf="post && action == 'view'" class="post-view">
+                <div class="view-row view-meta">
+                    <div class="view-field">
+                        <span class="view-label">{{ "Category" | translate }}</span>
+                        <span class="view-value">{{ post.category_id ? getCategoryName(post.category_id) : '-' }}</span>
                     </div>
-                    <div class="px-3">
-                        <form class="form" id="PostForm" [formGroup]="postForm" (ngSubmit)="onSubmitPost()">
-                            <div *ngIf="
-                            action == 'updatePost' ||
-                            action == 'addPost'
-                          ">
-                                <div class="vertical-input-group mb-2">
-                                    <label for="title">{{ "Title" | translate }}</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="title" formControlName="title"
-                                            required placeholder="Title" />
-                                    </div>
-                                </div>
-                                <div class="vertical-input-group mb-2">
-                                    <label>{{ "Category" | translate }}</label>
-                                    <ng-multiselect-dropdown [placeholder]="'Category' | translate"
-                                        [settings]="dropdownSettings" [data]="categories"
-                                        [formControl]="$any(postForm).controls['category_id']"
-                                        (onSelect)="onCategorySelect($event)" (onDeSelect)="onCategoryDeSelect($event)">
-                                    </ng-multiselect-dropdown>
-                                </div>
-                                <div class="vertical-input-group mb-2" *ngIf="
-                                action == 'addPost'
-                              ">
-                                    <label>{{ "Tag" | translate }}</label>
-                                    <ng-multiselect-dropdown [placeholder]="'Tag' | translate"
-                                        [settings]="dropdownSettings" [data]="tags"
-                                        [formControl]="$any(postForm).controls['tag']" (onSelect)="onTagSelect($event)"
-                                        (onDeSelect)="onTagDeSelect($event)">
-                                    </ng-multiselect-dropdown>
-                                </div>
-                                <div class="vertical-input-group mb-2">
-                                    <label for="doi">{{ "Doi" | translate }}</label>
-                                    <div class="input-group">
-                                        <input type="text" class="form-control" id="doi" formControlName="doi" required
-                                            placeholder="Doi" />
-                                    </div>
-                                </div>
-                                <div class="vertical-input-group mb-2">
-                                    <label for="authors">{{ "Authors" | translate }}</label>
-                                    <div class="input-group">
-                                        <textarea type="text" class="form-control" rows="5" id="authors"
-                                            formControlName="authors" required placeholder="Authors"></textarea>
-                                    </div>
-                                </div>
-                                <div class="vertical-input-group mb-2">
-                                    <label for="abstract">{{ "Abstract" | translate }}</label>
-                                    <div class="input-group">
-                                        <textarea type="text" class="form-control" rows="5" id="abstract"
-                                            formControlName="abstract" required placeholder="Abstract"></textarea>
-                                    </div>
-                                </div>
-                                <div class="vertical-input-group mb-2">
-                                    <label for="practical">{{ "Practical" | translate }}</label>
-                                    <div class="input-group">
-                                        <textarea type="text" class="form-control" rows="5" id="practical"
-                                            formControlName="practical" required placeholder="Practical"></textarea>
-                                    </div>
-                                </div>
-                                <div class="vertical-input-group mb-2">
-                                    <label for="keywords">{{ "Keywords" | translate }}</label>
-                                    <div class="input-group">
-                                        <textarea type="text" class="form-control" rows="5" id="keywords"
-                                            formControlName="keywords" required placeholder="Keywords"></textarea>
-                                    </div>
-                                </div>
-                                <div class="vertical-input-group mb-2">
-                                    <label for="volume">{{ "Volume" | translate }}</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" id="volume" formControlName="volume"
-                                            required placeholder="Volume" min="1" />
-                                    </div>
-                                </div>
-                                <div class="vertical-input-group mb-2">
-                                    <label for="issue">{{ "Issue" | translate }}</label>
-                                    <div class="input-group">
-                                        <input type="number" class="form-control" id="issue" formControlName="issue"
-                                            required placeholder="Issue" min="1" />
-                                    </div>
-                                </div>
-                                <div class="vertical-input-group mb-2">
-                                    <label for="image">{{'Image'| translate}}</label>
-                                    <div class="input-group">
-                                        <input #imageInput accept="image/png,image/jpg,image/jpeg" type="file" id="image"
-                                            formControlName="image" (change)="imageFileChanged($event)" />
-                                        <p class="mt-4" *ngIf="sanitizedImageUrl">
-                                            <img class="photo" [src]="sanitizedImageUrl" alt="" />
-                                        </p>
-                                    </div>
-                                </div>
-                                <hr>
-                                <div class="vertical-input-group mb-2">
-                                    <li class="mb-2" *ngIf="sanitizedPdfUrl">
-                                        <strong>{{ "CURRENT PDF" | translate }}</strong> &nbsp;
-                                        <pdf-viewer [src]="sanitizedPdfUrl" [render-text]="true" [original-size]="false"
-                                            style="width: 500px; height: 600px" [external-link-target]="'blank'"
-                                            [render-text]="true" [show-borders]="true"></pdf-viewer>
-                                    </li>
-                                    <hr>
-                                    <label for="pdf">{{ "PDF" | translate }}</label>
-                                    <div class="input-group">
-                                        <input #pdfInput accept="application/pdf" type="file" id="pdf" formControlName="pdf"
-                                            (change)="pdfFileChanged($event)" />
-                                    </div>
-                                </div>
-                            </div>
-
-                            <button #postSubmitBtn type="submit" class="hidden"></button>
-                        </form>
+                    <div class="view-field">
+                        <span class="view-label">{{ "Doi" | translate }}</span>
+                        <span class="view-value">{{ post.doi }}</span>
                     </div>
-                    <div class="px-3" *ngIf="post && action == 'deletePost'">
-                        <p class="text-3 text-center text-muted">{{ modalText }}</p>
+                    <div class="view-field">
+                        <span class="view-label">{{ "Volume" | translate }}</span>
+                        <span class="view-value">{{ post.volume }}</span>
+                    </div>
+                    <div class="view-field">
+                        <span class="view-label">{{ "Issue" | translate }}</span>
+                        <span class="view-value">{{ post.issue }}</span>
                     </div>
                 </div>
+                <div class="view-field view-field-full">
+                    <span class="view-label">{{ "Title" | translate }}</span>
+                    <p class="view-value mb-0">{{ post.title }}</p>
+                </div>
+                <div class="view-field view-field-full">
+                    <span class="view-label">{{ "Abstract" | translate }}</span>
+                    <p class="view-value mb-0">{{ post.abstract }}</p>
+                </div>
+                <div class="view-field view-field-full">
+                    <span class="view-label">{{ "Keywords" | translate }}</span>
+                    <p class="view-value mb-0">{{ post.keywords }}</p>
+                </div>
+                <div class="view-field view-field-full">
+                    <span class="view-label">{{ "Practical" | translate }}</span>
+                    <p class="view-value mb-0">{{ post.practical }}</p>
+                </div>
+                <div class="view-row view-media">
+                    <div class="view-field">
+                        <span class="view-label">{{ "Image" | translate }}</span>
+                        <img *ngIf="sanitizedImageUrl" class="post-view-img" [src]="sanitizedImageUrl" alt="" />
+                        <span *ngIf="!sanitizedImageUrl" class="text-muted small">—</span>
+                    </div>
+                    <div class="view-field view-pdf" *ngIf="sanitizedPdfUrl">
+                        <span class="view-label">{{ "PDF" | translate }}</span>
+                        <pdf-viewer *ngIf="sanitizedPdfUrl && !isPdfUrlString()"
+                            [src]="sanitizedPdfUrl" [render-text]="true" [original-size]="false"
+                            class="post-pdf-viewer" [external-link-target]="'blank'" [show-borders]="true"></pdf-viewer>
+                        <iframe *ngIf="sanitizedPdfUrl && isPdfUrlString()"
+                            [src]="sanitizedPdfUrlForIframe"
+                            class="post-pdf-iframe"></iframe>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Add / Edit form -->
+            <form *ngIf="action == 'updatePost' || action == 'addPost'" id="PostForm" [formGroup]="postForm" (ngSubmit)="onSubmitPost()">
+                <div class="modal-form">
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label for="title">{{ "Title" | translate }}</label>
+                            <input type="text" class="form-control form-control-sm" id="title" formControlName="title"
+                                [class.is-invalid]="f['title'].invalid && f['title'].touched"
+                                required placeholder="Title" />
+                            <div class="invalid-feedback d-block" *ngIf="f['title'].invalid && f['title'].touched">
+                                {{ "Title is required" | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row form-row-inline form-row-gap">
+                        <div class="form-group" [ngClass]="action === 'addPost' ? 'col-category-tag' : 'col-12'">
+                            <label>{{ "Category" | translate }}</label>
+                            <ng-multiselect-dropdown [placeholder]="'Category' | translate"
+                                [settings]="dropdownSettings" [data]="categories"
+                                [formControl]="$any(postForm).controls['category_id']"
+                                (onSelect)="onCategorySelect($event)" (onDeSelect)="onCategoryDeSelect($event)">
+                            </ng-multiselect-dropdown>
+                            <div class="invalid-feedback d-block" *ngIf="f['category_id'].invalid && f['category_id'].touched">
+                                {{ "Category is required" | translate }}
+                            </div>
+                        </div>
+                        <div class="form-group col-category-tag" *ngIf="action == 'addPost'">
+                            <label>{{ "Tag" | translate }}</label>
+                            <ng-multiselect-dropdown [placeholder]="'Tag' | translate"
+                                [settings]="dropdownSettings" [data]="tags"
+                                [formControl]="$any(postForm).controls['tag']" (onSelect)="onTagSelect($event)"
+                                (onDeSelect)="onTagDeSelect($event)">
+                            </ng-multiselect-dropdown>
+                            <div class="invalid-feedback d-block" *ngIf="f['tag'].invalid && f['tag'].touched && action == 'addPost'">
+                                {{ "Tag is required" | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row form-row-inline form-row-gap">
+                        <div class="form-group col-vol-issue">
+                            <label for="volume">{{ "Volume" | translate }}</label>
+                            <input type="number" class="form-control form-control-sm" id="volume" formControlName="volume"
+                                [class.is-invalid]="f['volume'].invalid && f['volume'].touched"
+                                required placeholder="Volume" min="1" />
+                            <div class="invalid-feedback d-block" *ngIf="f['volume'].invalid && f['volume'].touched">
+                                {{ "Volume is required" | translate }}
+                            </div>
+                        </div>
+                        <div class="form-group col-vol-issue">
+                            <label for="issue">{{ "Issue" | translate }}</label>
+                            <input type="number" class="form-control form-control-sm" id="issue" formControlName="issue"
+                                [class.is-invalid]="f['issue'].invalid && f['issue'].touched"
+                                required placeholder="Issue" min="1" />
+                            <div class="invalid-feedback d-block" *ngIf="f['issue'].invalid && f['issue'].touched">
+                                {{ "Issue is required" | translate }}
+                            </div>
+                        </div>
+                        <div class="form-group col-doi">
+                            <label for="doi">{{ "Doi" | translate }}</label>
+                            <input type="text" class="form-control form-control-sm" id="doi" formControlName="doi"
+                                [class.is-invalid]="f['doi'].invalid && f['doi'].touched"
+                                required placeholder="DOI" />
+                            <div class="invalid-feedback d-block" *ngIf="f['doi'].invalid && f['doi'].touched">
+                                {{ "DOI is required" | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label for="authors">{{ "Authors" | translate }}</label>
+                            <textarea class="form-control form-control-sm" rows="3" id="authors"
+                                formControlName="authors" [class.is-invalid]="f['authors'].invalid && f['authors'].touched"
+                                required placeholder="Authors"></textarea>
+                            <div class="invalid-feedback d-block" *ngIf="f['authors'].invalid && f['authors'].touched">
+                                {{ "Authors is required" | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label for="abstract">{{ "Abstract" | translate }}</label>
+                            <textarea class="form-control form-control-sm" rows="3" id="abstract"
+                                formControlName="abstract" [class.is-invalid]="f['abstract'].invalid && f['abstract'].touched"
+                                required placeholder="Abstract"></textarea>
+                            <div class="invalid-feedback d-block" *ngIf="f['abstract'].invalid && f['abstract'].touched">
+                                {{ "Abstract is required" | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label for="keywords">{{ "Keywords" | translate }}</label>
+                            <textarea class="form-control form-control-sm" rows="2" id="keywords"
+                                formControlName="keywords" [class.is-invalid]="f['keywords'].invalid && f['keywords'].touched"
+                                required placeholder="Keywords"></textarea>
+                            <div class="invalid-feedback d-block" *ngIf="f['keywords'].invalid && f['keywords'].touched">
+                                {{ "Keywords is required" | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group col-12">
+                            <label for="practical">{{ "Practical" | translate }}</label>
+                            <textarea class="form-control form-control-sm" rows="2" id="practical"
+                                formControlName="practical" [class.is-invalid]="f['practical'].invalid && f['practical'].touched"
+                                required placeholder="Practical"></textarea>
+                            <div class="invalid-feedback d-block" *ngIf="f['practical'].invalid && f['practical'].touched">
+                                {{ "Practical is required" | translate }}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-row form-row-inline form-row-gap form-row-image-pdf">
+                        <div class="form-group col-image-pdf">
+                            <label for="image">{{ "Image" | translate }}</label>
+                            <input #imageInput accept="image/png,image/jpg,image/jpeg" type="file" class="form-control form-control-sm" id="image"
+                                formControlName="image" (change)="imageFileChanged($event)" />
+                            <div class="invalid-feedback d-block" *ngIf="f['image'].invalid && f['image'].touched && action === 'addPost'">
+                                {{ "Image is required" | translate }}
+                            </div>
+                            <div class="mt-2" *ngIf="sanitizedImageUrl">
+                                <img class="post-form-preview-img" [src]="sanitizedImageUrl" alt="" />
+                            </div>
+                        </div>
+                        <div class="form-group col-image-pdf">
+                            <label for="pdf">{{ "PDF" | translate }}</label>
+                            <div *ngIf="sanitizedPdfUrl" class="mb-2">
+                                <span class="small text-muted">{{ "CURRENT PDF" | translate }}</span>
+                                <pdf-viewer *ngIf="sanitizedPdfUrl && !isPdfUrlString()"
+                                    [src]="sanitizedPdfUrl" [render-text]="true" [original-size]="false"
+                                    class="post-pdf-viewer-sm" [external-link-target]="'blank'" [show-borders]="true"></pdf-viewer>
+                                <iframe *ngIf="sanitizedPdfUrl && isPdfUrlString()"
+                                    [src]="sanitizedPdfUrlForIframe" class="post-pdf-iframe-sm"></iframe>
+                            </div>
+                            <input #pdfInput accept="application/pdf" type="file" class="form-control form-control-sm" id="pdf"
+                                formControlName="pdf" (change)="pdfFileChanged($event)" />
+                            <div class="invalid-feedback d-block" *ngIf="f['pdf'].invalid && f['pdf'].touched && action === 'addPost'">
+                                {{ "PDF is required" | translate }}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </form>
+
+            <div *ngIf="post && action == 'deletePost'" class="text-center py-3">
+                <p class="text-muted mb-0">{{ modalText }}</p>
             </div>
         </div>
         <div class="modal-footer">
             <div>
-                <button class="btn btn-default btn-sm" (click)="restorePostForm()" *ngIf="
+                <button class="btn btn-success btn-sm" (click)="restorePostForm()" *ngIf="
               action == 'updatePost'
             ">
                     {{ "Restore" | translate }}
@@ -195,7 +222,7 @@
                 <button class="btn btn-success btn-sm" [disabled]="loading" *ngIf="
               action == 'updatePost' ||
               action == 'addPost'
-            " (click)="postSubmitBtn.click()">
+            " (click)="triggerSubmit()">
                     <span *ngIf="action == 'updatePost'">{{
                         "Update" | translate
                         }}</span>

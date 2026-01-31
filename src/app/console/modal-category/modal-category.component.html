@@ -20,7 +20,7 @@
                             </li>
                             <li class="mb-2">
                                 {{ "Image" | translate }}
-                                <img class="photo" src="{{ preview ? preview : default }}" alt="" />
+                                <img class="photo" [src]="preview || default" alt="" />
                             </li>
                         </ul>
                         <hr class="mb-2" />
@@ -45,9 +45,9 @@
                                     <label for="image">{{ "Image" | translate }}</label>
                                     <div class="input-group">
                                         <input accept="image/png,image/jpg,image/jpeg" type="file" id="image"
-                                            formControlName="image" (change)="fileChanged($event)" />
+                                            (change)="fileChanged($event)" />
                                         <p class="mt-4">
-                                            <img class="photo" src="{{ preview ? preview : default }}" alt="" />
+                                            <img class="photo" [src]="preview || default" alt="" />
                                         </p>
                                     </div>
                                 </div>

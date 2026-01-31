@@ -5,7 +5,7 @@ import {
   PathLocationStrategy
 } from '@angular/common';
 import { TranslateModule } from "@ngx-translate/core";
-import { DxDataGridModule, DxTooltipModule, DxTemplateModule } from "devextreme-angular";
+import { DxDataGridModule, DxChartModule, DxTooltipModule, DxTemplateModule } from "devextreme-angular";
 import { NgMultiSelectDropDownModule } from "ng-multiselect-dropdown";
 import { PdfViewerModule } from 'ng2-pdf-viewer';
 import {
@@ -54,6 +54,7 @@ registerLocaleData(localeGb);
     PaginationModule,
     TranslateModule,
     DxDataGridModule,
+    DxChartModule,
     PdfViewerModule,
     DxTooltipModule,
     DxTemplateModule,

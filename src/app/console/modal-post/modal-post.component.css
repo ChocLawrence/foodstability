@@ -28,3 +28,161 @@
 .modal-header h3 {
     margin: 0;
 }
+
+.modal-post-body {
+    padding: 1rem 1.25rem;
+}
+
+/* View mode */
+.post-view {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem 0;
+}
+
+.view-row {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem 1.5rem;
+    align-items: flex-start;
+}
+
+.view-field {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+    min-width: 0;
+}
+
+.view-field-full {
+    width: 100%;
+}
+
+.view-meta .view-field {
+    min-width: 100px;
+}
+
+.view-label {
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.02em;
+    color: #6c757d;
+}
+
+.view-value {
+    font-size: 0.9rem;
+    color: #212529;
+}
+
+.view-media {
+    margin-top: 0.5rem;
+    padding-top: 0.75rem;
+    border-top: 1px solid #e9ecef;
+}
+
+.view-media .view-field {
+    flex: 1;
+    min-width: 180px;
+}
+
+.post-view-img {
+    max-width: 200px;
+    max-height: 160px;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.view-pdf {
+    min-width: 280px;
+}
+
+.post-pdf-viewer,
+.post-pdf-iframe {
+    width: 100%;
+    height: 400px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+}
+
+/* Form */
+.modal-form {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem 0;
+}
+
+.modal-form .form-row {
+    margin: 0;
+}
+
+.modal-form .form-row-inline {
+    display: flex;
+    flex-wrap: wrap;
+}
+
+.modal-form .form-row-gap {
+    gap: 0 0.75rem;
+}
+
+/* Category / Tag: one row, smaller than half each so gap shows */
+.modal-form .col-category-tag {
+    flex: 0 0 calc(50% - 0.5rem);
+    max-width: calc(50% - 0.5rem);
+}
+
+/* Volume : Issue : DOI = 3 : 3 : 4 */
+.modal-form .col-vol-issue {
+    flex: 3 1 0;
+    min-width: 0;
+}
+
+.modal-form .col-doi {
+    flex: 4 1 0;
+    min-width: 0;
+}
+
+/* Image and PDF: one row, equal width */
+.modal-form .form-row-image-pdf {
+    display: flex;
+    flex-wrap: nowrap;
+}
+
+.modal-form .col-image-pdf {
+    flex: 1 1 0;
+    min-width: 0;
+}
+
+.modal-form .form-group {
+    margin-bottom: 0;
+}
+
+.modal-form .form-group label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #495057;
+    margin-bottom: 0.25rem;
+    display: block;
+}
+
+.post-form-preview-img {
+    max-width: 180px;
+    max-height: 120px;
+    object-fit: contain;
+    border-radius: 6px;
+    border: 1px solid #dee2e6;
+}
+
+.post-pdf-viewer-sm,
+.post-pdf-iframe-sm {
+    width: 100%;
+    height: 280px;
+    border: 1px solid #dee2e6;
+    border-radius: 6px;
+    margin-top: 0.25rem;
+}
+
+.modal-form .invalid-feedback {
+    font-size: 0.8rem;
+}

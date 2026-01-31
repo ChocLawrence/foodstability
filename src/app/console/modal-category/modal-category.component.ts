@@ -1,4 +1,5 @@
 import { Component, OnInit, Input, Output, EventEmitter, ViewChild } from '@angular/core';
+import { DomSanitizer } from '@angular/platform-browser';
 import { CoreService } from '../../core/core.service';
 import { NgbModal, ModalDismissReasons } from '@ng-bootstrap/ng-bootstrap';
 import { FormBuilder, Validators, FormGroup, FormArray } from '@angular/forms';
@@ -16,6 +17,7 @@ export class ModalCategoryComponent implements OnInit {
 
 
   public file: any;
+  public imageObjectUrl: string | null = null;
   public preview: any;
   public default = 'assets/images/gallery/chair.jpg';
   public modalTitle = '';
@@ -40,7 +42,8 @@ export class ModalCategoryComponent implements OnInit {
     private fb: FormBuilder,
     public _urls: UrlsService,
     private categoriesService: CategoriesService,
-    private modalService: NgbModal) {
+    private modalService: NgbModal,
+    private sanitizer: DomSanitizer) {
 
   }
 
@@ -62,37 +65,51 @@ export class ModalCategoryComponent implements OnInit {
   
 
   handleUpload(event: any) {
-    this.file = event.target.files[0];
+    this.file = event.target?.files?.[0];
 
     if (this.file && this.file.size > 1000000) {
       this.core.showError("Error", "Limit file to 1 mb");
       return;
     }
 
-    const reader = new FileReader();
-    reader.readAsDataURL(this.file);
-    reader.onload = () => {
-      this.preview = reader.result;
-    };
-
+    if (this.imageObjectUrl) {
+      URL.revokeObjectURL(this.imageObjectUrl);
+      this.imageObjectUrl = null;
+    }
+    if (this.file) {
+      this.imageObjectUrl = URL.createObjectURL(this.file);
+      this.preview = this.sanitizer.bypassSecurityTrustResourceUrl(this.imageObjectUrl);
+      // Do not set form value to File - browsers only allow file inputs to be set to ''
+      this.categoryForm.get('image')?.markAsTouched();
+      this.categoryForm.get('image')?.updateValueAndValidity();
+    } else {
+      this.preview = this.category?.image ? this.core.getImageUrl(this.category.image) : this.default;
+    }
   }
 
-
-
   openModal() {
+    if (this.imageObjectUrl) {
+      URL.revokeObjectURL(this.imageObjectUrl);
+      this.imageObjectUrl = null;
+    }
     const timer = setTimeout(() => {
       if (this.action == 'view') {
         this.modalTitle = 'category details';
         this.modalReference = this.modalService.open(this.categoryModal, this.core.ngbModalOptions);
       } else if (this.action == 'addCategory') {
         this.modalTitle = 'Add category';
+        this.categoryForm.get('image')?.setValidators(Validators.required);
+        this.categoryForm.get('image')?.updateValueAndValidity();
         this.modalReference = this.modalService.open(this.categoryModal, this.core.ngbModalOptions);
       } else if (this.action == 'updateCategory') {
         this.modalTitle = 'Update category details';
+        this.categoryForm.get('image')?.clearValidators();
+        this.categoryForm.get('image')?.updateValueAndValidity();
         this.populateCategoryForm();
         this.modalReference = this.modalService.open(this.categoryModal, this.core.ngbModalOptions);
       } else if (this.action == 'deleteCategory') {
-        this.modalTitle = 'Delete category' + " | " + `${this.category.full_name}`;
+        const categoryName = this.category?.name ?? this.category?.full_name ?? '';
+        this.modalTitle = 'Delete category' + (categoryName ? ' | ' + categoryName : '');
         this.modalText = "Are you sure you want to delete ?";
         this.populateCategoryForm();
         this.modalReference = this.modalService.open(this.categoryModal, this.core.ngbModalOptions);
@@ -194,7 +211,7 @@ export class ModalCategoryComponent implements OnInit {
   populateCategoryForm() {
 
     if (this.category.image) {
-      this.preview = "data:image/png;base64," + this.category.image;
+      this.preview = this.core.getImageUrl(this.category.image);
     }
 
     this.categoryForm.patchValue({
@@ -205,12 +222,13 @@ export class ModalCategoryComponent implements OnInit {
 
   categoryFormIsValid() {
 
-    if (this.action == "addCategory" || this.action == "updateCategory") {
-      return this.categoryForm.controls['name'].valid
-          && this.categoryForm.controls['image'].valid;
-    } else {
-      return false;
+    if (this.action == "addCategory") {
+      return this.categoryForm.controls['name'].valid && !!this.file;
     }
+    if (this.action == "updateCategory") {
+      return this.categoryForm.controls['name'].valid;
+    }
+    return false;
 
   }
 
@@ -236,6 +254,10 @@ export class ModalCategoryComponent implements OnInit {
   }
 
   notifyOfModalDismissal() {
+    if (this.imageObjectUrl) {
+      URL.revokeObjectURL(this.imageObjectUrl);
+      this.imageObjectUrl = null;
+    }
     this.categoryModalClosed.emit();
     if (this.action == 'addCategory' || this.action == 'updateCategory') {
       this.resetCategoryForm();

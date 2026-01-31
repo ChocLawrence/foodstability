@@ -1,0 +1,63 @@
+.dashboard .stat-card {
+  transition: transform 0.15s ease, box-shadow 0.15s ease;
+}
+
+.dashboard .stat-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.1) !important;
+}
+
+.dashboard .stat-icon {
+  width: 2.75rem;
+  height: 2.75rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.25rem;
+  color: #fff;
+}
+
+.dashboard .stat-card-posts .stat-icon { background: linear-gradient(135deg, #198754, #20c997); }
+.dashboard .stat-card-categories .stat-icon { background: linear-gradient(135deg, #0d6efd, #6f42c1); }
+.dashboard .stat-card-tags .stat-icon { background: linear-gradient(135deg, #0dcaf0, #20c997); }
+.dashboard .stat-card-subscribers .stat-icon { background: linear-gradient(135deg, #fd7e14, #ffc107); }
+.dashboard .stat-card-users .stat-icon { background: linear-gradient(135deg, #6c757d, #495057); }
+
+.dashboard .stat-value {
+  font-size: 1.5rem;
+  color: #1a1d21;
+}
+
+.dashboard .recent-posts-list .list-group-item {
+  border-left: 0;
+  border-right: 0;
+}
+
+.dashboard .recent-posts-list .list-group-item:first-child {
+  border-top: 0;
+}
+
+.dashboard .volumes-issues-body {
+  max-height: 360px;
+  overflow-y: auto;
+}
+
+.dashboard .volume-block {
+  padding-bottom: 0.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.06);
+}
+
+.dashboard .volume-block:last-child {
+  border-bottom: 0;
+  margin-bottom: 0 !important;
+}
+
+.dashboard .issue-list .badge {
+  font-weight: 500;
+}
+
+/* DevExtreme chart container */
+.dashboard dx-chart {
+  display: block;
+  min-height: 280px;
+}
